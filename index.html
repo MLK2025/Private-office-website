@@ -49,7 +49,7 @@
       outline-offset:3px;border-radius:12px;
     }
 
-    /* grain */
+    /* grain overlay */
     body::after{
       content:""; position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.05;
       background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
@@ -171,7 +171,7 @@
     @keyframes wheel{0%,100%{opacity:.2; transform:translate(-50%,0)}50%{opacity:1; transform:translate(-50%,8px)}}
 
     .hide-hero-ui .cta-bar,.hide-hero-ui .scroll-cue { opacity:0; pointer-events:none; transform:translateY(8px) }
-    body.hero-off .hero{ opacity:0; visibility:hidden; } /* desktop only (limited in JS) */
+    body.hero-off .hero{ opacity:0; visibility:hidden; } /* desktop only */
 
     /* ============== FLOW ============== */
     main{ position:relative; z-index:1 }
@@ -311,26 +311,31 @@
       .hero{ background:#070605 url('assets/hero-poster.jpg') center/cover no-repeat; }
     }
 
-    /* ==================== MOBILE FIXES (real breakpoints, no CSS vars) ==================== */
+    /* ==================== MOBILE FIXES ==================== */
 
     /* Tablet and below */
     @media (max-width: 980px){
-      /* Who We Are: stack with media first */
-      .who-grid{ grid-template-columns:1fr; gap:28px }
-      /* Portfolio: stack, but show media first then text */
+      .who-grid{ grid-template-columns:1fr; gap:28px }          /* media first on tablet too? keep text second by DOM */
       .portfolio-grid{ grid-template-columns:1fr }
-      .portfolio-grid > :first-child{ order:2 }      /* text block */
-      .portfolio-grid > :nth-child(2){ order:1 }     /* media block */
+      .portfolio-grid > :first-child{ order:2 }                 /* text block second */
+      .portfolio-grid > :nth-child(2){ order:1 }                /* media first */
     }
 
     /* Phones */
     @media (max-width: 640px){
-      /* HERO: shorter and show full video (no cropping) */
-      .hero{ height:72vh; min-height:72svh }
+      /* HERO: shorter + show full video; smaller CTA */
+      .hero{ height:68vh; min-height:68svh }
       .hero-video{ object-fit:contain; background:#070605 }
-      .home main{ margin-top:72vh } /* keep content just below the hero */
-      .cta-bar{ padding-bottom:18px; padding-left:18px }
-      .scroll-cue{ bottom:10px; transform:translateX(-50%) scale(.92) }
+      .home main{ margin-top:68vh }                 /* content starts right after hero */
+      .cta-bar{ padding-bottom:14px; padding-left:16px }
+      .cta{
+        font-size:12px;
+        padding:10px 14px;
+        border-radius:999px;
+        box-shadow:0 10px 24px rgba(212,175,55,.28);
+      }
+      .cta .pill{ width:38px; height:30px; font-weight:900 }
+      .scroll-cue{ bottom:8px; transform:translateX(-50%) scale(.9) }
 
       /* IMPACT: strictly 1 column */
       .impact-grid{ grid-template-columns:1fr !important }
@@ -338,12 +343,25 @@
       /* PORTFOLIO panel tighter on phones */
       .portfolio-panel{ padding:22px; border-radius:16px }
 
-      /* FUNDS ($500M) banner: show whole artwork */
-      #funds.funds-spacer{ height:86vh }
+      /* $500M FUNDS banner: a bit taller, contained; smaller CTA */
+      #funds.funds-spacer{ height:92vh }
       .funds-fixed img{ object-fit:contain; background:#000 }
-      .funds-cta-fixed{ --funds-cta-top:88% }
+      .funds-cta-fixed{ --funds-cta-top:90% }
+      .funds-cta-fixed .btn-gold{
+        font-size:12px;
+        padding:10px 14px;
+        border-radius:10px;
+        box-shadow:0 10px 22px rgba(212,175,55,.22);
+      }
 
-      /* Newsletter input already handled above for ≤540px */
+      /* Our Strategic Offerings sits right beneath; smaller "View All" */
+      .offerings{ padding-top:60px; padding-bottom:80px }
+      .section-head .btn-gold{
+        padding:8px 12px;
+        font-size:11px;
+        border-radius:10px;
+        box-shadow:0 8px 18px rgba(212,175,55,.2);
+      }
     }
   </style>
 </head>
@@ -679,7 +697,7 @@
     const $ = (q,sc)=> (sc||document).querySelector(q);
     const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
 
-    // year
+    // footer year
     $('#yr').textContent = new Date().getFullYear();
 
     // nav autohide (desktop only)
@@ -727,7 +745,6 @@
     }
     menuToggle.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
     addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
-
     $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
       btn.addEventListener('click', ()=> btn.closest('.mobile-item').classList.toggle('open'));
     });
@@ -794,7 +811,7 @@
       setVH(); addEventListener('resize', setVH); addEventListener('orientationchange', setVH);
     })();
 
-    // set footer year
+    // ensure year is set
     $('#yr').textContent = new Date().getFullYear();
   </script>
 </body>

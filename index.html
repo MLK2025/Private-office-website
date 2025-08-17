@@ -165,19 +165,6 @@
     .cta:hover{ transform:translateY(-2px); box-shadow:0 26px 50px rgba(212,175,55,.38) }
     .cta .pill{ display:inline-grid; place-items:center; width:46px; height:34px; border-radius:999px; background:rgba(0,0,0,.35); color:#fff; font-weight:900 }
 
-    /* inline scroll pill (used on phones) */
-    .scroll-pill{
-      display:none; /* phones only */
-      align-items:center; gap:8px; padding:10px 12px; border-radius:999px;
-      border:1.5px solid rgba(255,255,255,.55); color:#fff; background:rgba(0,0,0,.28);
-      font-weight:800; letter-spacing:.08em; text-transform:uppercase; font-size:11px;
-    }
-    .scroll-pill .mouse{ width:18px; height:26px; border:2px solid #cfcfcf; border-radius:12px; position:relative }
-    .scroll-pill .wheel{ position:absolute; left:50%; top:6px; width:2px; height:6px; background:#cfcfcf; transform:translateX(-50%); border-radius:2px; animation:wheel 1.6s infinite ease-in-out }
-
-    @keyframes shine{ 0%{ transform:translateX(-120%) skewX(-12deg) } 12%{ transform:translateX(120%) skewX(-12deg) } 100%{ transform:translateX(120%) skewX(-12deg) } }
-    .cta .shine{ position:absolute; inset:-2px; border-radius:inherit; pointer-events:none; background:linear-gradient(120deg, transparent 30%, rgba(255,255,255,.75) 50%, transparent 70%); transform:translateX(-120%) skewX(-12deg); animation:shine 5.5s ease-in-out 1s infinite; mix-blend-mode:screen; opacity:.55 }
-
     .scroll-cue{ position:absolute; left:50%; bottom:20px; transform:translateX(-50%); color:var(--muted); font-size:12px; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:3; transition: opacity .25s ease, transform .25s ease }
     .mouse{ width:24px; height:36px; border:2px solid var(--muted); border-radius:14px; position:relative }
     .wheel{ position:absolute; left:50%; top:7px; width:3px; height:6px; background:var(--muted); transform:translateX(-50%); border-radius:2px; animation:wheel 1.6s infinite ease-in-out }
@@ -224,15 +211,36 @@
     .impact-card:hover .image{ transform:scale(1.06); filter:brightness(.88) }
     .impact-card:hover .more{ transform:translateY(0); background:rgba(212,175,55,.22) }
 
-    /* FUNDS backdrop */
-    #funds.funds-spacer{ height:100vh; padding:0; margin:0; background:transparent; border:0; pointer-events:none; }
-    .funds-fixed{ position:fixed; inset:0; z-index:-1; opacity:0; transition:opacity .45s ease; display:grid; place-items:center; }
+    /* ===================== FUNDS (500M) ===================== */
+    /* Spacer controls when the fixed overlay appears */
+    #funds.funds-spacer{
+      height:100vh; padding:0; margin:0; background:transparent; border:0; pointer-events:none;
+    }
+    .funds-fixed{
+      position:fixed; inset:0; z-index:-1; opacity:0; transition:opacity .45s ease; display:grid; place-items:center;
+    }
     .funds-fixed.on{ opacity:1; z-index:5; }
-    .funds-frame{ position:relative; width:min(86vw, 680px); height:min(90vh, calc(86vw * 1.25)); border-radius:14px; overflow:hidden; background:#000; border:1px solid var(--line); box-shadow:0 24px 60px rgba(0,0,0,.6) }
-    .funds-fixed img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; user-select:none; -webkit-user-drag:none; }
 
-    .funds-cta-fixed{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:10px; }
-    .funds-cta-fixed .btn-gold{ display:inline-block; padding:12px 18px; border-radius:12px; background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a; font-weight:900; letter-spacing:.08em; text-transform:uppercase; box-shadow:0 14px 30px rgba(212,175,55,.28); cursor:pointer; }
+    /* DESKTOP: full-screen banner */
+    .funds-frame{
+      position:relative;
+      width:100vw; height:100vh;           /* full screen */
+      border-radius:0; border:0; box-shadow:none; overflow:hidden; background:#000;
+    }
+    .funds-fixed img{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center; user-select:none; -webkit-user-drag:none;
+    }
+    .funds-cta-fixed{
+      position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+      z-index:2; display:flex; flex-direction:column; align-items:center; gap:10px;
+    }
+    .funds-cta-fixed .btn-gold{
+      display:inline-block; padding:12px 18px; border-radius:12px;
+      background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a;
+      font-weight:900; letter-spacing:.08em; text-transform:uppercase;
+      box-shadow:0 14px 30px rgba(212,175,55,.28); cursor:pointer;
+    }
 
     /* OFFERINGS */
     .offerings{ position:relative; z-index:1; background:#0a0908; border-top:1px solid var(--line); padding:100px 22px }
@@ -308,8 +316,6 @@
     .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease}
     .reveal.in{opacity:1; transform:none}
     @media (prefers-reduced-motion: reduce){
-      .cta .shine{ animation:none; display:none }
-      .wheel{ animation:none }
       .reveal{ transition:none }
       .hero-video{ display:none }
       .hero{ background:#070605 url('assets/hero-poster.jpg') center/cover no-repeat; }
@@ -319,9 +325,7 @@
       .hero{ background:#070605 url('assets/hero-poster.jpg') center/cover no-repeat; }
     }
 
-    /* ==================== MOBILE FIXES ==================== */
-
-    /* Tablet and below */
+    /* ==================== MOBILE (≤640px) ==================== */
     @media (max-width: 980px){
       .who-grid{ grid-template-columns:1fr; gap:28px }
       .portfolio-grid{ grid-template-columns:1fr }
@@ -329,44 +333,33 @@
       .portfolio-grid > :nth-child(2){ order:1 }
     }
 
-    /* Phones */
     @media (max-width: 640px){
-      /* HERO: contained video + smaller CTA + inline scroll beside it */
+      /* HERO */
       .hero{ height:68vh; min-height:68svh }
       .hero-video{ object-fit:contain; background:#070605 }
       .home main{ margin-top:68vh }
       .cta-bar{ padding-bottom:14px; padding-left:16px }
       .cta{ font-size:12px; padding:10px 14px; border-radius:999px; box-shadow:0 10px 24px rgba(212,175,55,.28) }
-      .cta .pill{ width:38px; height:30px; font-weight:900 }
-      .scroll-cue{ display:none }          /* hide big bottom cue on phones */
-      .scroll-pill{ display:inline-flex }  /* inline cue next to CTA */
+      .scroll-cue{ display:none }
 
-      /* IMPACT: strictly 1 column */
+      /* IMPACT */
       .impact-grid{ grid-template-columns:1fr !important }
 
-      /* PORTFOLIO panel tighter on phones */
+      /* PORTFOLIO */
       .portfolio-panel{ padding:22px; border-radius:16px }
 
-      /* ========= $500M FUNDS — MOBILE FIX ========= */
+      /* FUNDS — mobile: full-bleed 4:5 card, not full-screen */
       #funds.funds-spacer{
-        height: calc(100vw * 1.25 + 16px); /* banner height + breathing space */
-        padding: 0; margin: 0; border: 0;
-        pointer-events: none;
+        height: calc(100vw * 1.25 + 16px);
+        padding: 0; margin: 0; border: 0; pointer-events: none;
       }
-      .funds-fixed{ inset: 0; }
       .funds-frame{
-        width: 100vw;           /* touch both screen edges */
-        max-width: none;
-        aspect-ratio: 4 / 5;    /* readable portrait card */
-        height: auto;
-        border-radius: 0;       /* remove rounded corners on mobile */
-        border-left: 0; border-right: 0; box-shadow: none;
+        width:100vw; height:auto; aspect-ratio:4/5;
+        border-radius:0; border:0; box-shadow:none;
       }
       .funds-cta-fixed .btn-gold{
-        font-size: 12px;
-        padding: 10px 14px;
-        border-radius: 10px;
-        box-shadow: 0 10px 22px rgba(212,175,55,.22);
+        font-size:12px; padding:10px 14px; border-radius:10px;
+        box-shadow:0 10px 22px rgba(212,175,55,.22);
       }
     }
   </style>
@@ -487,17 +480,9 @@
             <span class="pill">➔</span>
             <span class="shine" aria-hidden="true"></span>
           </a>
-
-          <!-- inline scroll pill (phones) -->
-          <a class="scroll-pill" href="#who" aria-label="Scroll down">
-            <span class="mouse"><span class="wheel"></span></span>
-            <span>Scroll</span>
-          </a>
         </div>
       </div>
     </div>
-
-    <!-- desktop-only bottom cue -->
     <a class="scroll-cue" href="#who" aria-label="Scroll down">
       <div class="mouse"><span class="wheel"></span></div>
       <span>Scroll</span>
@@ -552,7 +537,7 @@
       </div>
     </section>
 
-    <!-- FUNDS spacer (controls the fixed overlay timing) -->
+    <!-- FUNDS spacer -->
     <section id="funds" class="funds-spacer" aria-hidden="true"></section>
 
     <!-- OFFERINGS -->
@@ -701,14 +686,12 @@
     <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
-  <!-- FUNDS fixed layer -->
+  <!-- FUNDS fixed layer (shows when #funds spacer is centered) -->
   <div class="funds-fixed" id="funds-fixed" aria-hidden="true">
-    <!-- 4:5 frame on phones; centered panel on desktop -->
     <div class="funds-frame">
-      <img src="assets/Africa-funds.png" alt="500M Africa Future Fund banner">
+      <img src="assets/Africa-funds.png" alt="$500 Million Africa Future Fund">
       <div class="funds-cta-fixed" id="funds-cta">
         <a href="investment-programme.html" class="btn-gold">Read More</a>
-        <!-- Scroll button removed per request -->
       </div>
     </div>
   </div>
@@ -793,12 +776,15 @@
       }
     });
 
-    // funds backdrop toggle (narrower visibility window to avoid overlap)
+    // funds backdrop toggle — desktop full-screen, mobile card
     const fundsFixed = $('#funds-fixed');
     const spacer = $('#funds');
     function toggleFunds(){
-      const r=spacer.getBoundingClientRect(), vh=innerHeight||0;
-      const visible = (r.top <= vh * 0.45) && (r.bottom >= vh * 0.55);
+      const r = spacer.getBoundingClientRect(), vh = innerHeight || 0;
+      const desktop = matchMedia('(min-width: 641px)').matches;
+      const topT = desktop ? 0.80 : 0.45;   // wider window on desktop
+      const botT = desktop ? 0.20 : 0.55;
+      const visible = (r.top <= vh * topT) && (r.bottom >= vh * botT);
       fundsFixed.classList.toggle('on', visible);
     }
     toggleFunds(); addEventListener('scroll', toggleFunds, { passive:true }); addEventListener('resize', toggleFunds);
@@ -811,7 +797,7 @@
       $$('.reveal').forEach(el=>io.observe(el));
     }
 
-    // hero UI (desktop only hides hero after 100vh)
+    // hero UI (desktop hides hero after 100vh)
     const heroVideo = document.querySelector('.hero-video');
     function toggleHeroUI(){
       const y=scrollY, vh=innerHeight||1;

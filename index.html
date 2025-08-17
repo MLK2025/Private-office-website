@@ -233,12 +233,6 @@
 
     .funds-cta-fixed{ position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:10px; }
     .funds-cta-fixed .btn-gold{ display:inline-block; padding:12px 18px; border-radius:12px; background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a; font-weight:900; letter-spacing:.08em; text-transform:uppercase; box-shadow:0 14px 30px rgba(212,175,55,.28); cursor:pointer; }
-    .scroll-under{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
-      border:1.5px solid rgba(255,255,255,.55); color:#fff; background:rgba(0,0,0,.35); font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
-    }
-    .scroll-under .mouse{ width:16px; height:24px; border-color:#e5e5e5 }
-    .scroll-under .wheel{ background:#e5e5e5; width:2px; height:6px; top:5px }
 
     /* OFFERINGS */
     .offerings{ position:relative; z-index:1; background:#0a0908; border-top:1px solid var(--line); padding:100px 22px }
@@ -337,17 +331,12 @@
 
     /* Phones */
     @media (max-width: 640px){
-      /* HERO: show video contained, smaller CTA + inline scroll beside it */
+      /* HERO: contained video + smaller CTA + inline scroll beside it */
       .hero{ height:68vh; min-height:68svh }
       .hero-video{ object-fit:contain; background:#070605 }
       .home main{ margin-top:68vh }
       .cta-bar{ padding-bottom:14px; padding-left:16px }
-      .cta{
-        font-size:12px;
-        padding:10px 14px;
-        border-radius:999px;
-        box-shadow:0 10px 24px rgba(212,175,55,.28);
-      }
+      .cta{ font-size:12px; padding:10px 14px; border-radius:999px; box-shadow:0 10px 24px rgba(212,175,55,.28) }
       .cta .pill{ width:38px; height:30px; font-weight:900 }
       .scroll-cue{ display:none }          /* hide big bottom cue on phones */
       .scroll-pill{ display:inline-flex }  /* inline cue next to CTA */
@@ -358,22 +347,26 @@
       /* PORTFOLIO panel tighter on phones */
       .portfolio-panel{ padding:22px; border-radius:16px }
 
-      /* $500M FUNDS mobile: 4:5 frame; smaller CTA + scroll under */
-      #funds.funds-spacer{ height: calc(min(90vh, 1.25 * 86vw) + 32px); } /* keeps offerings right beneath */
-      .funds-cta-fixed .btn-gold{
-        font-size:12px;
-        padding:10px 14px;
-        border-radius:10px;
-        box-shadow:0 10px 22px rgba(212,175,55,.22);
+      /* ========= $500M FUNDS — MOBILE FIX ========= */
+      #funds.funds-spacer{
+        height: calc(100vw * 1.25 + 16px); /* banner height + breathing space */
+        padding: 0; margin: 0; border: 0;
+        pointer-events: none;
       }
-
-      /* Our Strategic Offerings: smaller View All btn */
-      .offerings{ padding-top:60px; padding-bottom:80px }
-      .section-head .btn-gold{
-        padding:8px 12px;
-        font-size:11px;
-        border-radius:10px;
-        box-shadow:0 8px 18px rgba(212,175,55,.2);
+      .funds-fixed{ inset: 0; }
+      .funds-frame{
+        width: 100vw;           /* touch both screen edges */
+        max-width: none;
+        aspect-ratio: 4 / 5;    /* readable portrait card */
+        height: auto;
+        border-radius: 0;       /* remove rounded corners on mobile */
+        border-left: 0; border-right: 0; box-shadow: none;
+      }
+      .funds-cta-fixed .btn-gold{
+        font-size: 12px;
+        padding: 10px 14px;
+        border-radius: 10px;
+        box-shadow: 0 10px 22px rgba(212,175,55,.22);
       }
     }
   </style>
@@ -559,7 +552,7 @@
       </div>
     </section>
 
-    <!-- FUNDS spacer -->
+    <!-- FUNDS spacer (controls the fixed overlay timing) -->
     <section id="funds" class="funds-spacer" aria-hidden="true"></section>
 
     <!-- OFFERINGS -->
@@ -710,15 +703,12 @@
 
   <!-- FUNDS fixed layer -->
   <div class="funds-fixed" id="funds-fixed" aria-hidden="true">
-    <!-- 4:5 frame on phones; full overlay on desktop -->
+    <!-- 4:5 frame on phones; centered panel on desktop -->
     <div class="funds-frame">
-      <img src="assets/Africa-funds.png" alt="">
+      <img src="assets/Africa-funds.png" alt="500M Africa Future Fund banner">
       <div class="funds-cta-fixed" id="funds-cta">
         <a href="investment-programme.html" class="btn-gold">Read More</a>
-        <a href="#offerings" class="scroll-under" aria-label="Scroll to offerings">
-          <span class="mouse"><span class="wheel"></span></span>
-          <span>Scroll</span>
-        </a>
+        <!-- Scroll button removed per request -->
       </div>
     </div>
   </div>
@@ -803,12 +793,12 @@
       }
     });
 
-    // funds backdrop toggle
+    // funds backdrop toggle (narrower visibility window to avoid overlap)
     const fundsFixed = $('#funds-fixed');
     const spacer = $('#funds');
     function toggleFunds(){
       const r=spacer.getBoundingClientRect(), vh=innerHeight||0;
-      const visible = r.top <= vh*0.7 && r.bottom >= vh*0.3;
+      const visible = (r.top <= vh * 0.45) && (r.bottom >= vh * 0.55);
       fundsFixed.classList.toggle('on', visible);
     }
     toggleFunds(); addEventListener('scroll', toggleFunds, { passive:true }); addEventListener('resize', toggleFunds);

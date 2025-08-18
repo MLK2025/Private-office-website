@@ -5,7 +5,7 @@
   <title>About — Private Office</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Match previous page font -->
+  <!-- Same font family as the home page -->
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
@@ -16,9 +16,8 @@
 
       /* Layout */
       --nav-h:78px; --container:1160px; --page-pad:32px;
-      --card-max:1160px; /* keep cards aligned with container */
-      --card-pad:clamp(28px,4.2vw,56px);
-      --slab-y:clamp(52px,6.6vw,88px); --grid-gap:clamp(16px,3vw,28px);
+      --card-max:1160px; --card-pad:clamp(22px,4vw,48px);
+      --slab-y:clamp(48px,6vw,80px); --grid-gap:clamp(14px,3vw,26px);
 
       /* FX */
       --shadow:0 16px 40px rgba(0,0,0,.08);
@@ -33,8 +32,7 @@
     html,body{height:100%}
     html{scroll-behavior:smooth}
     body{
-      margin:0; color:var(--ink);
-      font-family:var(--font-sans);
+      margin:0; color:var(--ink); font-family:var(--font-sans);
       -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
       background:
         radial-gradient(1200px 600px at 85% -10%, rgba(212,175,55,.06), transparent 60%),
@@ -45,7 +43,7 @@
     a{color:inherit;text-decoration:none}
     img{max-width:100%;height:auto;display:block}
 
-    /* ================= NAV (matches previous page) ================= */
+    /* ================= NAV (same behavior & feel as Home) ================= */
     .topnav{
       position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:100;
       display:flex; align-items:center; justify-content:space-between;
@@ -88,7 +86,7 @@
               mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
     }
 
-    /* === Mobile menu === */
+    /* === Mobile menu (like Home) === */
     .menu-toggle{
       display:none; background:none; border:0; color:var(--gold-200);
       width:44px; height:44px; border-radius:12px; cursor:pointer;
@@ -123,14 +121,29 @@
       position:absolute; inset:0;
       background-image: var(--banner);
       background-size: cover; background-position:center; background-repeat:no-repeat;
-      display:grid; place-items:center;
     }
+
+    /* ➜ NEW: single-line title, no white box */
     .about-hero h1{
-      position:absolute; left:50%; top:calc(var(--nav-h) + 8px); transform:translateX(-50%);
-      margin:0; padding:12px 16px; border-radius:10px; border:1px solid rgba(0,0,0,.06);
-      font-family:var(--font-serif); font-weight:900; letter-spacing:.06em; text-transform:uppercase;
-      font-size:clamp(18px,2.2vw,22px); color:#0f0f0f; background:rgba(255,255,255,.86);
+      position:absolute;
+      left:clamp(16px,6vw,90px);
+      top:calc(var(--nav-h) + 10px);
+      margin:0;
+      padding:0;            /* no rectangle */
+      border:none;
+      background:none;
+      color:#ffffff;
+      text-shadow:0 2px 10px rgba(0,0,0,.55);
+      font-family:var(--font-serif);
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      white-space:nowrap;   /* keep one line */
+      font-size:clamp(14px, 3.8vw, 28px);
       opacity:0; transition:opacity .6s ease .15s;
+    }
+    @media (max-width:400px){
+      .about-hero h1{ font-size:13.5px }  /* ensure one line on very small phones */
     }
     .about-hero.ready h1{ opacity:1 }
 
@@ -147,11 +160,10 @@
     }
     @keyframes cueFloat{ 0%,100%{ transform:translateX(-50%) translateY(0) } 50%{ transform:translateX(-50%) translateY(-6px) } }
 
-    /* ================= CONTENT (centered fix) ================= */
+    /* ================= CONTENT ================= */
     main{ position:relative; z-index:1 }
-
     .slab{ padding: var(--slab-y) var(--page-pad); position:relative }
-    /* safe-area padding on iOS */
+    /* iOS safe-area gutters */
     @supports(padding:max(0px)){
       .slab{
         padding-left:max(var(--page-pad), env(safe-area-inset-left));
@@ -161,7 +173,6 @@
 
     .container{ max-width:var(--container); margin-inline:auto }
 
-    /* ➜ FIX: use a normal centered container; no 100vw math */
     .section-card{
       width:100%;
       max-width:var(--card-max);
@@ -175,6 +186,11 @@
       align-items:center; gap: var(--grid-gap); column-gap: clamp(28px, 5.5vw, 88px);
     }
     .card-grid.reverse{ grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) }
+
+    /* ➜ MOBILE IMAGE FIXES:
+       - stack columns
+       - media comes first when reverse
+       - images scale naturally (no forced square) */
     @media (max-width: 900px){
       .card-grid, .card-grid.reverse{ grid-template-columns: 1fr }
       .card-grid.reverse .media{ order:-1 }
@@ -183,27 +199,35 @@
     .text{ max-width:68ch }
     .text h2{
       font-family:var(--font-serif); font-weight:900;
-      margin:0 0 12px; font-size: clamp(28px,3.4vw,44px); line-height:1.14; text-wrap:balance;
+      margin:0 0 12px; font-size: clamp(24px,3.6vw,42px); line-height:1.14; text-wrap:balance;
     }
     .text p{ color:var(--muted); line-height:1.85; margin:0 0 14px; font-size:17px }
     .kicker{display:inline-block; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8a7c63; margin-bottom:6px}
 
-    .media{ width:100%; aspect-ratio:1/1; border-radius:18px; overflow:hidden;
-      border:2px solid transparent;
-      background:linear-gradient(#fff,#fff) padding-box, linear-gradient(135deg, var(--gold), var(--gold-200)) border-box;
-      box-shadow:0 8px 20px rgba(0,0,0,.06);
+    /* ➜ Media: gold border, responsive natural ratio, no cropping on mobile */
+    .media{
+      width:100%;
+      border-radius:16px;
+      overflow:hidden;
+      border:3px solid var(--gold-200);  /* subtle gold edge like your screenshots */
+      background:#fff;
+      box-shadow:0 10px 24px rgba(0,0,0,.06);
     }
-    .media img{ width:100%; height:100%; object-fit:cover }
+    .media img{
+      width:100%;
+      height:auto;          /* keep native aspect ratio (prevents weird crops) */
+      display:block;
+    }
 
     /* Team */
-    .team-card .title{ text-align:center; margin:0 0 16px; font-family:var(--font-serif); font-weight:900; font-size: clamp(24px,3vw,34px) }
+    .team-card .title{ text-align:center; margin:0 0 16px; font-family:var(--font-serif); font-weight:900; font-size: clamp(22px,3vw,34px) }
     .team-grid{ display:grid; gap:18px; grid-template-columns:repeat(3,1fr) }
     @media (max-width:900px){ .team-grid{grid-template-columns:1fr 1fr} }
     @media (max-width:620px){ .team-grid{grid-template-columns:1fr} }
     .person{ background:#fff; border:1px solid var(--hairline); border-radius:12px; overflow:hidden; text-align:center; transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease }
     .person:hover{ transform:translateY(-3px); box-shadow:0 16px 28px rgba(0,0,0,.08); border-color:rgba(0,0,0,.12) }
-    .person .head{ width:100%; aspect-ratio:1/1; overflow:hidden }
-    .person .head img{ width:100%; height:100%; object-fit:cover }
+    .person .head{ width:100%; overflow:hidden }
+    .person .head img{ width:100%; height:auto; display:block }
     .person .meta{ padding:12px 10px 16px }
     .person .name{ font-weight:800; margin:0 0 4px }
     .person .role{ color:#777; font-size:14px; margin:0 }
@@ -211,8 +235,8 @@
     /* Download CTA */
     .download-card{ width:100%; max-width:var(--card-max); margin-inline:auto;
       background:#fff; border:1px solid var(--hairline); border-radius:16px; box-shadow:var(--shadow);
-      padding: clamp(30px, 4.5vw, 56px); display:grid; place-items:center; text-align:center; }
-    .download-title{ margin:0 0 14px; font-family:var(--font-serif); font-weight:900; font-size: clamp(26px,3.2vw,38px) }
+      padding: clamp(26px, 4vw, 52px); display:grid; place-items:center; text-align:center; }
+    .download-title{ margin:0 0 14px; font-family:var(--font-serif); font-weight:900; font-size: clamp(22px,3vw,36px) }
     .btn-gold{
       display:inline-block; background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a;
       font-weight:900; letter-spacing:.06em; text-transform:uppercase;
@@ -377,7 +401,7 @@
               <p>After identifying potential partners, we present them to an Executive Committee for approval. If successful, our International Ventures managers analyse the product or service to determine how we can best accelerate success across Africa and the Middle East.</p>
             </div>
             <figure class="media">
-              <img src="assets/photo 1.jpg" alt="Executive networking" width="1080" height="1080" loading="lazy">
+              <img src="assets/photo 1.jpg" alt="Executive networking" width="1080" height="720" loading="lazy">
             </figure>
           </div>
         </div>
@@ -390,7 +414,7 @@
         <div class="section-card reveal">
           <div class="card-grid reverse">
             <figure class="media">
-              <img src="assets/sector2.jpg" alt="Analytics briefing" width="1080" height="1080" loading="lazy">
+              <img src="assets/sector2.jpg" alt="Analytics briefing" width="1080" height="720" loading="lazy">
             </figure>
             <div class="text">
               <span class="kicker">Sector Diversity</span>
@@ -415,7 +439,7 @@
               <p>Outcomes include formal jobs, export growth and measurable community impact.</p>
             </div>
             <figure class="media">
-              <img src="assets/sector3.jpg" alt="Strategy workshop" width="1080" height="1080" loading="lazy">
+              <img src="assets/sector3.jpg" alt="Strategy workshop" width="1080" height="720" loading="lazy">
             </figure>
           </div>
         </div>
@@ -501,7 +525,7 @@
             <a href="mailto:info@privateofficeofdon.com">info@privateofficeofdon.com</a>
           </div>
           <div class="contact-item">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1  1 0 0 1 1 1v3.6a1  1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1  1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
             <a href="tel:+233302955470">030 2955 470</a>
           </div>
           <div class="socials" aria-label="Social links">
@@ -520,15 +544,15 @@
     const $ = (q,sc)=> (sc||document).querySelector(q);
     const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
 
-    // Year
+    // Footer year
     $('#yr').textContent = new Date().getFullYear();
 
-    // Nav show/hide like previous page
+    // Nav appear + autohide (desktop only)
     const nav = document.querySelector('.topnav');
-    addEventListener('load', ()=> nav.classList.add('ready'));
-    let lastY = scrollY; const HIDE_AFTER = 120;
+    window.addEventListener('load', ()=> nav.classList.add('ready'));
+    let lastY = window.scrollY; const HIDE_AFTER = 120;
     function onScrollNav(){
-      const y = scrollY;
+      const y = window.scrollY;
       const canHide = matchMedia('(min-width:1021px)').matches;
       if (canHide && y > lastY && y > HIDE_AFTER) nav.classList.add('nav-hide');
       else nav.classList.remove('nav-hide');

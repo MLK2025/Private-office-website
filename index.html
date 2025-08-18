@@ -2,14 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Private Office — Home</title>
+  <title>Private Office — Our Strategic Offerings</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0b0908" />
-  <meta name="description" content="Sovereign-style advisory and investment platform forging strategic alliances across Africa and the world." />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ============== THEME ============== */
+    /* ===================== THEME TOKENS ===================== */
     :root{
       --bg:#0b0908; --ink:#f4efe7; --muted:#bdb6a8;
       --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.12);
@@ -17,849 +16,207 @@
 
       --radius:20px; --radius-sm:12px; --gap:22px;
       --nav-h:78px; --container:1160px;
-
-      --blur:8px; --shadow:0 28px 60px rgba(0,0,0,.50); --shadow-soft:0 16px 40px rgba(0,0,0,.35);
-
-      --font-sans:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      --font-serif:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-
-      --h-balance:balance;
+      --blur:8px;
     }
 
-    /* make the 'hidden' attribute bulletproof so modals don’t get stuck open */
-    [hidden]{ display:none !important; }
-
-    /* ============== BASE ============== */
     *{box-sizing:border-box}
     html,body{height:100%}
-    html{scroll-behavior:smooth}
     body{
-      margin:0; background:var(--bg); color:var(--ink);
-      font-family:var(--font-sans); font-size:16px; line-height:1.6;
-      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
-      font-feature-settings:"liga" 1, "kern" 1, "calt" 1;
-      color-scheme:dark;
-      overflow-x:hidden;
+      margin:0; font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial;
+      background:var(--bg); color:var(--ink); line-height:1.5;
     }
-    a{color:inherit;text-decoration:none}
-    img{max-width:100%;height:auto;display:block}
-    .container{max-width:var(--container);margin-inline:auto}
-    :where(section,[id]){ scroll-margin-top: calc(var(--nav-h) + 16px) }
+    img{max-width:100%; display:block}
+    a{color:inherit; text-decoration:none}
 
-    /* focus */
-    :where(a,button,[role="button"],input,summary,.cta,.btn-gold,.btn-outline):focus-visible{
-      outline:3px solid var(--gold-200);
-      outline-offset:3px;border-radius:12px;
-    }
+    /* ===================== LAYOUT UTILS ===================== */
+    .wrap{max-width:var(--container); margin:0 auto; padding:0 22px}
+    .spacer{height:28px}
 
-    /* grain overlay */
-    body::after{
-      content:""; position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.05;
-      background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
-      background-size:3px 3px; mix-blend-mode:soft-light;
+    /* ===================== NAV (placeholder) ===================== */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      height:var(--nav-h); display:flex; align-items:center;
+      background:rgba(11,9,8,.7); -webkit-backdrop-filter:saturate(140%) blur(10px); backdrop-filter:saturate(140%) blur(10px);
+      border-bottom:1px solid var(--line);
     }
+    .nav .wrap{display:flex; align-items:center; justify-content:space-between}
+    .brand{font-weight:800; letter-spacing:.02em}
+    .nav a.cta{
+      padding:10px 14px; border-radius:10px; border:1px solid rgba(212,175,55,.45);
+      transition:.2s ease; font-weight:700;
+    }
+    .nav a.cta:hover{background:rgba(212,175,55,.12)}
 
-    /* ============== NAV ============== */
-    .topnav{
-      position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:100;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:0 clamp(16px,3vw,36px);
-      color:var(--ink); background:transparent; border-bottom:1px solid transparent;
-      transition: background .25s ease, border-color .25s ease, transform .25s ease;
-      will-change: transform, background;
+    /* ===================== HERO (placeholder) ===================== */
+    #hero{
+      height:60vh; display:grid; place-items:center; text-align:center;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0)) padding-box,
+                 linear-gradient(90deg, rgba(212,175,55,.15), rgba(234,210,122,.05)) border-box;
+      border:1px solid var(--line); border-left:0; border-right:0;
     }
-    .topnav.scrolled{ background:rgba(10,9,8,.55); backdrop-filter:blur(var(--blur)); border-color:var(--line) }
-    .topnav.nav-hide{ transform:translateY(-110%); pointer-events:none; }
+    #hero h1{font-size:clamp(28px,4vw,48px); margin:0 0 10px}
+    #hero p{color:var(--muted); margin:0}
 
-    .brand{display:flex; align-items:center; gap:12px}
-    .brand img{ height:44px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.35)) }
+    /* ===================== BUTTONS ===================== */
+    .btn-gold{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      background:linear-gradient(180deg, #d4af37, #c39a2e);
+      color:#1a1815; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+      padding:12px 18px; border-radius:12px; border:0; box-shadow:0 10px 24px rgba(212,175,55,.25);
+      transition:transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      will-change:transform, box-shadow, filter;
+    }
+    .btn-gold:hover{transform:translateY(-2px); box-shadow:0 14px 28px rgba(212,175,55,.32)}
+    .btn-gold:active{transform:translateY(0); filter:brightness(.95)}
 
-    .navlinks{display:flex; align-items:center; gap:26px; font-weight:700; position:relative}
-    .nav-item{position:relative}
-    .nav-parent{
-      background:none; border:0; font:800 12px/1 var(--font-sans); color:var(--gold-200);
-      padding:14px 6px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
-      letter-spacing:.08em; text-transform:uppercase; min-height:44px;
+    /* ===================== OUR STRATEGIC OFFERINGS ===================== */
+    #offerings{padding:60px 0 90px}
+    #offerings .wrap{position:relative}
+    #offerings .section-head{
+      display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:24px;
+      border-bottom:1px solid var(--line); padding-bottom:16px;
     }
-    .nav-parent:hover,.nav-parent:focus-visible{ color:#fff; text-shadow:0 0 10px rgba(255,255,255,.28); outline:none }
-    .nav-parent.caret::after{content:"▾"; font-size:.82em; opacity:.9}
+    #offerings h2{margin:0; font-size:clamp(22px,3.5vw,34px); letter-spacing:.02em}
+    #offerings p.lead{margin:10px 0 0; color:var(--muted)}
 
-    .dropdown{
-      position:absolute; top:calc(100% + 12px); left:0; z-index:110;
-      min-width:270px; background:var(--obsidian); color:#f5f3ef;
-      border:1px solid var(--line); border-radius:14px; box-shadow: var(--shadow);
-      padding:12px; display:grid; gap:6px; opacity:0; transform:translateY(10px); pointer-events:none;
-      transition:opacity .18s ease, transform .18s ease;
+    /* Grid 3 x 2 */
+    .cards{
+      display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--gap);
     }
-    .nav-item:last-child .dropdown{ right:0; left:auto }
-    .dropdown a{
-      display:block; padding:12px 14px; border-radius:10px; font-size:14px;
-      color:#e9e5dc; transition:background .15s ease, color .15s ease
+    .card{
+      border:1px solid var(--line); border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      overflow:hidden; position:relative;
     }
-    .dropdown a:hover,.dropdown a:focus-visible{ background:rgba(212,175,55,.14); color:#fff; outline:none }
-    .nav-item:hover .dropdown,
-    .nav-item:focus-within .dropdown,
-    .nav-item.open .dropdown{ opacity:1; transform:translateY(0); pointer-events:auto; }
+    .card .thumb{
+      height:160px; background:#1c1a17;
+      background-image:repeating-linear-gradient(45deg, rgba(212,175,55,.12) 0 2px, transparent 2px 8px);
+    }
+    .card .body{padding:16px 16px 18px}
+    .card h3{margin:0 0 8px; font-size:18px}
+    .card p{margin:0; color:var(--muted); font-size:14px}
 
-    .nav-aux{display:flex; align-items:center; gap:18px}
-    .icon{ inline-size:18px; block-size:18px; display:inline-block; background: currentColor; opacity:.9; border:0; cursor:pointer }
-    .icon.search{
-      -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
-              mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
-      background: currentColor;
-      width:18px;height:18px;
-    }
-
-    /* mobile menu */
-    .menu-toggle{
-      display:none; background:none; border:0; color:var(--gold-200);
-      width:44px; height:44px; border-radius:12px; cursor:pointer;
-    }
-    .menu-toggle span{ display:block; width:22px; height:2px; background:currentColor; margin:5px auto; border-radius:2px }
-    @media (max-width: 1020px){
-      .menu-toggle{display:inline-grid; place-items:center}
-      .navlinks{ display:none }
-      .topnav{ padding-inline: clamp(14px,4vw,24px) }
-      body.menu-open{ overflow:hidden }
-      .mobile-panel{
-        position:fixed; inset:var(--nav-h) 0 0 0; background:#0b0a09f2; backdrop-filter:blur(8px);
-        z-index:95; transform:translateY(-8px); opacity:0; pointer-events:none;
-        transition:opacity .2s ease, transform .2s ease;
-        display:grid; align-content:start; padding:18px;
-      }
-      body.menu-open .mobile-panel{ opacity:1; transform:none; pointer-events:auto }
-      .mobile-list{ display:grid; gap:10px }
-      .mobile-item{ border:1px solid var(--line); border-radius:14px; overflow:hidden; background:#141110 }
-      .mobile-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; color:#ffe9a6; text-transform:uppercase; letter-spacing:.08em; font-weight:900; font-size:12px }
-      .mobile-head button{ all:unset; cursor:pointer; padding:10px; border-radius:8px }
-      .mobile-drop{ display:none; padding:4px 10px 12px }
-      .mobile-drop a{ display:block; padding:10px 10px; border-radius:10px; color:#e9e5dc; font-size:14px }
-      .mobile-drop a:hover{ background:rgba(212,175,55,.14); color:#fff }
-      .mobile-item.open .mobile-drop{ display:block }
+    /* ===================== FOOTER (placeholder) ===================== */
+    footer{
+      margin-top:70px; border-top:1px solid var(--line); padding:30px 0; color:var(--muted); font-size:14px;
     }
 
-    /* ============== HERO ============== */
-    .hero{
-      position:fixed; inset:0; z-index:0; overflow:hidden; isolation:isolate; background:#070605;
-      transition:opacity .35s ease, visibility .35s ease;
-      height:calc(var(--vh, 1vh) * 100);
-      min-height:100svh;
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1024px){
+      .cards{grid-template-columns:repeat(2, 1fr)}
     }
-    .hero-video{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; object-position:center; pointer-events:none;
-      background:#070605;
-    }
-    .hero::before{
-      content:""; position:absolute; inset:0;
-      background:radial-gradient(900px 420px at 78% 28%, rgba(212,175,55,.08), transparent 60%);
-      pointer-events:none;
-    }
-    .hero-layout{ position:absolute; inset:var(--nav-h) 0 0 0; display:flex; align-items:flex-end; height:calc(100% - var(--nav-h)); padding: clamp(12px,4vw,40px) }
-    .cta-bar{ padding:0 0 clamp(24px, 8vh, 90px) clamp(18px, 6vw, 90px); z-index:2; transition: opacity .25s ease, transform .25s ease }
-
-    .cta-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap }
-
-    .cta{
-      position:relative; isolation:isolate; overflow:hidden; display:inline-flex; align-items:center; gap:12px;
-      background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a; font-weight:900; letter-spacing:.06em;
-      padding:14px 24px; border-radius:999px; box-shadow:0 18px 42px rgba(212,175,55,.30);
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .cta::before{ content:""; position:absolute; inset:1px; border-radius:999px; pointer-events:none; background:linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,0) 60%); mix-blend-mode:soft-light; opacity:.5; }
-    .cta:hover{ transform:translateY(-2px); box-shadow:0 26px 50px rgba(212,175,55,.38) }
-    .cta .pill{ display:inline-grid; place-items:center; width:46px; height:34px; border-radius:999px; background:rgba(0,0,0,.35); color:#fff; font-weight:900 }
-
-    .scroll-cue{ position:absolute; left:50%; bottom:20px; transform:translateX(-50%); color:var(--muted); font-size:12px; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:3; transition: opacity .25s ease, transform .25s ease }
-    .mouse{ width:24px; height:36px; border:2px solid var(--muted); border-radius:14px; position:relative }
-    .wheel{ position:absolute; left:50%; top:7px; width:3px; height:6px; background:var(--muted); transform:translateX(-50%); border-radius:2px; animation:wheel 1.6s infinite ease-in-out }
-    @keyframes wheel{0%,100%{opacity:.2; transform:translate(-50%,0)}50%{opacity:1; transform:translate(-50%,8px)}}
-
-    .hide-hero-ui .cta-bar,.hide-hero-ui .scroll-cue { opacity:0; pointer-events:none; transform:translateY(8px) }
-    body.hero-off .hero{ opacity:0; visibility:hidden; } /* desktop only */
-
-    /* ============== FLOW ============== */
-    main{ position:relative; z-index:1 }
-    .home main{ margin-top:calc(var(--vh, 1vh) * 100) } /* keep content below hero on desktop */
-
-    section{ padding:100px 22px; content-visibility:auto; contain-intrinsic-size: 1px 800px }
-    .section-title{ text-align:center; margin:0 0 26px; font-family:var(--font-serif); font-weight:800; font-size:clamp(24px,2.8vw,34px); letter-spacing:.005em; text-transform:uppercase; text-wrap:var(--h-balance) }
-    .section-title span{ color:var(--gold) }
-    .section-title.luxe-underline{ position:relative; padding-bottom:14px }
-    .section-title.luxe-underline::after{ content:""; position:absolute; left:50%; bottom:0; width:120px; height:1.5px; transform:translateX(-50%); background:linear-gradient(90deg, transparent, var(--gold), transparent) }
-
-    /* WHO */
-    .who{ background:var(--paper); color:#1e1b16 }
-    .who-grid{ display:grid; grid-template-columns: 1.25fr 1fr; gap:72px; align-items:center; max-width:var(--container); margin-inline:auto }
-    .who .media{ aspect-ratio:16/9; background: var(--who-media, #e8e8e8) center/cover no-repeat; position:relative; overflow:hidden; border-radius:18px; box-shadow:var(--shadow-soft) }
-    .who .play-btn{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:96px; height:96px; border-radius:50%; border:4px solid rgba(255,255,255,.95); background:rgba(0,0,0,.28); display:block; box-shadow:0 12px 28px rgba(0,0,0,.28); transition:transform .18s ease, background .18s ease }
-    .who .play-btn:hover{ transform:translate(-50%,-50%) scale(1.05); background:rgba(0,0,0,.34) }
-    .who .play-btn::after{ content:""; position:absolute; left:50%; top:50%; transform:translate(-40%,-50%); border-left:26px solid #fff; border-top:16px solid transparent; border-bottom:16px solid transparent }
-    .who h2{ margin:0 0 14px; font-family:var(--font-serif); font-weight:700; color:#12100e; font-size:clamp(18px, 3.2vw, 28px) }
-    .who .copy{ max-width:640px }
-    .who p{ color:#65665b; margin:0 0 28px; line-height:1.8; font-size:16px }
-    .btn-outline{ display:inline-block; padding:12px 18px; border-radius:12px; border:1.5px solid #cfcfcf; background:transparent; color:#1a1a1a; font-weight:800; letter-spacing:.06em; text-transform:uppercase; font-size:12px; transition: background .18s ease, color .18s ease, border-color .18s ease }
-    .btn-outline:hover{ background:#cfb334; color:#fff; border-color:#111 }
-
-    /* IMPACT */
-    .impact{ background:#0a0908; border-top:1px solid var(--line) }
-    .impact .container{max-width:var(--container)}
-    .impact-grid{ display:grid; gap:var(--gap); grid-template-columns: repeat(3, minmax(0,1fr)); align-items:stretch; }
-    .impact-card{ position:relative; border-radius:var(--radius); overflow:hidden; min-height:300px; background:var(--obsidian); border:1px solid var(--line); box-shadow:0 1px 0 rgba(255,255,255,.04) inset; transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease }
-    .impact-card .image{ position:absolute; inset:0; background:#111 center/cover no-repeat; transition:transform .6s ease, filter .3s ease; filter:brightness(.92) contrast(1.02) saturate(1.02) }
-    .impact-card::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.28) 30%, rgba(0,0,0,.60) 60%, rgba(0,0,0,.88) 100%); opacity:1; transition:opacity .35s ease }
-    .impact-card .content{ position:absolute; inset:auto 18px 18px 18px; z-index:2; padding:14px 16px; background:rgba(0,0,0,.35); backdrop-filter:blur(4px) saturate(1.05); border-radius:12px }
-    .impact-card h3{ margin:0 0 8px; font-size:16px; font-family:var(--font-serif) }
-    .impact-card p{ margin:0 10px 12px 0; color:rgba(255,255,255,.92); font-size:14px; line-height:1.7 }
-    .impact-card .more{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:rgba(212,175,55,.16); color:#ffe9a6; font-weight:800; font-size:12px; transform:translateY(4px); transition:transform .25s ease, background .25s ease }
-    .impact-card:hover{ transform:translateY(-6px); box-shadow:0 28px 54px rgba(0,0,0,.55); border-color:rgba(212,175,55,.22) }
-    .impact-card:hover .image{ transform:scale(1.06); filter:brightness(.88) }
-    .impact-card:hover .more{ transform:translateY(0); background:rgba(212,175,55,.22) }
-
-    /* ===================== FUNDS (500M) ===================== */
-    #funds.funds-spacer{ height:100vh; padding:0; margin:0; background:transparent; border:0; pointer-events:none; }
-    .funds-fixed{ position:fixed; inset:0; z-index:-1; opacity:0; transition:opacity .45s ease; display:grid; place-items:center; }
-    .funds-fixed.on{ opacity:1; z-index:5; }
-    .funds-frame{ position:relative; width:100vw; height:100vh; border-radius:0; border:0; box-shadow:none; overflow:hidden; background:#000; }
-    .funds-fixed img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; user-select:none; -webkit-user-drag:none; }
-    .funds-cta-fixed{ position:absolute; left:50%; bottom:18px; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:10px; }
-    .funds-cta-fixed .btn-gold{
-      display:inline-block; padding:12px 18px; border-radius:12px;
-      background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a;
-      font-weight:900; letter-spacing:.08em; text-transform:uppercase;
-      box-shadow:0 14px 30px rgba(212,175,55,.28); cursor:pointer;
-    }
-
-    /* OFFERINGS */
-    .offerings{ position:relative; z-index:1; background:#0a0908; border-top:1px solid var(--line); padding:100px 22px }
-    .section-head{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin:0 auto 26px; max-width:var(--container) }
-    .section-head h2{ margin:0; text-transform:uppercase; letter-spacing:.02em; font-family:var(--font-serif); font-weight:700; font-size:clamp(20px,3.5vw,30px) }
-    .btn-gold{ display:inline-block; background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a; font-weight:900; text-transform:uppercase; letter-spacing:.08em; padding:12px 18px; border-radius:12px; box-shadow:0 14px 30px rgba(212,175,55,.28) }
-    .offer-grid{ max-width:var(--container); margin:0 auto; display:grid; gap:30px; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)) }
-    .offer-card{ background:#171413; border-radius:16px; padding:28px 24px; border:1px solid var(--line-strong); box-shadow:0 1px 0 rgba(255,255,255,.05) inset; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease }
-    .offer-card:hover{ transform:translateY(-4px); box-shadow:0 26px 44px rgba(0,0,0,.45); border-color:rgba(212,175,55,.25) }
-    .offer-icon{ width:58px; height:58px; display:grid; place-items:center; border-radius:999px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); margin:6px 0 16px; overflow:hidden }
-    .offer-icon img{ width:52px; height:52px; object-fit:contain }
-    .offer-card h3{ margin:0 0 10px; color:#fff; font-weight:800; font-size:18px; font-family:var(--font-serif) }
-    .offer-card p{ margin:0; color:#c8c3b7; font-size:14px; line-height:1.8 }
-
-    /* PORTFOLIO */
-    .portfolio{ position:relative; z-index:1; background:#0a0908; padding:100px 22px }
-    .portfolio-panel{ max-width:var(--container); margin:0 auto; background:#f0f4f8; padding:40px; box-shadow:var(--shadow); border-radius:18px; border:1px solid rgba(0,0,0,.04) }
-    .portfolio-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:36px; align-items:start }
-    .portfolio h2{ margin:0 0 12px; color:#151514; font-family:var(--font-serif); text-transform:uppercase; font-weight:700; letter-spacing:.01em; font-size:clamp(20px,4.8vw,30px) }
-    .portfolio p{ color:#2a2a2a; line-height:1.8 }
-    .stats{ margin-top:26px; display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:18px }
-    .stat{ background:#e6ecf2; border-radius:12px; padding:16px; display:flex; align-items:center; gap:10px; font-weight:800; color:#5a5f66; border:1px solid rgba(0,0,0,.04) }
-    .stat .num{ color:var(--gold); font-size:22px; font-weight:900; font-family:var(--font-serif) }
-    .portfolio-media{ position:relative; overflow:hidden; background:#ddd; aspect-ratio: 4 / 3; box-shadow:0 12px 28px rgba(0,0,0,.2); border-radius:14px }
-    .portfolio-media img{ width:100%; height:100%; object-fit:cover; }
-
-    /* NEWS */
-    .news{ background:#ffffff; color:#1a1a1a; padding:100px 22px; border-top:1px solid rgba(0,0,0,.06) }
-    .news .head{ max-width:var(--container); margin:0 auto 22px; display:flex; align-items:flex-end; justify-content:space-between; gap:16px }
-    .kicker{ display:block; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#8b8b8b; margin-bottom:6px }
-    .news h2{ margin:0; font-family:var(--font-serif); font-weight:700; font-size:clamp(20px,4vw,30px); line-height:1.05 }
-    .btn-viewall{ display:inline-block; background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:10px 16px; border-radius:12px; box-shadow:0 14px 30px rgba(212,175,55,.25); white-space:nowrap }
-    .news-grid{ max-width:var(--container); margin:18px auto 0; display:grid; gap:26px; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)) }
-    .news-card{ background:#fff; border:1px solid rgba(0,0,0,.08); border-radius:14px; overflow:hidden; transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease }
-    .news-card:hover{ transform:translateY(-4px); box-shadow:0 24px 44px rgba(0,0,0,.14); border-color:rgba(0,0,0,.12) }
-    .news-card .media{ aspect-ratio: 16/10; background:#ddd center/cover no-repeat }
-    .news-card .body{ padding:14px 14px 16px }
-    .news-card h3{ margin:0 0 8px; font-size:16px; line-height:1.35; font-weight:800; font-family:var(--font-serif); word-break:break-word; text-wrap:balance; }
-    .news-meta{ display:flex; gap:10px; align-items:center; color:#888; font-size:12px; margin-top:8px }
-    .news-dot{ width:4px; height:4px; border-radius:50%; background:#c9c9c9; display:inline-block }
-
-    /* FOOTER */
-    .footer-wrap{background:#000;color:#eaeaea; position:relative; z-index:5}
-    .news-signup{padding:36px 22px 0}
-    .news-box{ max-width:var(--container); margin:0 auto; display:grid; align-items:center; gap:18px; grid-template-columns:1fr auto; background:linear-gradient(90deg,var(--gold),var(--gold-200)); border-radius:12px; padding:22px; box-shadow:0 18px 36px rgba(212,175,55,.22) }
-    .news-title{margin:0 0 6px;font-weight:900;font-size:22px;color:#1d1508; font-family:var(--font-serif)}
-    .news-sub{margin:0;color:#1d1508;opacity:.85;font-size:14px}
-    .news-form{display:flex;gap:0}
-    .news-form input{ width:420px;max-width:42vw;height:48px;padding:0 14px;background:#fff;color:#1a1a1a;border:0;border-radius:12px 0 0 12px }
-    .news-form button{ height:48px;padding:0 18px;border:0;border-radius:0 12px 12px 0;background:#111;color:#fff;font-weight:900;letter-spacing:.08em;text-transform:uppercase }
-    @media (max-width:540px){
-      .news-box{grid-template-columns:1fr}
-      .news-form{display:grid;grid-template-columns:1fr;gap:10px}
-      .news-form input{width:100%;max-width:none;border-radius:12px}
-      .news-form button{width:100%;border-radius:12px}
-    }
-    .footer-main{padding:38px 22px}
-    .footer-grid{ max-width:var(--container); margin:0 auto; display:grid; gap:30px; grid-template-columns:1.15fr 1fr 1fr 1.15fr }
-    @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:620px){.footer-grid{grid-template-columns:1fr}}
-    .footer-brand img{width:92px;height:auto;display:block;margin:2px 0 12px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
-    .footer-brand p{margin:0;color:#cfcfcf;line-height:1.85;font-size:14px}
-    .footer-col h4{ margin:4px 0 14px;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:12px; font-family:var(--font-serif) }
-    .footer-col a{display:block;color:#dcdcdc;margin:8px 0;font-size:14px;opacity:.92}
-    .footer-col a:hover{opacity:1;text-decoration:underline}
-    .contact-item{display:flex;gap:10px;align-items:flex-start;margin:8px 0;color:#dedede;font-size:14px}
-    .contact-item svg{width:16px;height:16px;opacity:.9;margin-top:2px}
-    .socials{display:flex;gap:10px;margin-top:8px}
-    .socials a{ width:36px;height:36px;border-radius:999px;display:grid;place-items:center;background:var(--gold);color:#0a0703;font-weight:900;border:1px solid rgba(0,0,0,.15) }
-    .footer-copy{ border-top:1px solid var(--line); text-align:center;color:#9d9d7d;font-size:12px;padding:14px 22px 18px }
-
-    /* reveals & motion */
-    .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease}
-    .reveal.in{opacity:1; transform:none}
-    @media (prefers-reduced-motion: reduce){
-      .reveal{ transition:none }
-      .hero-video{ display:none }
-      .hero{ background:#070605 url('assets/hero-poster.jpg') center/cover no-repeat; }
-    }
-    @media (max-height:480px){
-      .hero-video{ display:none }
-      .hero{ background:#070605 url('assets/hero-poster.jpg') center/cover no-repeat; }
-    }
-
-    /* ==================== MOBILE (≤640px) ==================== */
-    @media (max-width: 980px){
-      .who-grid{ grid-template-columns:1fr; gap:28px }
-      .portfolio-grid{ grid-template-columns:1fr }
-      .portfolio-grid > :first-child{ order:2 }
-      .portfolio-grid > :nth-child(2){ order:1 }
-    }
-
     @media (max-width: 640px){
-      /* HERO */
-      .hero{ height:68vh; min-height:68svh }
-      .hero-video{ object-fit:contain; background:#070605 }
-      .home main{ margin-top:68vh }
-      .cta-bar{ padding-bottom:14px; padding-left:16px }
-      .cta{ font-size:12px; padding:10px 14px; border-radius:999px; box-shadow:0 10px 24px rgba(212,175,55,.28) }
-      .scroll-cue{ display:none }
+      /* Stack section header on mobile */
+      #offerings .section-head{flex-direction:column; align-items:flex-start; gap:12px}
+      #offerings h2{font-size:22px}
+      .cards{grid-template-columns:1fr}
 
-      /* IMPACT */
-      .impact-grid{ grid-template-columns:1fr !important }
-
-      /* PORTFOLIO */
-      .portfolio-panel{ padding:22px; border-radius:16px }
-
-      /* FUNDS — mobile */
-      #funds.funds-spacer{
-        height: calc(100vw * 1.25 + 16px);
-        padding: 0; margin: 0; border: 0; pointer-events: none;
+      /* >>> Smaller "View More" button — Our Strategic Offerings (mobile only) */
+      #offerings .section-head .btn-gold{
+        font-size:11px;
+        padding:8px 12px;
+        border-radius:9px;
+        letter-spacing:.06em;
+        box-shadow:0 8px 18px rgba(212,175,55,.20);
       }
-      .funds-frame{
-        width:100vw; height:auto; aspect-ratio:4/5;
-        border-radius:0; border:0; box-shadow:none;
-      }
-      .funds-cta-fixed .btn-gold{
-        font-size:12px; padding:10px 14px; border-radius:10px;
-        box-shadow:0 10px 22px rgba(212,175,55,.22);
-      }
-
-      /* ✅ FIX: "View All" button stacks nicely with the heading */
-      .section-head{ flex-direction:column; align-items:flex-start; gap:10px }
-      .section-head .btn-gold{ padding:10px 14px; border-radius:10px }
+      /* optional: make the header text tighter on small screens */
+      #offerings p.lead{font-size:13px}
     }
   </style>
 </head>
+<body>
 
-<body class="home">
-  <a href="#who" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden">Skip to content</a>
-
-  <!-- NAV -->
-  <nav class="topnav" role="navigation" aria-label="Primary">
-    <div class="brand">
-      <button class="menu-toggle" aria-label="Open menu" aria-controls="mobile-panel" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <!-- ✅ logo links to homepage -->
-      <a href="index.html" aria-label="Home">
-        <img src="assets/logo.png" alt="Private Office Logo" width="50" height="200" />
-      </a>
+  <!-- ===================== NAV ===================== -->
+  <header class="nav">
+    <div class="wrap">
+      <div class="brand">PRIVATE OFFICE</div>
+      <a class="cta" href="#offerings">Partnerships</a>
     </div>
-
-    <div class="navlinks" aria-label="Main menu">
-      <div class="nav-item">
-        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">About</button>
-        <div class="dropdown" role="menu" aria-label="About submenu">
-          <a href="about.html">ABOUT US</a>
-          <a href="team.html">OUR TEAM</a>
-          <a href="why-ghana.html">WHY GHANA</a>
-          <a href="structure.html">STRUCTURE</a>
-          <a href="local-partner.html">NEED FOR A LOCAL PARTNER</a>
-          <a href="ceo-letter.html">LETTER FROM CEO</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">What We Do</button>
-        <div class="dropdown" role="menu" aria-label="What We Do submenu">
-          <a href="what-we-do.html">WHAT WE DO</a>
-          <a href="growth.html">HELPING YOUR COMPANY GROW</a>
-          <a href="setup.html">SETTING UP &amp; GETTING ADVICE</a>
-          <a href="investment-programme.html">INVESTMENT PROGRAMME</a>
-          <a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Portfolio</button>
-        <div class="dropdown" role="menu" aria-label="Portfolio submenu">
-          <a href="partners.html">OUR PARTNERS</a>
-          <a href="investments.html">OUR INVESTMENTS</a>
-          <a href="projects.html">OUR PROJECTS</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Media</button>
-        <div class="dropdown" role="menu" aria-label="Media submenu">
-          <a href="news.html">NEWS &amp; ANNOUNCEMENTS</a>
-          <a href="blog.html">BLOG</a>
-          <a href="videos.html">VIDEOS</a>
-          <a href="podcasts.html">PODCASTS</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Contact &amp; Applications</button>
-        <div class="dropdown" role="menu" aria-label="Contact submenu">
-          <a href="contact.html">CONTACT US</a>
-          <a href="partnership.html">EXPLORE A PARTNERSHIP</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="nav-aux">
-      <!-- ✅ working search trigger -->
-      <button class="icon search" type="button" aria-label="Search" id="openSearch"></button>
-    </div>
-  </nav>
-
-  <!-- MOBILE PANEL -->
-  <div id="mobile-panel" class="mobile-panel" hidden>
-    <nav class="mobile-list" aria-label="Mobile menu">
-      <div class="mobile-item">
-        <div class="mobile-head"><span>About</span><button type="button" aria-label="Toggle About">▾</button></div>
-        <div class="mobile-drop">
-          <a href="about.html">ABOUT US</a><a href="team.html">OUR TEAM</a><a href="why-ghana.html">WHY GHANA</a>
-          <a href="structure.html">STRUCTURE</a><a href="local-partner.html">NEED FOR A LOCAL PARTNER</a><a href="ceo-letter.html">LETTER FROM CEO</a>
-        </div>
-      </div>
-      <div class="mobile-item">
-        <div class="mobile-head"><span>What We Do</span><button type="button" aria-label="Toggle What We Do">▾</button></div>
-        <div class="mobile-drop">
-          <a href="what-we-do.html">WHAT WE DO</a><a href="growth.html">HELPING YOUR COMPANY GROW</a><a href="setup.html">SETTING UP &amp; GETTING ADVICE</a>
-          <a href="investment-programme.html">INVESTMENT PROGRAMME</a><a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
-        </div>
-      </div>
-      <div class="mobile-item">
-        <div class="mobile-head"><span>Portfolio</span><button type="button" aria-label="Toggle Portfolio">▾</button></div>
-        <div class="mobile-drop">
-          <a href="partners.html">OUR PARTNERS</a><a href="investments.html">OUR INVESTMENTS</a><a href="projects.html">OUR PROJECTS</a>
-        </div>
-      </div>
-      <div class="mobile-item">
-        <div class="mobile-head"><span>Media</span><button type="button" aria-label="Toggle Media">▾</button></div>
-        <div class="mobile-drop">
-          <a href="news.html">NEWS &amp; ANNOUNCEMENTS</a><a href="blog.html">BLOG</a><a href="videos.html">VIDEOS</a><a href="podcasts.html">PODCASTS</a>
-        </div>
-      </div>
-      <div class="mobile-item">
-        <div class="mobile-head"><span>Contact</span><button type="button" aria-label="Toggle Contact">▾</button></div>
-        <div class="mobile-drop">
-          <a href="contact.html">CONTACT US</a><a href="partnership.html">EXPLORE A PARTNERSHIP</a>
-        </div>
-      </div>
-    </nav>
-  </div>
-
-  <!-- HERO -->
-  <header class="hero" role="banner" aria-label="Hero">
-    <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="assets/hero-poster.jpg">
-      <source src="assets/hero video.mp4" type="video/mp4" />
-      <source src="assets/hero.webm" type="video/webm" />
-    </video>
-    <div class="hero-layout" aria-hidden="true">
-      <div class="cta-bar">
-        <div class="cta-row">
-          <a class="cta" href="partnership.html" aria-label="Explore a partnership">
-            READY TO EXPLORE A PARTNERSHIP
-            <span class="pill">➔</span>
-            <span class="shine" aria-hidden="true"></span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <a class="scroll-cue" href="#who" aria-label="Scroll down">
-      <div class="mouse"><span class="wheel"></span></div>
-      <span>Scroll</span>
-    </a>
   </header>
 
-  <main>
-    <!-- WHO -->
-    <section id="who" class="who" aria-labelledby="who-title">
-      <div class="who-grid reveal">
-        <div class="media" aria-label="Who we are media" style="--who-media: url('assets/thumbnail.png')">
-          <a class="play-btn" href="#who-video" aria-label="Play Who We Are video"></a>
-        </div>
-        <div class="copy">
-          <h2 id="who-title">Who We Are</h2>
-          <p>The Private Office of Dr. Oseadeeyo Nana Kumi Kodie is a sovereign-style advisory and investment institution dedicated to channeling innovation and strategic capital toward a better future. We forge partnerships with visionary leaders and resilient local operators across West Africa to accelerate inclusive growth and long-term prosperity.</p>
-          <a class="btn-outline" href="#impact">Find Out More</a>
-        </div>
-      </div>
-    </section>
+  <!-- ===================== HERO (placeholder) ===================== -->
+  <section id="hero">
+    <div class="wrap">
+      <h1>Hero Banner Placeholder</h1>
+      <p>Replace this area with your full-screen hero image/video.</p>
+    </div>
+  </section>
 
-    <!-- IMPACT -->
-    <section id="impact" class="impact" aria-labelledby="impact-title">
-      <div class="container">
-        <h2 id="impact-title" class="section-title luxe-underline reveal"><span>Global Impact</span> at a Glance</h2>
-        <div class="impact-grid">
-          <a class="impact-card reveal" href="partners.html">
-            <div class="image" style="background-image:url('assets/diplomatic.jpg')"></div>
-            <div class="content"><h3>Diplomatic Engagements</h3><p>Forging partnerships through global diplomacy and sovereign dialogue.</p><span class="more">Learn more →</span></div>
-          </a>
-          <a class="impact-card reveal" href="projects.html">
-            <div class="image" style="background-image:url('assets/education.jpg')"></div>
-            <div class="content"><h3>Youth Education Program</h3><p>Empowering the next generation via education, literacy and exposure.</p><span class="more">Learn more →</span></div>
-          </a>
-          <a class="impact-card reveal" href="projects.html">
-            <div class="image" style="background-image:url('assets/community.jpg')"></div>
-            <div class="content"><h3>Community Engagement</h3><p>Transforming rural communities through practical agricultural initiatives.</p><span class="more">Learn more →</span></div>
-          </a>
-          <a class="impact-card reveal" href="about.html">
-            <div class="image" style="background-image:url('assets/sovereign.jpg')"></div>
-            <div class="content"><h3>Cultural &amp; Sovereign Mission</h3><p>Advancing Africa’s dignity through cultural diplomacy and sovereign affairs.</p><span class="more">Learn more →</span></div>
-          </a>
-          <a class="impact-card reveal" href="about.html">
-            <div class="image" style="background-image:url('assets/heritage.jpg')"></div>
-            <div class="content"><h3>Legacy &amp; Heritage Strategy</h3><p>Preserving Ghana’s identity through royal heritage and stewardship.</p><span class="more">Learn more →</span></div>
-          </a>
-          <a class="impact-card reveal" href="team.html">
-            <div class="image" style="background-image:url('assets/leadership.jpg')"></div>
-            <div class="content"><h3>Global Leadership Forum</h3><p>Championing Africa’s voice across multilateral conversations.</p><span class="more">Learn more →</span></div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- FUNDS spacer -->
-    <section id="funds" class="funds-spacer" aria-hidden="true"></section>
-
-    <!-- OFFERINGS -->
-    <section id="offerings" class="offerings" aria-labelledby="offerings-title">
+  <!-- ===================== OUR STRATEGIC OFFERINGS ===================== -->
+  <section id="offerings">
+    <div class="wrap">
       <div class="section-head">
-        <h2 id="offerings-title">Our Strategic Offerings</h2>
-        <a href="what-we-do.html" class="btn-gold">View All</a>
-      </div>
-      <div class="offer-grid">
-        <article class="offer-card reveal">
-          <div class="offer-icon" aria-hidden="true"><img src="assets/icon1.png" alt=""></div>
-          <h3>Global Strategic Partnerships</h3>
-          <p>Through our elite network, we build bridges between local initiatives and global capital, policy, or technology partners.</p>
-        </article>
-        <article class="offer-card reveal">
-          <div class="offer-icon" aria-hidden="true"><img src="assets/icon2.png" alt=""></div>
-          <h3>Investor Screening &amp; Due Diligence</h3>
-          <p>We vet opportunities and design sustainable investment models rooted in local realities and long-term returns.</p>
-        </article>
-        <article class="offer-card reveal">
-          <div class="offer-icon" aria-hidden="true"><img src="assets/icon3.png" alt=""></div>
-          <h3>Local Partner Network — Verified Ecosystem</h3>
-          <p>Collaborate with trusted local operators and institutions through our verified network across West Africa.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- PORTFOLIO -->
-    <section id="portfolio" class="portfolio" aria-labelledby="portfolio-title">
-      <div class="portfolio-panel reveal">
-        <div class="portfolio-grid">
-          <div>
-            <h2 id="portfolio-title">Our Portfolio</h2>
-            <p>The Private Office is a sovereign-style advisory and investment platform that channels Ghana’s entrepreneurial drive onto the global stage. Led by Dr. Oseadeeyo Nana Kumi Kodie — a traditional leader, entrepreneur, and international development advocate — the Office forges strategic alliances that unlock capital, technology, and influence across Africa and the wider world.</p>
-            <div class="stats" role="list">
-              <div class="stat" role="listitem"><span class="num" aria-hidden="true">25</span> Successful Partnerships</div>
-              <div class="stat" role="listitem"><span class="num" aria-hidden="true">17</span> Advisors</div>
-              <div class="stat" role="listitem"><span class="num" aria-hidden="true">42</span> Global Investments</div>
-            </div>
-          </div>
-          <div class="portfolio-media"><img src="assets/BANNER.jpg" alt="Portfolio highlight" loading="lazy" decoding="async" /></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- NEWS -->
-    <section id="news" class="news" aria-labelledby="news-title">
-      <div class="head">
         <div>
-          <span class="kicker">News</span>
-          <h2 id="news-title">Latest News</h2>
+          <h2>Our Strategic Offerings</h2>
+          <p class="lead">Focused vehicles and services designed for impact, resilience, and long-term value.</p>
         </div>
-        <a class="btn-viewall" href="news.html">View All</a>
+
+        <!-- The button you asked to reduce on mobile -->
+        <a class="btn-gold" href="offerings.html">View More</a>
       </div>
 
-      <div class="news-grid">
-        <a class="news-card" href="news.html#1" aria-label="Read news story 1">
-          <div class="media" style="background-image:url('assets/News1.png')"></div>
+      <div class="cards">
+        <!-- 1 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
           <div class="body">
-            <h3>Dr. Oseadeeyo Nana Kumi Kodie Meets Chinese Climate Leaders at COP28 UAE</h3>
-            <div class="news-meta"><span>21 July 2025</span><span class="news-dot"></span><span>0 Comments</span></div>
+            <h3>Investment Advisory</h3>
+            <p>Tailored capital strategies across real assets, private credit, and special situations.</p>
           </div>
-        </a>
-        <a class="news-card" href="news.html#2" aria-label="Read news story 2">
-          <div class="media" style="background-image:url('assets/News2.png')"></div>
+        </article>
+        <!-- 2 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
           <div class="body">
-            <h3>Dr. Kumi Kodie Champions African Climate-Finance Agenda at COP28 UAE</h3>
-            <div class="news-meta"><span>Apr 28, 2024</span><span class="news-dot"></span><span>0 Comments</span></div>
+            <h3>Sovereign & Diplomatic</h3>
+            <p>Government partnerships, bilateral programs, and high-level convenings.</p>
           </div>
-        </a>
-        <a class="news-card" href="news.html#3" aria-label="Read news story 3">
-          <div class="media" style="background-image:url('assets/News3.PNG')"></div>
+        </article>
+        <!-- 3 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
           <div class="body">
-            <h3>Nana Kumi Kodie Presides at Traditional Durbar Celebrating Culture &amp; Community Development</h3>
-            <div class="news-meta"><span>Apr 28, 2024</span><span class="news-dot"></span><span>0 Comments</span></div>
+            <h3>ESG & Impact</h3>
+            <p>Bankable climate solutions in agriculture, energy transition, and infrastructure.</p>
           </div>
-        </a>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer-wrap" id="contact">
-    <div class="news-signup" aria-label="Newsletter signup">
-      <div class="news-box">
-        <div class="news-copy">
-          <h3 class="news-title">Join Our Free Newsletter</h3>
-          <p class="news-sub">Join our network for the latest news, announcements and more.</p>
-        </div>
-        <form class="news-form" action="#" method="post">
-          <input type="email" name="email" placeholder="Enter your email address" required aria-label="Email address">
-          <button type="submit">Subscribe Now</button>
-        </form>
+        </article>
+        <!-- 4 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="body">
+            <h3>Real Estate</h3>
+            <p>Prime developments focused on durability, design excellence, and cashflow.</p>
+          </div>
+        </article>
+        <!-- 5 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="body">
+            <h3>Private Office</h3>
+            <p>Discreet concierge for HNW/UHNW families and cross-border opportunities.</p>
+          </div>
+        </article>
+        <!-- 6 -->
+        <article class="card">
+          <div class="thumb" aria-hidden="true"></div>
+          <div class="body">
+            <h3>Strategic Communications</h3>
+            <p>Reputation, deal positioning, and narrative architecture for leaders.</p>
+          </div>
+        </article>
       </div>
     </div>
+  </section>
 
-    <div class="footer-main">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <img src="assets/private-logo.png" alt="Private Office Crest" width="92" height="92" loading="lazy" decoding="async">
-          <p>The Private Office of Dr. Oseadeeyo Nana Kumi Kodie is a sovereign-style
-            advisory and investment institution dedicated to empowering transformative
-            businesses in Ghana and across West Africa.</p>
-        </div>
-
-        <div class="footer-col">
-          <h4>Company</h4>
-          <a href="partners.html">Partners</a>
-          <a href="investments.html">Investments</a>
-          <a href="projects.html">Projects</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Quick Links</h4>
-          <a href="index.html">Home</a>
-          <a href="what-we-do.html">Services</a>
-          <a href="about.html">About Us</a>
-          <a href="news.html">News</a>
-          <a href="contact.html">Contact Us</a>
-        </div>
-
-        <div class="footer-col">
-          <h4>Contact Us</h4>
-          <div class="contact-item">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></svg>
-            Boundary Road East Legon, Accra, Ghana.
-          </div>
-          <div class="contact-item">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.4l-10 5.6L2 8.4V8a2 2 0 0 1 2-2Zm0 5.2 8 4.5 8-4.5V16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4.8Z"/></svg>
-            <a href="mailto:info@privateofficeofdon.com">info@privateofficeofdon.com</a>
-          </div>
-          <div class="contact-item">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1  1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1  1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
-            <a href="tel:+233302955470">030 2955 470</a>
-          </div>
-          <div class="socials" aria-label="Social links">
-            <a href="#" title="X / Twitter">X</a>
-            <a href="#" title="Facebook">f</a>
-            <a href="#" title="Instagram">IG</a>
-            <a href="#" title="LinkedIn">in</a>
-          </div>
-        </div>
-      </div>
+  <!-- ===================== FOOTER (placeholder) ===================== -->
+  <footer>
+    <div class="wrap">
+      © <span id="y"></span> Private Office. All rights reserved.
     </div>
-
-    <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
-  <!-- FUNDS fixed layer (shows when #funds spacer is centered) -->
-  <div class="funds-fixed" id="funds-fixed" aria-hidden="true">
-    <div class="funds-frame">
-      <img src="assets/Africa-funds.png" alt="$500 Million Africa Future Fund">
-      <div class="funds-cta-fixed" id="funds-cta">
-        <a href="investment-programme.html" class="btn-gold">Read More</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🔎 SEARCH OVERLAY -->
-  <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title" hidden
-       style="position:fixed;inset:0;background:#0b0a09f2;backdrop-filter:blur(8px);z-index:999;display:grid;align-content:start;padding:18px">
-    <div class="container" style="max-width:820px">
-      <div style="display:flex;gap:10px;align-items:center;margin:10px 0 12px">
-        <input id="search-input" placeholder="Search the site…" aria-label="Search"
-               style="flex:1;padding:14px;border-radius:12px;border:1px solid var(--line-strong);background:#141110;color:#fff">
-        <button id="closeSearch" class="cta" type="button">Close</button>
-      </div>
-      <ul id="search-results" style="list-style:none;padding:0;margin:0;display:grid;gap:10px"></ul>
-    </div>
-  </div>
-
   <script>
-    const $ = (q,sc)=> (sc||document).querySelector(q);
-    const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
-
-    // footer year
-    $('#yr').textContent = new Date().getFullYear();
-
-    // nav autohide (desktop only)
-    const nav = document.querySelector('.topnav');
-    let lastY = window.scrollY; let ticking = false; const HIDE_AFTER = 120;
-    function onScrollNav(){
-      const y = window.scrollY;
-      nav.classList.toggle('scrolled', y > 8);
-      const canHide = matchMedia('(min-width:1021px)').matches;
-      if (canHide && y > lastY && y > HIDE_AFTER) nav.classList.add('nav-hide');
-      else nav.classList.remove('nav-hide');
-      lastY = y; ticking = false;
-    }
-    function rafScroll(){ if(!ticking){ requestAnimationFrame(onScrollNav); ticking = true; } }
-    onScrollNav(); addEventListener('scroll', rafScroll, { passive:true });
-
-    // desktop dropdowns (hover + keyboard + click)
-    const navItems = $$('.nav-item');
-    function closeAllMenus(){ navItems.forEach(it=>{ it.classList.remove('open'); const b = it.querySelector('.nav-parent'); if(b) b.setAttribute('aria-expanded','false'); }); }
-    navItems.forEach(item=>{
-      const btn=item.querySelector('.nav-parent'); const menu=item.querySelector('.dropdown'); if(!btn||!menu) return;
-      // hover open
-      item.addEventListener('mouseenter', ()=>{ if (matchMedia('(min-width:1021px)').matches){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }});
-      item.addEventListener('mouseleave', ()=>{ item.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
-      // click toggle (desktop)
-      btn.addEventListener('click', (e)=>{
-        if (matchMedia('(min-width:1021px)').matches){
-          e.preventDefault();
-          const willOpen=!item.classList.contains('open');
-          closeAllMenus();
-          item.classList.toggle('open', willOpen);
-          btn.setAttribute('aria-expanded', String(willOpen));
-        }
-      });
-      // keyboard
-      btn.addEventListener('keydown', (e)=>{ if(e.key==='ArrowDown'){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); const first=menu.querySelector('a'); first&&first.focus(); } });
-    });
-    addEventListener('click', (e)=>{ if(!e.target.closest('.navlinks')) closeAllMenus(); });
-    addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeAllMenus(); });
-
-    // mobile menu
-    const body = document.body;
-    const menuToggle = $('.menu-toggle');
-    const mobilePanel = $('#mobile-panel');
-    function setMenu(open){
-      body.classList.toggle('menu-open', open);
-      menuToggle.setAttribute('aria-expanded', String(open));
-      mobilePanel.hidden = !open;
-      if (open) trapFocus(mobilePanel); else releaseFocus();
-    }
-    menuToggle.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
-    addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
-    $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
-      btn.addEventListener('click', ()=> btn.closest('.mobile-item').classList.toggle('open'));
-    });
-
-    // focus trap
-    let lastFocus=null, focusables=[], trapHandler=null;
-    function trapFocus(root){
-      lastFocus=document.activeElement;
-      focusables=Array.from(root.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
-      if (focusables[0]) focusables[0].focus();
-      trapHandler=(e)=>{
-        if (e.key!=='Tab') return;
-        const first=focusables[0], last=focusables[focusables.length-1];
-        if (e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
-      };
-      root.addEventListener('keydown', trapHandler);
-    }
-    function releaseFocus(){ if (trapHandler) mobilePanel.removeEventListener('keydown', trapHandler); trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); }
-    addEventListener('click', (e)=>{ if (body.classList.contains('menu-open') && !e.target.closest('#mobile-panel') && !e.target.closest('.menu-toggle')){ setMenu(false); }});
-
-    // funds backdrop toggle — desktop full-screen, mobile card
-    const fundsFixed = $('#funds-fixed');
-    const spacer = $('#funds');
-    function toggleFunds(){
-      const r = spacer.getBoundingClientRect(), vh = innerHeight || 0;
-      const desktop = matchMedia('(min-width: 641px)').matches;
-      const topT = desktop ? 0.80 : 0.45;   // wider window on desktop
-      const botT = desktop ? 0.20 : 0.55;
-      const visible = (r.top <= vh * topT) && (r.bottom >= vh * botT);
-      fundsFixed.classList.toggle('on', visible);
-    }
-    toggleFunds(); addEventListener('scroll', toggleFunds, { passive:true }); addEventListener('resize', toggleFunds);
-
-    // reveals
-    const prefersReducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(prefersReducedMotion){ $$('.reveal').forEach(el=>el.classList.add('in')); }
-    else{
-      const io=new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); }, {threshold:.12, rootMargin:"0px 0px -10% 0px"});
-      $$('.reveal').forEach(el=>io.observe(el));
-    }
-
-    // hero UI (desktop hides hero after 100vh)
-    const heroVideo = document.querySelector('.hero-video');
-    function toggleHeroUI(){
-      const y=scrollY, vh=innerHeight||1;
-      document.body.classList.toggle('hide-hero-ui', y > vh*0.15);
-      const desktop = matchMedia('(min-width:1021px)').matches;
-      const off = desktop ? (y >= vh-10) : false;
-      document.body.classList.toggle('hero-off', off);
-      try{ if(off) heroVideo?.pause(); else heroVideo?.play(); }catch(e){}
-    }
-    toggleHeroUI(); addEventListener('scroll', toggleHeroUI, { passive:true }); addEventListener('resize', toggleHeroUI);
-
-    // real viewport height var for iOS/Android
-    (function(){
-      function setVH(){ document.documentElement.style.setProperty('--vh', (innerHeight*0.01)+'px'); }
-      setVH(); addEventListener('resize', setVH); addEventListener('orientationchange', setVH);
-    })();
-
-    // ---------- SEARCH OVERLAY ----------
-    const openSearch = document.getElementById('openSearch');
-    const searchModal = document.getElementById('search-modal');
-    const closeSearch = document.getElementById('closeSearch');
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
-
-    document.addEventListener('DOMContentLoaded', () => { if (searchModal) searchModal.hidden = true; });
-
-    function showSearch(open = true){
-      if(!searchModal) return;
-      searchModal.hidden = !open;
-      if(open){
-        if(searchInput){ searchInput.value=''; searchInput.focus(); }
-        if(searchResults) searchResults.innerHTML='';
-      }
-    }
-    openSearch?.addEventListener('click', ()=> showSearch(true));
-    closeSearch?.addEventListener('click', ()=> showSearch(false));
-    searchModal?.addEventListener('click', (e)=>{ if(e.target === searchModal) showSearch(false); });
-    addEventListener('keydown', (e)=>{ if(e.key==='Escape') showSearch(false); });
-
-    const PAGES = [
-      {t:'Home',u:'index.html'}, {t:'About Us',u:'about.html'}, {t:'Our Team',u:'team.html'}, {t:'Why Ghana',u:'why-ghana.html'},
-      {t:'Structure',u:'structure.html'}, {t:'Local Partner',u:'local-partner.html'}, {t:'CEO Letter',u:'ceo-letter.html'},
-      {t:'What We Do',u:'what-we-do.html'}, {t:'Helping Your Company Grow',u:'growth.html'}, {t:'Setting Up & Getting Advice',u:'setup.html'},
-      {t:'Investment Programme',u:'investment-programme.html'}, {t:'FAQ',u:'faq.html'}, {t:'Partners',u:'partners.html'},
-      {t:'Investments',u:'investments.html'}, {t:'Projects',u:'projects.html'}, {t:'News',u:'news.html'},
-      {t:'Blog',u:'blog.html'}, {t:'Videos',u:'videos.html'}, {t:'Podcasts',u:'podcasts.html'},
-      {t:'Contact Us',u:'contact.html'}, {t:'Explore a Partnership',u:'partnership.html'}
-    ];
-    searchInput?.addEventListener('input', ()=>{
-      const q = searchInput.value.trim().toLowerCase();
-      const hits = !q ? [] : PAGES.filter(p=>p.t.toLowerCase().includes(q));
-      searchResults.innerHTML = hits.map(h=>`<li><a href="${h.u}" style="display:block;padding:12px;border:1px solid var(--line-strong);border-radius:12px;background:#141110">${h.t}</a></li>`).join('');
-    });
+    document.getElementById('y').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

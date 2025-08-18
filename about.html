@@ -5,7 +5,7 @@
   <title>About — Private Office</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Luxury fonts -->
+  <!-- Fonts you were using -->
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;800;900&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
@@ -18,7 +18,6 @@
       --card-max:1440px;
       --page-pad:32px;
 
-      /* tightened, premium spacing (mirrors Team page) */
       --slab-y:clamp(56px,7vw,88px);
       --card-pad:clamp(32px,4.8vw,56px);
       --grid-gap:clamp(16px,3vw,28px);
@@ -31,7 +30,7 @@
     html,body{height:100%}
     html{scroll-behavior:smooth}
 
-    /* ===== Premium but subtle page background (no image tinting) ===== */
+    /* ===== your light luxury background ===== */
     body{
       margin:0; color:var(--ink);
       font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -54,7 +53,7 @@
     a{color:inherit;text-decoration:none}
     img{max-width:100%;height:auto;display:block}
 
-    /* ===== NAV (glass) ===== */
+    /* ===== NAV (same behavior/look as before) ===== */
     .topnav{
       position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:60;
       display:flex; align-items:center; justify-content:space-between;
@@ -88,28 +87,17 @@
       -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
               mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;}
 
-    /* ===== FULL-SCREEN, STATIC HERO (true color) ===== */
-    body.about .about-hero{ display:block }
+    /* ===== FIXED HERO (content scrolls over; hides immediately on scroll) ===== */
     .about-hero{
-      position:relative; width:100%; height:100svh; overflow:hidden; background:#eaeaea;
+      position:fixed; inset:0; z-index:0;
+      height:calc(var(--vh, 1vh) * 100); min-height:100svh; overflow:hidden;
     }
     .about-hero .banner{
       position:absolute; inset:0;
-      background:#dcdcdc;
       background-image: var(--banner);
       background-size: cover; background-position: center; background-repeat:no-repeat;
       display:grid; place-items:center;
-      border:2px dashed rgba(0,0,0,.18);
-      color:#666; text-transform:uppercase; letter-spacing:.08em; font-weight:800;
     }
-    .about-hero .banner > span{
-      padding:10px 14px; background:rgba(255,255,255,.85);
-      border-radius:8px; border:1px solid rgba(0,0,0,.06);
-      font-size:clamp(12px,1.6vw,14px);
-    }
-    .about-hero[style*="--banner"] .banner{ border:0 }
-    .about-hero[style*="--banner"] .banner > span{ display:none }
-
     .about-hero h1{
       position:absolute; left:50%; top:calc(var(--nav-h) + 6px); transform:translateX(-50%);
       margin:0; padding:10px 16px; border-radius:8px; border:1px solid rgba(0,0,0,.06);
@@ -131,16 +119,21 @@
       content:""; width:12px; height:12px; border-bottom:2px solid currentColor; border-right:2px solid currentColor;
       transform:rotate(45deg) translateY(-2px);
     }
-    .scroll-cue:hover{ filter:brightness(1.02); transform:translateX(-50%) translateY(-2px) }
     @keyframes cueFloat{ 0%,100%{ transform:translateX(-50%) translateY(0) } 50%{ transform:translateX(-50%) translateY(-6px) } }
 
-    /* ===== CONTENT AFTER HERO ===== */
-    main{ position:relative; z-index:1; margin-top:0 }
-    .slab{
-      position:relative;
-      padding: var(--slab-y) var(--page-pad);
+    /* hide hero immediately when scrolling starts */
+    body.hero-off .about-hero{ opacity:0; visibility:hidden; pointer-events:none; transition:opacity .25s ease; }
+
+    /* ===== CONTENT scrolls over hero ===== */
+    main{ position:relative; z-index:1 }
+    .about main{
+      margin-top:calc(var(--vh, 1vh) * 100);
+      transition: margin-top .2s ease;
     }
-    /* subtle premium divider between sections */
+    /* collapse the offset the moment the hero hides */
+    body.about.hero-off main{ margin-top:0; }
+
+    .slab{ position:relative; padding: var(--slab-y) var(--page-pad); }
     .slab + .slab::before{
       content:""; position:absolute; top:0; left:var(--page-pad); right:var(--page-pad); height:1px;
       background:linear-gradient(90deg, transparent, rgba(0,0,0,.08), transparent);
@@ -163,22 +156,15 @@
       grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
       align-items:center;
       gap: var(--grid-gap);
-      column-gap: clamp(28px, 5.5vw, 88px); /* extra space between image & text */
+      column-gap: clamp(28px, 5.5vw, 88px);
     }
-    /* Image first variant */
-    .card-grid.reverse{
-      grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
-    }
-    /* Mobile stacking + order fix */
+    .card-grid.reverse{ grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); }
+
     @media (max-width: 900px){
-      .card-grid,
-      .card-grid.reverse{
-        grid-template-columns: 1fr;
-      }
-      .card-grid.reverse .media{ order: -1; } /* image above text on mobile for reverse rows */
+      .card-grid, .card-grid.reverse{ grid-template-columns:1fr; }
+      .card-grid.reverse .media{ order:-1; }
     }
 
-    /* Typography */
     .text{ max-width:68ch }
     .text h2{
       font-family:"Bodoni Moda", Georgia, serif; font-weight:800;
@@ -187,7 +173,6 @@
     .text p{ color:var(--muted); line-height:1.85; margin:0 0 14px; font-size:17px }
     .kicker{display:inline-block; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8a7c63; margin-bottom:6px}
 
-    /* ===== Image blocks (true color) with premium gradient frame ===== */
     .media,
     .person .head{
       width:100%;
@@ -202,15 +187,9 @@
       justify-self:center; align-self:center;
     }
     .media img,
-    .person .head img{
-      width:100%; height:100%; object-fit:cover;
-    }
+    .person .head img{ width:100%; height:100%; object-fit:cover; }
     .media:hover,
-    .person:hover .head{
-      box-shadow:0 12px 30px rgba(0,0,0,.16), 0 0 0 6px rgba(212,175,55,.08);
-      transform: translateY(-2px);
-      transition: box-shadow .2s ease, transform .2s ease;
-    }
+    .person:hover .head{ box-shadow:0 12px 30px rgba(0,0,0,.16), 0 0 0 6px rgba(212,175,55,.08); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
 
     /* Team */
     .team-card .title{
@@ -239,11 +218,7 @@
     }
     .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 18px 40px rgba(212,175,55,.28) }
 
-    /* Reveal */
-    .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
-    .reveal.in{opacity:1; transform:none}
-
-    /* ===== FOOTER (tightened) ===== */
+    /* ===== FOOTER ===== */
     .footer-wrap{background:#000;color:#eaeaea; position:relative; z-index:5}
     .news-signup{padding:24px var(--page-pad) 0}
     .news-box{ max-width:var(--container);margin:0 auto;display:grid;align-items:center;gap:16px; grid-template-columns:1fr auto; background:linear-gradient(90deg,var(--gold),var(--gold-200)); border-radius:10px;padding:18px; box-shadow:0 16px 34px rgba(212,175,55,.22) }
@@ -269,7 +244,7 @@
     .footer-copy{border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#9d9d9d;font-size:12px;padding:12px var(--page-pad) 16px}
 
     @media (prefers-reduced-motion: reduce){
-      .reveal, .topnav, .about-hero h1, .scroll-cue{ transition:none; animation:none }
+      .topnav, .about-hero h1, .scroll-cue{ transition:none; animation:none }
     }
   </style>
 </head>
@@ -278,7 +253,10 @@
   <!-- NAV -->
   <nav class="topnav" role="navigation" aria-label="Primary">
     <div class="brand">
-      <img src="assets/logo.png" alt="Private Office Logo" />
+      <!-- logo links home -->
+      <a href="index.html" aria-label="Home">
+        <img src="assets/logo.png" alt="Private Office Logo" />
+      </a>
     </div>
     <div class="navlinks" aria-label="Main menu">
       <div class="nav-item">
@@ -329,12 +307,10 @@
     <div class="nav-aux"><a class="search" href="#search" aria-label="Search"></a></div>
   </nav>
 
-  <!-- FULL-SCREEN STATIC HERO (set your banner in --banner) -->
+  <!-- FIXED HERO -->
   <header class="about-hero" role="banner" aria-label="About the Private Office"
           style="--banner:url('assets/af2.jpg')">
-    <div class="banner">
-      <span>Full-screen Banner Placeholder — replace <code>assets/af2.jpg</code></span>
-    </div>
+    <div class="banner"></div>
     <h1>ABOUT THE PRIVATE OFFICE</h1>
     <a href="#start" class="scroll-cue" aria-label="Scroll to content"></a>
   </header>
@@ -344,7 +320,7 @@
     <!-- Card 1 -->
     <section class="slab">
       <div class="container">
-        <div class="section-card reveal">
+        <div class="section-card">
           <div class="card-grid">
             <div class="text">
               <h2>Unrivalled business connections</h2>
@@ -352,20 +328,20 @@
               <p>After identifying potential partners, we present them to an Executive Committee for approval. If successful, our International Ventures managers analyse the product or service to determine how we can best accelerate success across Africa and the Middle East.</p>
             </div>
             <figure class="media">
-              <img src="assets/photo 1.jpg" alt="Executive networking (placeholder)" width="1080" height="1080" loading="lazy">
+              <img src="assets/photo 1.jpg" alt="Executive networking" width="1080" height="1080" loading="lazy">
             </figure>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Card 2 (image first) -->
+    <!-- Card 2 -->
     <section class="slab">
       <div class="container">
-        <div class="section-card reveal">
+        <div class="section-card">
           <div class="card-grid reverse">
             <figure class="media">
-              <img src="assets/sector2.jpg" alt="Analytics briefing (placeholder)" width="1080" height="1080" loading="lazy">
+              <img src="assets/sector2.jpg" alt="Analytics briefing" width="1080" height="1080" loading="lazy">
             </figure>
             <div class="text">
               <span class="kicker">Sector Diversity</span>
@@ -381,7 +357,7 @@
     <!-- Card 3 -->
     <section class="slab">
       <div class="container">
-        <div class="section-card reveal">
+        <div class="section-card">
           <div class="card-grid">
             <div class="text">
               <span class="kicker">Digital Transformation Objectives</span>
@@ -390,7 +366,7 @@
               <p>Outcomes include formal jobs, export growth and measurable community impact.</p>
             </div>
             <figure class="media">
-              <img src="assets/sector3.jpg" alt="Strategy workshop (placeholder)" width="1080" height="1080" loading="lazy">
+              <img src="assets/sector3.jpg" alt="Strategy workshop" width="1080" height="1080" loading="lazy">
             </figure>
           </div>
         </div>
@@ -400,8 +376,8 @@
     <!-- Team -->
     <section class="slab">
       <div class="container">
-        <div class="section-card reveal team-card">
-          <h3 class="title">Senior Management &amp; Advisory Team</h3>
+        <div class="section-card">
+          <h3 class="title" style="text-align:center;font-family:'Bodoni Moda',serif;font-weight:800;font-size:clamp(24px,3vw,34px);margin:0 0 16px">Senior Management &amp; Advisory Team</h3>
           <div class="team-grid">
             <article class="person">
               <div class="head">
@@ -429,7 +405,7 @@
     <!-- Download -->
     <section class="slab">
       <div class="container">
-        <div class="download-card reveal" role="region" aria-label="Download company profile">
+        <div class="download-card" role="region" aria-label="Download company profile">
           <h2 class="download-title">Download our company profile.</h2>
           <a class="btn-gold" href="assets/private-office-company-profile.pdf" download>Download Now</a>
         </div>
@@ -501,16 +477,16 @@
     // copyright year
     document.getElementById('yr').textContent = new Date().getFullYear();
 
-    // fade-in nav on load
+    // fade-in nav on load (unchanged)
     const nav = document.querySelector('.topnav');
     window.addEventListener('load', ()=> nav.classList.add('ready'));
 
-    // hide nav on scroll down
+    // hide nav on scroll down (unchanged)
     let lastY = window.scrollY; const hideAfter = 120;
     const onScrollNav = ()=>{ const y = window.scrollY; if(y>lastY && y>hideAfter) nav.classList.add('nav-hide'); else nav.classList.remove('nav-hide'); lastY=y; };
     onScrollNav(); window.addEventListener('scroll', onScrollNav, {passive:true});
 
-    // dropdowns
+    // dropdowns (unchanged)
     const items=document.querySelectorAll('.nav-item');
     function closeAll(){ items.forEach(i=>{i.classList.remove('open'); i.querySelector('.nav-parent')?.setAttribute('aria-expanded','false');}); }
     items.forEach(i=>{
@@ -521,14 +497,22 @@
     document.addEventListener('click',e=>{ if(!e.target.closest('.navlinks')) closeAll(); });
     document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
 
-    // reveal on scroll
-    const io=new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    },{threshold:.12, rootMargin:"0px 0px -10% 0px"});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-    // Mark hero ready (kept for heading fade-in)
+    // mark hero ready (for heading fade-in)
     document.querySelector('.about-hero')?.classList.add('ready');
+
+    // 100vh fix for mobile address bar (used by margin-top)
+    (function(){
+      function setVH(){ document.documentElement.style.setProperty('--vh', (innerHeight*0.01)+'px'); }
+      setVH(); addEventListener('resize', setVH); addEventListener('orientationchange', setVH);
+    })();
+
+    // 🔥 Hide the hero as soon as the user scrolls even 1px
+    function toggleHero(){
+      document.body.classList.toggle('hero-off', window.scrollY > 1);
+    }
+    toggleHero();
+    addEventListener('scroll', toggleHero, {passive:true});
+    addEventListener('resize', toggleHero);
   </script>
 </body>
 </html>

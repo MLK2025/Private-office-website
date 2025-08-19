@@ -108,7 +108,11 @@
               mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
       background: currentColor;
       width:18px;height:18px;
+      /* ✅ Make the search icon gold */
+      color: var(--gold);
     }
+    /* ✅ Nice hover for the gold search icon */
+    .icon.search:hover{ color: var(--gold-200); }
 
     /* mobile menu */
     .menu-toggle{
@@ -336,7 +340,7 @@
       /* PORTFOLIO */
       .portfolio-panel{ padding:22px; border-radius:16px }
 
-      /* FUNDS — mobile */
+      /* FUNDS — mobile (4:5 Instagram portrait) */
       #funds.funds-spacer{
         height: calc(100vw * 1.25 + 16px);
         padding: 0; margin: 0; border: 0; pointer-events: none;
@@ -350,11 +354,11 @@
         box-shadow:0 10px 22px rgba(212,175,55,.22);
       }
 
-      /* ✅ FIX: "View All" button stacks nicely with the heading */
+      /* ✅ "View All" button stacks nicely with the heading */
       .section-head{ flex-direction:column; align-items:flex-start; gap:10px }
       .section-head .btn-gold{ padding:10px 14px; border-radius:10px }
 
-      /* 📱 Make ONLY the "View All" in Our Strategic Offerings smaller on mobile */
+      /* ✅ Make ONLY the "View All" in Our Strategic Offerings smaller on mobile */
       #offerings .section-head .btn-gold{
         font-size: clamp(10px, 3.2vw, 12px);
         padding: 8px 12px;
@@ -431,7 +435,7 @@
     </div>
 
     <div class="nav-aux">
-      <!-- ✅ working search trigger -->
+      <!-- ✅ gold search trigger -->
       <button class="icon search" type="button" aria-label="Search" id="openSearch"></button>
     </div>
   </nav>
@@ -507,7 +511,7 @@
         <div class="copy">
           <h2 id="who-title">Who We Are</h2>
           <p>The Private Office of Dr. Oseadeeyo Nana Kumi Kodie is a sovereign-style advisory and investment institution dedicated to channeling innovation and strategic capital toward a better future. We forge partnerships with visionary leaders and resilient local operators across West Africa to accelerate inclusive growth and long-term prosperity.</p>
-          <a class="btn-outline" href="#impact">Find Out More</a>
+          <a class="btn-outline"href="who-more.html">Find Out More</a>
         </div>
       </div>
     </section>
@@ -552,7 +556,7 @@
     <section id="offerings" class="offerings" aria-labelledby="offerings-title">
       <div class="section-head">
         <h2 id="offerings-title">Our Strategic Offerings</h2>
-        <a href="what-we-do.html" class="btn-gold">View All</a>
+        <a href="offerings.html" class="btn-gold">View All</a>
       </div>
       <div class="offer-grid">
         <article class="offer-card reveal">
@@ -694,10 +698,15 @@
     <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
-  <!-- FUNDS fixed layer (shows when #funds spacer is centered) -->
+  <!-- ✅ FUNDS fixed layer with responsive image (uses africa2.jpg on mobile) -->
   <div class="funds-fixed" id="funds-fixed" aria-hidden="true">
     <div class="funds-frame">
-      <img src="assets/Africa-funds.png" alt="$500 Million Africa Future Fund">
+      <picture>
+        <!-- Mobile: Instagram portrait (4:5) -->
+        <source media="(max-width: 640px)" srcset="assets/africa2.jpg">
+        <!-- Desktop / default -->
+        <img src="assets/Africa-funds.png" alt="$500 Million Africa Future Fund">
+      </picture>
       <div class="funds-cta-fixed" id="funds-cta">
         <a href="investment-programme.html" class="btn-gold">Read More</a>
       </div>

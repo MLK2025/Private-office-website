@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Who We Are — Private Office</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0908" />
+  <meta name="description" content="Learn more about the Private Office of Dr. Oseadeeyo Nana Kumi Kodie — mission, values, and leadership." />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#0b0908; --ink:#f4efe7; --muted:#bdb6a8;
+      --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.12);
+      --gold:#d4af37; --gold-200:#ead27a; --obsidian:#141110; --paper:#ffffff;
+      --radius:20px; --radius-sm:12px; --gap:22px; --nav-h:78px; --container:1160px;
+      --shadow:0 28px 60px rgba(0,0,0,.50); --shadow-soft:0 16px 40px rgba(0,0,0,.35);
+      --font-sans:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    [hidden]{display:none!important}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-sans);line-height:1.65;color-scheme:dark;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;height:auto;display:block}
+    .container{max-width:var(--container);margin-inline:auto;padding-inline:22px}
+
+    /* NAV (matches home, with gold search) */
+    .topnav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,3vw,36px);border-bottom:1px solid transparent;transition:background .25s ease,border-color .25s ease}
+    .topnav.scrolled{background:rgba(10,9,8,.55);backdrop-filter:blur(8px);border-color:var(--line)}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand img{height:44px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+    .navlinks{display:flex;align-items:center;gap:26px;font-weight:700}
+    .nav-item{position:relative}
+    .nav-parent{background:none;border:0;font:800 12px/1 var(--font-sans);color:var(--gold-200);padding:14px 6px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;letter-spacing:.08em;text-transform:uppercase}
+    .nav-parent.caret::after{content:"▾";font-size:.82em;opacity:.9}
+    .dropdown{position:absolute;top:calc(100% + 12px);left:0;min-width:270px;background:#141110;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:12px;display:grid;gap:6px;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .18s,transform .18s}
+    .nav-item:hover .dropdown,.nav-item:focus-within .dropdown{opacity:1;transform:translateY(0);pointer-events:auto}
+    .dropdown a{display:block;padding:12px 14px;border-radius:10px;font-size:14px;color:#e9e5dc}
+    .dropdown a:hover{background:rgba(212,175,55,.14);color:#fff}
+    .nav-aux{display:flex;align-items:center;gap:18px}
+    .icon{inline-size:18px;block-size:18px;display:inline-block;background:currentColor;border:0;cursor:pointer}
+    .icon.search{
+      color:var(--gold);
+      -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
+              mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
+      width:18px;height:18px;
+    }
+    .icon.search:hover{color:var(--gold-200)}
+    .menu-toggle{display:none;background:none;border:0;color:var(--gold-200);width:44px;height:44px;border-radius:12px;cursor:pointer}
+    .menu-toggle span{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;border-radius:2px}
+    @media (max-width:1020px){
+      .menu-toggle{display:inline-grid;place-items:center}
+      .navlinks{display:none}
+      body.menu-open{overflow:hidden}
+      .mobile-panel{position:fixed;inset:var(--nav-h) 0 0 0;background:#0b0a09f2;backdrop-filter:blur(8px);z-index:95;display:grid;align-content:start;padding:18px}
+      .mobile-list{display:grid;gap:10px}
+      .mobile-item{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#141110}
+      .mobile-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;color:#ffe9a6;text-transform:uppercase;letter-spacing:.08em;font-weight:900;font-size:12px}
+      .mobile-drop{display:none;padding:4px 10px 12px}
+      .mobile-item.open .mobile-drop{display:block}
+      .mobile-drop a{display:block;padding:10px;border-radius:10px;color:#e9e5dc;font-size:14px}
+      .mobile-drop a:hover{background:rgba(212,175,55,.14);color:#fff}
+    }
+
+    /* HERO */
+    header.hero{margin-top:var(--nav-h);background:#0a0908;border-bottom:1px solid var(--line)}
+    .hero-wrap{min-height:44vh;display:grid;place-items:center;position:relative;overflow:hidden}
+    .hero-media{position:absolute;inset:0;background:url('assets/who-hero.jpg') center/cover no-repeat, radial-gradient(900px 420px at 78% 28%, rgba(212,175,55,.08), transparent 60%)}
+    .hero-content{position:relative;z-index:1;text-align:center;padding:56px 22px}
+    .kicker{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#bdb6a8;margin-bottom:10px}
+    h1{margin:0 0 10px;font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(22px,3.6vw,34px)}
+    .lede{max-width:780px;margin:0 auto;color:#d7d2c6}
+
+    /* PAGE SECTIONS */
+    section{padding:56px 0;border-top:1px solid var(--line)}
+    .grid{display:grid;gap:28px}
+    .cols-2{grid-template-columns:1.2fr .8fr}
+    .cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:980px){.cols-2,.cols-3{grid-template-columns:1fr}}
+    .card{background:#141110;border:1px solid var(--line-strong);border-radius:16px;padding:24px;box-shadow:0 1px 0 rgba(255,255,255,.05) inset}
+    h2.section-title{margin:0 0 16px;font-size:clamp(18px,3vw,26px);text-transform:uppercase;letter-spacing:.02em}
+    .pill{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(212,175,55,.14);color:#ffe9a6;font-weight:800;font-size:12px}
+
+    .values{display:grid;gap:18px;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .value{background:#171413;border:1px solid var(--line);border-radius:14px;padding:18px}
+    .value h3{margin:0 0 8px;font-size:16px}
+    .value p{margin:0;color:#c8c3b7;font-size:14px}
+
+    .cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),var(--gold-200));color:#1a140a;font-weight:900;letter-spacing:.06em;padding:12px 18px;border-radius:12px;box-shadow:0 14px 30px rgba(212,175,55,.28);text-transform:uppercase}
+    .cta:hover{filter:brightness(1.05)}
+
+    /* FOOTER (same style as home) */
+    .footer-wrap{background:#000;color:#eaeaea;margin-top:56px}
+    .news-signup{padding:36px 22px 0}
+    .news-box{max-width:var(--container);margin:0 auto;display:grid;align-items:center;gap:18px;grid-template-columns:1fr auto;background:linear-gradient(90deg,var(--gold),var(--gold-200));border-radius:12px;padding:22px;box-shadow:0 18px 36px rgba(212,175,55,.22)}
+    .news-title{margin:0 0 6px;font-weight:900;font-size:22px;color:#1d1508}
+    .news-sub{margin:0;color:#1d1508;opacity:.85;font-size:14px}
+    .news-form{display:flex;gap:0}
+    .news-form input{width:420px;max-width:42vw;height:48px;padding:0 14px;background:#fff;color:#1a1a1a;border:0;border-radius:12px 0 0 12px}
+    .news-form button{height:48px;padding:0 18px;border:0;border-radius:0 12px 12px 0;background:#111;color:#fff;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    @media (max-width:540px){.news-box{grid-template-columns:1fr}.news-form{display:grid;gap:10px}.news-form input,.news-form button{border-radius:12px;width:100%}}
+    .footer-main{padding:38px 22px}
+    .footer-grid{max-width:var(--container);margin:0 auto;display:grid;gap:30px;grid-template-columns:1.15fr 1fr 1fr 1.15fr}
+    @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:620px){.footer-grid{grid-template-columns:1fr}}
+    .footer-brand img{width:92px;height:auto;margin:2px 0 12px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+    .footer-col h4{margin:4px 0 14px;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:12px}
+    .footer-col a{display:block;color:#dcdcdc;margin:8px 0;font-size:14px;opacity:.92}
+    .footer-copy{border-top:1px solid var(--line);text-align:center;color:#9d9d7d;font-size:12px;padding:14px 22px 18px}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="topnav" role="navigation" aria-label="Primary">
+    <div class="brand">
+      <button class="menu-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+      <a href="index.html" aria-label="Home"><img src="assets/logo.png" alt="Private Office Logo"></a>
+    </div>
+    <div class="navlinks" aria-label="Main menu">
+      <div class="nav-item">
+        <button class="nav-parent caret" aria-expanded="false">About</button>
+        <div class="dropdown" role="menu" aria-label="About submenu">
+          <a href="about.html">ABOUT US</a>
+          <a href="team.html">OUR TEAM</a>
+          <a href="why-ghana.html">WHY GHANA</a>
+          <a href="structure.html">STRUCTURE</a>
+          <a href="local-partner.html">NEED FOR A LOCAL PARTNER</a>
+          <a href="ceo-letter.html">LETTER FROM CEO</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret">What We Do</button>
+        <div class="dropdown">
+          <a href="what-we-do.html">WHAT WE DO</a>
+          <a href="growth.html">HELPING YOUR COMPANY GROW</a>
+          <a href="setup.html">SETTING UP &amp; GETTING ADVICE</a>
+          <a href="investment-programme.html">INVESTMENT PROGRAMME</a>
+          <a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret">Portfolio</button>
+        <div class="dropdown">
+          <a href="partners.html">OUR PARTNERS</a>
+          <a href="investments.html">OUR INVESTMENTS</a>
+          <a href="projects.html">OUR PROJECTS</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret">Media</button>
+        <div class="dropdown">
+          <a href="news.html">NEWS &amp; ANNOUNCEMENTS</a>
+          <a href="blog.html">BLOG</a>
+          <a href="videos.html">VIDEOS</a>
+          <a href="podcasts.html">PODCASTS</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret">Contact &amp; Applications</button>
+        <div class="dropdown">
+          <a href="contact.html">CONTACT US</a>
+          <a href="partnership.html">EXPLORE A PARTNERSHIP</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-aux">
+      <button class="icon search" type="button" aria-label="Search"></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" role="banner" aria-label="Who We Are">
+    <div class="hero-wrap">
+      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-content container">
+        <span class="kicker">About</span>
+        <h1>Who We Are</h1>
+        <p class="lede">We are a sovereign-style advisory and investment institution forging strategic alliances that unlock capital, technology, and influence for Africa’s future.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="container grid cols-2">
+        <div class="card">
+          <h2 class="section-title">Mission</h2>
+          <p>Channel innovation and strategic capital to impactful businesses and institutions across Ghana and West Africa — delivering resilient growth, inclusive prosperity, and intergenerational value.</p>
+        </div>
+        <div class="card">
+          <h2 class="section-title">Approach</h2>
+          <p>We convene a high-trust network of statesmen, family offices, policy leaders, and local operators to structure bankable projects, de-risk investments, and accelerate execution.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="card">
+          <div class="pill">Our Values</div>
+          <h2 class="section-title">Principles that Guide Us</h2>
+          <div class="values">
+            <div class="value"><h3>Stewardship</h3><p>We act as custodians of culture, capital, and community.</p></div>
+            <div class="value"><h3>Integrity</h3><p>Transparent governance, disciplined execution, and durable partnerships.</p></div>
+            <div class="value"><h3>Impact</h3><p>Measured outcomes in jobs, climate resilience, and shared prosperity.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container grid cols-2">
+        <div class="card">
+          <h2 class="section-title">Leadership</h2>
+          <p>Led by <strong>Dr. Oseadeeyo Nana Kumi Kodie</strong> — traditional leader, entrepreneur, and development advocate — the Private Office bridges royal heritage with modern finance and diplomacy to advance Africa’s dignity and opportunity.</p>
+          <p><a class="cta" href="team.html">Meet the Team →</a></p>
+        </div>
+        <div class="card">
+          <h2 class="section-title">Geographic Focus</h2>
+          <p>Ghana as a launchpad for West Africa, with strategic collaborations across Africa, Europe, the Middle East, and Asia.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-wrap">
+    <div class="news-signup">
+      <div class="news-box">
+        <div>
+          <h3 class="news-title">Join Our Free Newsletter</h3>
+          <p class="news-sub">Get announcements and insights from the Private Office.</p>
+        </div>
+        <form class="news-form" action="#" method="post">
+          <input type="email" name="email" placeholder="Enter your email address" required>
+          <button type="submit">Subscribe Now</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-main">
+      <div class="footer-grid container">
+        <div class="footer-brand">
+          <img src="assets/private-logo.png" alt="Private Office Crest" width="92" height="92">
+          <p>The Private Office is a sovereign-style advisory and investment institution empowering transformative businesses in Ghana and West Africa.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="partners.html">Partners</a>
+          <a href="investments.html">Investments</a>
+          <a href="projects.html">Projects</a>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="what-we-do.html">Services</a>
+          <a href="about.html">About Us</a>
+          <a href="news.html">News</a>
+          <a href="contact.html">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:info@privateofficeofdon.com">info@privateofficeofdon.com</a>
+          <a href="tel:+233302955470">030 2955 470</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // year
+    document.querySelector('#yr').textContent = new Date().getFullYear();
+
+    // nav scroll shade
+    const nav = document.querySelector('.topnav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+    onScroll(); addEventListener('scroll', onScroll, {passive:true});
+
+    // simple mobile menu
+    const menuBtn = document.querySelector('.menu-toggle');
+    const body = document.body;
+    menuBtn?.addEventListener('click', ()=> body.classList.toggle('menu-open'));
+
+    // desktop dropdown click support
+    document.querySelectorAll('.nav-item .nav-parent').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const item = btn.closest('.nav-item'); const open = item.classList.contains('open');
+        document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('open'));
+        item.classList.toggle('open', !open);
+      });
+    });
+    addEventListener('click', (e)=>{ if(!e.target.closest('.navlinks')) document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('open')); });
+  </script>
+</body>
+</html>

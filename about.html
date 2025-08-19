@@ -123,7 +123,7 @@
       background-size: cover; background-position:center; background-repeat:no-repeat;
     }
 
-    /* ➜ FIX: Centered title with black color (desktop + phone) */
+    /* ➜ Centered title with black color (desktop + phone) */
     .about-hero h1{
       position:absolute;
       left:50%; transform:translateX(-50%);
@@ -231,29 +231,84 @@
     .person .name{ font-weight:800; margin:0 0 4px }
     .person .role{ color:#777; font-size:14px; margin:0 }
 
-    /* Download CTA */
-    .download-card{ width:100%; max-width:var(--card-max); margin-inline:auto;
-      background:#fff; border:1px solid var(--hairline); border-radius:16px; box-shadow:var(--shadow);
-      padding: clamp(26px, 4vw, 52px); display:grid; place-items:center; text-align:center; }
-    .download-title{ margin:0 0 14px; font-family:var(--font-serif); font-weight:900; font-size: clamp(22px,3vw,36px) }
-    .btn-gold{
-      display:inline-block; background:linear-gradient(135deg, var(--gold), var(--gold-200)); color:#1a140a;
-      font-weight:900; letter-spacing:.06em; text-transform:uppercase;
-      padding:12px 22px; border-radius:12px; border:1px solid rgba(0,0,0,.08); box-shadow:0 12px 28px rgba(212,175,55,.22);
-      transition:transform .15s ease, box-shadow .15s ease
-    }
-    .btn-gold:hover{ transform:translateY(-2px); box-shadow:0 18px 40px rgba(212,175,55,.28) }
-
-    /* Footer */
+    /* ================== FOOTER ================== */
     .footer-wrap{background:#000;color:#eaeaea}
     .news-signup{padding:24px var(--page-pad) 0}
-    .news-box{ max-width:var(--container);margin:0 auto;display:grid;align-items:center;gap:16px; grid-template-columns:1fr auto; background:linear-gradient(90deg,var(--gold),var(--gold-200)); border-radius:10px;padding:18px; box-shadow:0 16px 34px rgba(212,175,55,.22) }
+
+    /* Newsletter box */
+    .news-box{
+      max-width:var(--container);
+      margin:0 auto;
+      display:grid;
+      align-items:center;
+      gap:16px;
+      grid-template-columns:1fr auto;
+      background:linear-gradient(90deg,var(--gold),var(--gold-200));
+      border-radius:10px;
+      padding:18px;
+      box-shadow:0 16px 34px rgba(212,175,55,.22);
+      overflow:hidden; /* prevent tiny-screen bleed */
+    }
     .news-title{margin:0 0 4px;font-weight:900;font-size:20px;color:#1d1508}
     .news-sub{margin:0;color:#1d1508;opacity:.85;font-size:13px}
-    .news-form{display:flex;gap:0}
-    .news-form input{width:400px;max-width:42vw;height:44px;padding:0 12px;background:#fff;color:#1a1a1a;border:0;border-radius:10px 0 0 10px}
-    .news-form button{height:44px;padding:0 16px;border:0;border-radius:0 10px 10px 0;background:#111;color:#fff;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
-    @media (max-width:820px){ .news-box{grid-template-columns:1fr} .news-form{gap:10px} .news-form input{flex:1;max-width:none;border-radius:10px} .news-form button{border-radius:10px} }
+
+    /* Newsletter form — desktop row, mobile column */
+    .news-form{
+      display:flex;
+      align-items:stretch;
+      gap:0;
+      width:100%;
+    }
+    .news-form input{
+      flex:1 1 auto;
+      min-width:0;          /* allow shrink on small screens */
+      width:100%;
+      height:48px;
+      padding:0 12px;
+      background:#fff;
+      color:#1a1a1a;
+      border:0;
+      border-radius:10px 0 0 10px;
+      font-size:16px;       /* avoids iOS zoom */
+    }
+    .news-form button{
+      flex:0 0 auto;
+      height:48px;
+      padding:0 16px;
+      border:0;
+      border-radius:0 10px 10px 0;
+      background:#111;
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.06em;
+      text-transform:uppercase;
+      cursor:pointer;
+    }
+
+    /* Stack nicely on phones */
+    @media (max-width:820px){
+      .news-box{ grid-template-columns:1fr; padding:16px; }
+      .news-title{ font-size:18px; }
+      .news-sub{ font-size:13px; }
+
+      .news-form{
+        flex-direction:column;
+        gap:10px;
+      }
+      .news-form input,
+      .news-form button{
+        width:100%;
+        border-radius:10px;  /* unified corners when stacked */
+      }
+    }
+
+    /* Extra-small tweaks */
+    @media (max-width:420px){
+      .news-box{ padding:12px; }
+      .news-title{ font-size:16px; }
+      .news-sub{ font-size:12px; }
+    }
+
     .footer-main{padding:26px var(--page-pad)}
     .footer-grid{max-width:var(--container);margin:0 auto;display:grid;gap:22px;grid-template-columns:1.15fr 1fr 1fr 1.15fr}
     @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr}}
@@ -269,6 +324,7 @@
     .socials a{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;background:var(--gold);color:#0a0703;font-weight:900;border:1px solid rgba(0,0,0,.15)}
     .footer-copy{border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#9d9d9d;font-size:12px;padding:12px var(--page-pad) 16px}
 
+    /* Reveals */
     .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
     .reveal.in{opacity:1; transform:none}
 
@@ -488,7 +544,7 @@
           <p class="news-sub">Join our network for the latest news, announcements and more.</p>
         </div>
         <form class="news-form" action="#" method="post">
-          <input type="email" name="email" placeholder="Enter your email address" required>
+          <input type="email" name="email" placeholder="Enter your email address" required autocomplete="email" inputmode="email">
           <button type="submit">Subscribe Now</button>
         </form>
       </div>

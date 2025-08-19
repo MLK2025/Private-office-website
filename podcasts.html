@@ -1,31 +1,397 @@
-<!doctype html><html lang="en">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
   <title>Podcasts — Private Office</title>
-  <link rel="stylesheet" href="css/site.css">
-</head>
-<body>
-  <div id="site-header"></div>
-  
-<section class="page-hero">
-  <div class="container row">
-    <div>
-      <div class="eyebrow">Audio</div>
-      <h1 class="title">Podcasts</h1>
-      <p class="lead">Conversations with builders and policy shapers.</p>
-    </div>
-    <div class="ph ph-4x3"></div>
-  </div>
-</section>
-<section>
-  <div class="container cards-3 reveal">
-    <div class="card"><div class="ph ph-16x9"></div><h3>Building with Dignity</h3><p class="muted">Episode 01</p></div>
-    <div class="card"><div class="ph ph-16x9"></div><h3>Capital &amp; Community</h3><p class="muted">Episode 02</p></div>
-    <div class="card"><div class="ph ph-16x9"></div><h3>The Ghana Advantage</h3><p class="muted">Episode 03</p></div>
-  </div>
-</section>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <div id="site-footer"></div>
-  <script src="js/include.js"></script>
+  <!-- Fonts (same pairing as other pages) -->
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;800;900&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --ink:#1a1815; --muted:#5c5f63;
+      --gold:#d4af37; --gold-200:#ead27a;
+      --nav-h:76px;
+      --container:1160px;
+      --card-max:1440px;
+      --page-pad:32px;
+      --radius:18px;
+      --shadow:0 16px 40px rgba(0,0,0,.08);
+      --hairline:rgba(0,0,0,.10);
+
+      --slab-y:clamp(56px,7vw,88px);
+      --card-pad:clamp(28px,4.2vw,52px);
+      --focus:0 0 0 3px rgba(212,175,55,.45);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    html{scroll-behavior:smooth}
+
+    /* Paper background */
+    body{
+      margin:0; color:var(--ink);
+      font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+      background:
+        radial-gradient(1200px 600px at 85% -10%, rgba(212,175,55,.06), transparent 60%),
+        radial-gradient(900px 460px at -10% 110%, rgba(234,210,122,.05), transparent 55%),
+        linear-gradient(180deg, #f6f5f1 0%, #f2efe8 35%, #f6f5f1 100%);
+      isolation:isolate;
+    }
+    body::after{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
+      background:
+        radial-gradient(1200px 420px at 70% 0%, rgba(0,0,0,.04), transparent 70%),
+        radial-gradient(900px 320px at 0% 100%, rgba(0,0,0,.03), transparent 70%),
+        repeating-linear-gradient(-45deg, rgba(0,0,0,.015) 0 1px, transparent 1px 14px);
+      mix-blend-mode:multiply;
+    }
+
+    a{color:inherit;text-decoration:none}
+    a:focus-visible{outline:none; box-shadow:var(--focus); border-radius:8px}
+    img{max-width:100%; height:auto; display:block}
+    button{font-family:inherit}
+
+    /* ===== NAV (same as other pages) ===== */
+    .topnav{
+      position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:60;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 clamp(16px,3vw,36px);
+      color:#f5f3ef; background:rgba(10,9,8,.75); backdrop-filter:blur(6px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      transition:transform .25s ease, opacity .6s ease;
+      opacity:0;
+    }
+    .topnav.ready{opacity:1}
+    .topnav.nav-hide{ transform:translateY(-110%) }
+    .brand{display:flex; align-items:center; gap:12px}
+    .brand img{height:40px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+    .navlinks{display:flex; align-items:center; gap:24px; font-weight:700}
+    .nav-item{position:relative}
+    .nav-parent{background:none;border:0;font:inherit;color:#ead27a;padding:10px 4px;cursor:pointer}
+    .nav-parent:hover,.nav-parent:focus-visible{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.35)}
+    .nav-parent.caret::after{content:"▾";font-size:.8em;margin-left:.25em}
+    .dropdown{
+      position:absolute; top:calc(100% + 10px); left:0; z-index:70;
+      min-width:260px; background:#141110; color:#f5f3ef;
+      border:1px solid rgba(255,255,255,.08); border-radius:12px;
+      padding:10px; display:grid; gap:4px; box-shadow:0 12px 30px rgba(0,0,0,.45);
+      opacity:0; transform:translateY(6px); pointer-events:none;
+      transition:opacity .18s ease, transform .18s ease;
+    }
+    .nav-item:hover .dropdown,.nav-item:focus-within .dropdown,.nav-item.open .dropdown{opacity:1;transform:translateY(0);pointer-events:auto}
+    .dropdown a{padding:11px 12px;border-radius:10px;font-size:14px;color:#e9e5dc}
+    .dropdown a:hover{background:rgba(212,175,55,.16);color:#fff}
+    .search{width:18px;height:18px;background:currentColor;
+      -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
+              mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;}
+
+    /* ===== HERO ===== */
+   .page-hero{
+      position:relative; width:100%; height:100svh; overflow:hidden; background:#e9e9e9;
+    }
+    .page-hero .banner{
+      position:absolute; inset:0;
+      background-image: var(--banner); background-size: cover; background-position:center; background-repeat:no-repeat;
+    }
+    /* Centered, black title (desktop + phone) */
+    .page-hero h1{
+      position:absolute;
+      left:50%; transform:translateX(-50%);
+      top:calc(var(--nav-h) + 12px);
+      margin:0; padding:0; border:none; background:none;
+      color:#000;
+      text-shadow:none;
+      font-family:var(--font-serif);
+      font-weight:900; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap;
+      text-align:center;
+      font-size:clamp(14px, 3.8vw, 28px);
+      opacity:0; transition:opacity .6s ease .15s;
+    }
+    @media (max-width:400px){ .page-hero h1{ font-size:13.5px } }
+    .page-hero.ready h1{ opacity:1 }
+
+    .scroll-cue{
+      position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
+      width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
+      background:rgba(255,255,255,.9); color:#0a0703;
+      border:1px solid rgba(0,0,0,.08); box-shadow:0 10px 26px rgba(0,0,0,.22);
+      animation:cueFloat 2.2s ease-in-out infinite;
+    }
+    .scroll-cue::before{
+      content:""; width:12px; height:12px; border-bottom:2px solid currentColor; border-right:2px solid currentColor;
+      transform:rotate(45deg) translateY(-2px);
+    }
+    @keyframes cueFloat{ 0%,100%{ transform:translateX(-50%) translateY(0) } 50%{ transform:translateX(-50%) translateY(-6px) } }
+
+    /* ================= CONTENT ================= */
+    main{ position:relative; z-index:1 }
+    .slab{ position:relative; padding: var(--slab-y) var(--page-pad) }
+    @supports(padding:max(0px)){
+      .slab{
+        padding-left:max(var(--page-pad), env(safe-area-inset-left));
+        padding-right:max(var(--page-pad), env(safe-area-inset-right));
+      }
+    }
+    .container{ max-width:var(--container); margin-inline:auto }
+    .section-card{
+      width: min(calc(100vw - (var(--page-pad) * 2)), var(--card-max));
+      margin-inline:auto; background:#fff; border:1px solid var(--hairline); border-radius:18px;
+      box-shadow:var(--shadow); padding: var(--card-pad); overflow:hidden;
+    }
+
+    .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+    .reveal.in{opacity:1; transform:none}
+
+    /* ===== Layout helpers ===== */
+    main{ position:relative; z-index:1 }
+    .slab{ position:relative; padding: var(--slab-y) var(--page-pad) }
+    .slab + .slab::before{ content:""; position:absolute; top:0; left:var(--page-pad); right:var(--page-pad); height:1px; background:linear-gradient(90deg, transparent, rgba(0,0,0,.08), transparent) }
+    .section-card{
+      width: min(calc(100vw - (var(--page-pad) * 2)), var(--card-max));
+      margin-inline:auto; background:#fff; border:1px solid var(--hairline); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding: var(--card-pad); overflow:hidden;
+    }
+    .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+    .reveal.in{opacity:1; transform:none}
+
+    /* ===== COMING SOON card ===== */
+    .center-wrap{ display:grid; place-items:center; text-align:center }
+    .coming h2{
+      margin:0 0 10px;
+      font-family:"Bodoni Moda", Georgia, serif; font-weight:900;
+      font-size:clamp(26px,3.2vw,36px); line-height:1.12;
+    }
+    .coming p{ color:var(--muted); margin:0 auto; line-height:1.9; max-width:70ch }
+    .cta-row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:16px }
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:12px 16px; border-radius:12px; border:1px solid rgba(0,0,0,.08);
+      background:#111; color:#fff; font-weight:800; letter-spacing:.04em; text-transform:uppercase;
+      box-shadow:0 10px 22px rgba(0,0,0,.18);
+    }
+    .btn.gold{
+      background:linear-gradient(90deg,var(--gold),var(--gold-200)); color:#1a1408; border:0;
+      box-shadow:0 12px 28px rgba(212,175,55,.25)
+    }
+    .pill{
+      display:inline-block; margin-top:10px;
+      padding:8px 12px; border-radius:999px; font-weight:800;
+      background:rgba(212,175,55,.12); color:#6b5a2a; letter-spacing:.06em; text-transform:uppercase; font-size:12px
+    }
+
+    /* ===== Footer (same as site) ===== */
+    .footer-wrap{background:#000;color:#eaeaea}
+    .news-signup{padding:24px var(--page-pad) 0}
+    .news-box{ max-width:1160px;margin:0 auto;display:grid;align-items:center;gap:16px; grid-template-columns:1fr auto; background:linear-gradient(90deg,var(--gold),var(--gold-200)); border-radius:10px;padding:18px; box-shadow:0 16px 34px rgba(212,175,55,.22) }
+    .news-title{margin:0 0 4px;font-weight:900;font-size:20px;color:#1d1508}
+    .news-sub{margin:0;color:#1d1508;opacity:.85;font-size:13px}
+    .news-form{display:flex;gap:0}
+    .news-form input{width:400px;max-width:42vw;height:44px;padding:0 12px;background:#fff;color:#1a1a1a;border:0;border-radius:10px 0 0 10px}
+    .news-form button{height:44px;padding:0 16px;border:0;border-radius:0 10px 10px 0;background:#111;color:#fff;font-weight:900;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+    @media (max-width:820px){ .news-box{grid-template-columns:1fr} .news-form{gap:10px} .news-form input{flex:1;max-width:none;border-radius:10px} .news-form button{border-radius:10px} }
+    .footer-main{padding:26px var(--page-pad)}
+    .footer-grid{max-width:1160px;margin:0 auto;display:grid;gap:22px;grid-template-columns:1.15fr 1fr 1fr 1.15fr}
+    @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:620px){.footer-grid{grid-template-columns:1fr}}
+    .footer-brand img{width:90px;margin:0 0 10px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+    .footer-brand p{margin:0;color:#cfcfcf;line-height:1.75;font-size:14px}
+    .footer-col h4{margin:2px 0 12px;color:#fff;font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:12px}
+    .footer-col a{display:block;color:#dcdcdc;margin:6px 0;font-size:14px;opacity:.92}
+    .footer-col a:hover{opacity:1;text-decoration:underline}
+    .contact-item{display:flex;gap:10px;align-items:flex-start;margin:6px 0;color:#dedede;font-size:14px}
+    .contact-item svg{width:16px;height:16px;opacity:.9;margin-top:2px}
+    .socials{display:flex;gap:10px;margin-top:6px}
+    .socials a{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;background:var(--gold);color:#0a0703;font-weight:900;border:1px solid rgba(0,0,0,.15)}
+    .footer-copy{border-top:1px solid rgba(255,255,255,.08);text-align:center;color:#9d9d9d;font-size:12px;padding:12px var(--page-pad) 16px}
+
+    @media (prefers-reduced-motion: reduce){ .reveal, .topnav, .page-hero h1, .scroll-cue{ transition:none; animation:none } }
+  </style>
+</head>
+<body class="podcasts-page">
+
+  <!-- ===== NAV ===== -->
+  <nav class="topnav" role="navigation" aria-label="Primary">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Private Office Logo" />
+    </div>
+    <div class="navlinks" aria-label="Main menu">
+      <div class="nav-item">
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">About</button>
+        <div class="dropdown" role="menu">
+          <a href="about.html">ABOUT US</a>
+          <a href="team.html">OUR TEAM</a>
+          <a href="why-ghana.html">WHY GHANA</a>
+          <a href="structure.html">STRUCTURE</a>
+          <a href="local-partner.html">NEED FOR A LOCAL PARTNER</a>
+          <a href="ceo-letter.html">LETTER FROM CEO</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">What We Do</button>
+        <div class="dropdown" role="menu">
+          <a href="what-we-do.html">WHAT WE DO</a>
+          <a href="growth.html">HELPING YOUR COMPANY GROW</a>
+          <a href="setup.html">SETTING UP &amp; GETTING ADVICE</a>
+          <a href="investment-programme.html">INVESTMENT PROGRAMME</a>
+          <a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Portfolio</button>
+        <div class="dropdown" role="menu">
+          <a href="partners.html">OUR PARTNERS</a>
+          <a href="investments.html">OUR INVESTMENTS</a>
+          <a href="projects.html">OUR PROJECTS</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Media</button>
+        <div class="dropdown" role="menu">
+          <a href="news.html">NEWS &amp; ANNOUNCEMENTS</a>
+          <a href="blog.html">BLOG</a>
+          <a href="videos.html">VIDEOS</a>
+          <a href="podcasts.html" aria-current="page">PODCASTS</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Contact &amp; Applications</button>
+        <div class="dropdown" role="menu">
+          <a href="contact.html">CONTACT US</a>
+        </div>
+      </div>
+    </div>
+    <div class="nav-aux"><a class="search" href="#search" aria-label="Search"></a></div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="page-hero" style="--banner:url('assets/podcast.jpg')" role="banner" aria-label="Podcasts">
+    <div class="banner"></div>
+    <h1>PODCASTS</h1>
+    <a href="#content" class="scroll-cue" aria-label="Scroll to content"></a>
+  </header>
+
+  <!-- ===== CONTENT ===== -->
+  <main id="content">
+    <section class="slab">
+      <div class="section-card reveal center-wrap coming">
+        <span class="pill">Coming Soon</span>
+        <h2>Our Podcast Series Is in Production</h2>
+        <p>
+          We’re recording the first season now—conversations on market entry,
+          protocol, investment strategy, and founder stories across Ghana and the wider continent.
+          Be the first to know when episodes drop.
+        </p>
+        <div class="cta-row">
+          <a class="btn gold" href="#newsletter">Get Notified</a>
+          <a class="btn" href="videos.html">Watch Our Videos</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer-wrap" id="contact">
+    <div class="news-signup" id="newsletter">
+      <div class="news-box">
+        <div class="news-copy">
+          <h3 class="news-title">Join Our Free Newsletter</h3>
+          <p class="news-sub">Get new episodes, announcements and more.</p>
+        </div>
+        <form class="news-form" action="#" method="post">
+          <input type="email" name="email" placeholder="Enter your email address" required>
+          <button type="submit">Subscribe Now</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-main">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Private Office Crest">
+          <p>The Private Office of Dr. Oseadeeyo Nana Kumi Kodie is a sovereign-style advisory and investment institution dedicated to empowering transformative businesses in Ghana and across West Africa.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <a href="partners.html">Partners</a>
+          <a href="investments.html">Investments</a>
+          <a href="projects.html">Projects</a>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="index.html">Home</a>
+          <a href="what-we-do.html">Services</a>
+          <a href="about.html">About Us</a>
+          <a href="news.html">News</a>
+          <a href="contact.html">Contact Us</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></svg>
+            Boundary Road East Legon, Accra, Ghana.
+          </div>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v.4l-10 5.6L2 8.4V8a2 2 0 0 1 2-2Zm0 5.2 8 4.5 8-4.5V16a2 2 0 0 1 2 2H6a2 2 0 0 1-2-2v-4.8Z"/></svg>
+            <a href="mailto:info@privateofficeofdon.com">info@privateofficeofdon.com</a>
+          </div>
+          <div class="contact-item">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 1 .55 3.4 1 1 0 0 1-.25 1.1Z"/></svg>
+            <a href="tel:+233302955470">030 2955 470</a>
+          </div>
+          <div class="socials" aria-label="Social links">
+            <a href="#" title="X / Twitter">X</a>
+            <a href="#" title="Facebook">f</a>
+            <a href="#" title="Instagram">IG</a>
+            <a href="#" title="LinkedIn">in</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // copyright year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // fade-in nav on load
+    const nav = document.querySelector('.topnav');
+    window.addEventListener('load', ()=> nav.classList.add('ready'));
+
+    // hide nav on scroll down
+    let lastY = window.scrollY; const hideAfter = 120;
+    const onScrollNav = ()=>{ const y = window.scrollY; if(y>lastY && y>hideAfter) nav.classList.add('nav-hide'); else nav.classList.remove('nav-hide'); lastY=y; };
+    onScrollNav(); window.addEventListener('scroll', onScrollNav, {passive:true});
+
+    // dropdowns
+    const items=[...document.querySelectorAll('.nav-item')];
+    function closeAll(){ items.forEach(i=>{ i.classList.remove('open'); i.querySelector('.nav-parent')?.setAttribute('aria-expanded','false'); }); }
+    items.forEach(i=>{
+      const b=i.querySelector('.nav-parent'), m=i.querySelector('.dropdown'); if(!b||!m) return;
+      b.addEventListener('click',e=>{
+        e.preventDefault();
+        const open=!i.classList.contains('open');
+        closeAll(); i.classList.toggle('open',open);
+        b.setAttribute('aria-expanded',String(open));
+        if(open) m.querySelector('a')?.focus();
+      });
+      b.addEventListener('keydown',e=>{
+        if(e.key==='ArrowDown'){ i.classList.add('open'); b.setAttribute('aria-expanded','true'); m.querySelector('a')?.focus(); }
+      });
+    });
+    document.addEventListener('click',e=>{ if(!e.target.closest('.navlinks')) closeAll(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
+
+    // reveal on scroll
+    const io='IntersectionObserver' in window
+      ? new IntersectionObserver((entries)=>{ entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } }); }, {threshold:.12, rootMargin:"0px 0px -10% 0px"})
+      : null;
+    document.querySelectorAll('.reveal').forEach(el=>{ if(io) io.observe(el); else el.classList.add('in'); });
+
+    // hero title fade-in
+    document.querySelector('.page-hero')?.classList.add('ready');
+  </script>
 </body>
 </html>

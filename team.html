@@ -5,42 +5,44 @@
   <title>Our Team — Private Office</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Luxury fonts (same pairing as About) -->
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,700;800;900&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+  <!-- Same font family as previous page -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#0b0908; --ink:#1a1815; --muted:#676b70;
+      /* Theme (match previous page) */
+      --bg:#f5f3ef; --ink:#1a1815; --muted:#5c5f63;
       --gold:#d4af37; --gold-200:#ead27a;
 
-      --nav-h:76px;
-      --container:1160px;
-      --card-max:1440px;
-      --page-pad:32px;
-      --radius:16px;
-      --shadow:0 14px 34px rgba(0,0,0,.08);
+      /* Layout */
+      --nav-h:78px; --container:1160px; --page-pad:32px;
+      --card-max:1440px; --card-pad:clamp(22px,4vw,48px);
+      --slab-y:clamp(56px,7vw,88px); --grid-gap:18px;
+
+      /* FX */
+      --shadow:0 16px 40px rgba(0,0,0,.08);
       --hairline:rgba(0,0,0,.10);
 
-      /* tighter, premium spacing */
-      --slab-y:clamp(56px,7vw,88px);
-      --card-pad:clamp(32px,4.8vw,56px);
-      --grid-gap:18px;
+      /* Fonts (use Manrope for both to match previous page) */
+      --font-sans:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      --font-serif:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
     html{scroll-behavior:smooth}
 
-    /* ===== Premium background (same vibe as About) ===== */
+    /* Background (same vibe as previous page) */
     body{
       margin:0; color:var(--ink);
-      font-family:Manrope,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family:var(--font-sans);
       -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
       background:
         radial-gradient(1200px 600px at 85% -10%, rgba(212,175,55,.06), transparent 60%),
         radial-gradient(900px 460px at -10% 110%, rgba(234,210,122,.05), transparent 55%),
         linear-gradient(180deg, #f6f5f1 0%, #f2efe8 35%, #f6f5f1 100%);
       isolation:isolate;
+      overflow-x:hidden;
     }
     body::after{
       content:""; position:fixed; inset:0; pointer-events:none; z-index:-1;
@@ -53,75 +55,103 @@
 
     a{color:inherit;text-decoration:none}
     img{max-width:100%; height:auto; display:block}
-
     .cover-img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block }
 
-    /* ===== NAV (fade-in, hides on scroll) ===== */
+    /* Make the 'hidden' attribute bulletproof so modals/drawers don’t flash */
+    [hidden]{ display:none !important; }
+
+    /* ================= NAV (same structure/behavior as previous page) ================= */
     .topnav{
-      position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:60;
+      position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:100;
       display:flex; align-items:center; justify-content:space-between;
       padding:0 clamp(16px,3vw,36px);
-      color:#f5f3ef; background:rgba(10,9,8,.75); backdrop-filter:blur(6px);
+      color:#f4efe7; background:rgba(10,9,8,.75); backdrop-filter:blur(6px);
       border-bottom:1px solid rgba(255,255,255,.06);
-      transition:transform .25s ease, opacity .6s ease;
+      transition:transform .25s ease, opacity .45s ease;
       opacity:0;
     }
     .topnav.ready{opacity:1}
     .topnav.nav-hide{ transform:translateY(-110%) }
     .brand{display:flex; align-items:center; gap:12px}
-    .brand img{height:40px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
-    .brand span{font-weight:800; letter-spacing:.10em; font-size:12px; opacity:.9}
-    .navlinks{display:flex; align-items:center; gap:24px; font-weight:700}
+    .brand img{height:42px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+
+    .navlinks{display:flex; align-items:center; gap:26px; font-weight:800}
     .nav-item{position:relative}
-    .nav-parent{background:none;border:0;font:inherit;color:#ead27a;padding:10px 4px;cursor:pointer}
-    .nav-parent:hover,.nav-parent:focus-visible{color:#fff;text-shadow:0 0 10px rgba(255,255,255,.35);outline:none}
-    .nav-parent.caret::after{content:"▾";font-size:.8em}
+    .nav-parent{
+      background:none;border:0;font:800 12px/1 var(--font-sans); color:var(--gold-200);
+      padding:14px 6px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+      letter-spacing:.08em; text-transform:uppercase; min-height:44px;
+    }
+    .nav-parent:hover,.nav-parent:focus-visible{ color:#fff; text-shadow:0 0 10px rgba(255,255,255,.28); outline:none }
+    .nav-parent.caret::after{content:"▾"; font-size:.82em; opacity:.9}
+
     .dropdown{
-      position:absolute; top:calc(100% + 10px); left:0; z-index:70;
-      min-width:260px; background:#141110; color:#f5f3ef;
-      border:1px solid rgba(255,255,255,.08); border-radius:12px;
-      padding:10px; display:grid; gap:4px; box-shadow:0 12px 30px rgba(0,0,0,.45);
-      opacity:0; transform:translateY(6px); pointer-events:none;
+      position:absolute; top:calc(100% + 12px); left:0; z-index:110;
+      min-width:270px; background:#141110; color:#f5f3ef;
+      border:1px solid rgba(255,255,255,.08); border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,.45);
+      padding:10px; display:grid; gap:6px; opacity:0; transform:translateY(8px); pointer-events:none;
       transition:opacity .18s ease, transform .18s ease;
     }
-    .nav-item:hover .dropdown,.nav-item:focus-within .dropdown,.nav-item.open .dropdown{opacity:1;transform:translateY(0);pointer-events:auto}
-    .dropdown a{padding:11px 12px;border-radius:10px;font-size:14px;color:#e9e5dc}
-    .dropdown a:hover{background:rgba(212,175,55,.16);color:#fff}
-    .search{width:18px;height:18px;background:currentColor;
-      -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
-              mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;}
+    .nav-item:last-child .dropdown{ right:0; left:auto }
+    .dropdown a{display:block; padding:11px 12px; border-radius:10px; font-size:14px; color:#e9e5dc}
+    .dropdown a:hover,.dropdown a:focus-visible{ background:rgba(212,175,55,.16); color:#fff; outline:none }
+    .nav-item:hover .dropdown,.nav-item:focus-within .dropdown,.nav-item.open .dropdown{ opacity:1; transform:translateY(0); pointer-events:auto; }
 
-    /* ===== FULL-SCREEN STATIC HERO ===== */
+    .nav-aux{display:flex; align-items:center; gap:18px}
+    .icon{ inline-size:18px; block-size:18px; display:inline-block; background: currentColor; opacity:1; border:0; cursor:pointer; transition:transform .15s ease, color .15s ease }
+    .nav-aux .icon.search{ color:var(--gold); }
+    .nav-aux .icon.search:hover,
+    .nav-aux .icon.search:focus-visible{ color:var(--gold-200); transform:translateY(-1px); outline:none }
+    .icon.search{
+      -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
+              mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
+    }
+
+    /* === Mobile menu === */
+    .menu-toggle{
+      display:none; background:none; border:0; color:var(--gold-200);
+      width:44px; height:44px; border-radius:12px; cursor:pointer;
+    }
+    .menu-toggle span{ display:block; width:22px; height:2px; background:currentColor; margin:5px auto; border-radius:2px }
+    @media (max-width: 1020px){
+      .menu-toggle{display:inline-grid; place-items:center}
+      .navlinks{ display:none }
+      body.menu-open{ overflow:hidden }
+      .mobile-panel{
+        position:fixed; inset:var(--nav-h) 0 0 0; background:#0b0a09f2; backdrop-filter:blur(8px);
+        z-index:95; transform:translateY(-8px); opacity:0; pointer-events:none;
+        transition:opacity .2s ease, transform .2s ease;
+        display:grid; align-content:start; padding:18px;
+      }
+      body.menu-open .mobile-panel{ opacity:1; transform:none; pointer-events:auto }
+      .mobile-list{ display:grid; gap:10px }
+      .mobile-item{ border:1px solid rgba(255,255,255,.10); border-radius:14px; overflow:hidden; background:#141110 }
+      .mobile-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; color:#ffe9a6; text-transform:uppercase; letter-spacing:.08em; font-weight:900; font-size:12px }
+      .mobile-head button{ all:unset; cursor:pointer; padding:10px; border-radius:8px; color:#ffe9a6 }
+      .mobile-drop{ display:none; padding:4px 10px 12px }
+      .mobile-drop a{ display:block; padding:10px 10px; border-radius:10px; color:#e9e5dc; font-size:14px }
+      .mobile-drop a:hover{ background:rgba(212,175,55,.14); color:#fff }
+      .mobile-item.open .mobile-drop{ display:block }
+    }
+
+    /* ================= HERO ================= */
     .team-hero{
       position:relative; width:100%; height:100svh; overflow:hidden; background:#e9e9e9;
     }
     .team-hero .banner{
       position:absolute; inset:0;
-      background:#dedede;
       background-image:var(--banner);
       background-size:cover; background-position:center; background-repeat:no-repeat;
-      display:grid; place-items:center;
-      border:2px dashed rgba(0,0,0,.18);
-      color:#666; text-transform:uppercase; letter-spacing:.08em; font-weight:800;
     }
-    .team-hero .banner > span{
-      padding:10px 14px; background:rgba(255,255,255,.85);
-      border-radius:8px; border:1px solid rgba(0,0,0,.06);
-      font-size:clamp(12px,1.6vw,14px);
-    }
-    .team-hero[style*="--banner"] .banner{ border:0 }
-    .team-hero[style*="--banner"] .banner > span{ display:none }
-
     .team-hero h1{
-      position:absolute; left:50%; top:calc(var(--nav-h) + 6px); transform:translateX(-50%);
-      margin:0; padding:10px 16px; border-radius:8px; border:1px solid rgba(0,0,0,.06);
-      font-family:"Bodoni Moda", Georgia, serif; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+      position:absolute; left:50%; top:calc(var(--nav-h) + 8px); transform:translateX(-50%);
+      margin:0; padding:10px 16px; border-radius:8px; 
+      font-family:var(--font-serif); font-weight:900; letter-spacing:.08em; text-transform:uppercase;
       font-size:clamp(18px,2.1vw,22px);
-      color:#0f0f0f; background:rgba(255,255,255,.78);
+      color:#0f0f0f; 
       opacity:0; transform-origin:center; transition:opacity .8s ease .15s, transform .8s ease .15s;
     }
     .team-hero.ready h1{ opacity:1; transform:translateX(-50%) }
-
     .scroll-cue{
       position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
       width:42px; height:42px; border-radius:999px; display:grid; place-items:center;
@@ -133,25 +163,21 @@
       content:""; width:12px; height:12px; border-bottom:2px solid currentColor; border-right:2px solid currentColor;
       transform:rotate(45deg) translateY(-2px);
     }
-    .scroll-cue:hover{ filter:brightness(1.02); transform:translateX(-50%) translateY(-2px) }
     @keyframes cueFloat{ 0%,100%{ transform:translateX(-50%) translateY(0) } 50%{ transform:translateX(-50%) translateY(-6px) } }
 
-    /* ===== Content (cards, like About) ===== */
+    /* ================= CONTENT ================= */
     main{ position:relative; z-index:1 }
     .slab{
-      position:relative;
-      padding: var(--slab-y) var(--page-pad);
+      position:relative; padding: var(--slab-y) var(--page-pad);
     }
-    /* subtle premium divider between sections */
     .slab + .slab::before{
       content:""; position:absolute; top:0; left:var(--page-pad); right:var(--page-pad); height:1px;
       background:linear-gradient(90deg, transparent, rgba(0,0,0,.08), transparent);
     }
-
     .section-card{
       width:min(calc(100vw - (var(--page-pad) * 2)), var(--card-max));
       margin-inline:auto;
-      background:#fff; border:1px solid var(--hairline); border-radius:var(--radius);
+      background:#fff; border:1px solid var(--hairline); border-radius:16px;
       box-shadow:var(--shadow);
       padding: var(--card-pad);
     }
@@ -163,12 +189,12 @@
     }
     @media (max-width:980px){ .intro-grid{ grid-template-columns:1fr } }
     .intro-title{
-      font-family:"Bodoni Moda", Georgia, serif; font-weight:800;
+      font-family:var(--font-serif); font-weight:900;
       font-size: clamp(22px,3vw,32px); margin:0 0 8px;
     }
-    .intro-copy p{ color:#5c5f63; line-height:1.85; margin:0 0 10px }
+    .intro-copy p{ color:var(--muted); line-height:1.85; margin:0 0 10px }
 
-    /* 4:3 media block (true color) with gold ring */
+    /* 4:3 media block with gold ring */
     .media-rect{
       aspect-ratio:4/3; border-radius:12px; overflow:hidden;
       border:2px solid transparent;
@@ -183,10 +209,10 @@
     /* Section headings */
     .section-head{
       text-align:center; margin:0 auto 12px; max-width:var(--container);
-      font-family:"Bodoni Moda", Georgia, serif; font-weight:800; font-size: clamp(22px,2.8vw,30px);
+      font-family:var(--font-serif); font-weight:900; font-size: clamp(22px,2.8vw,30px);
     }
 
-    /* Team grid (1080×1080 squares) with gold ring */
+    /* Team grid */
     .team-grid{
       max-width:var(--container); margin:0 auto;
       display:grid; gap:var(--grid-gap); grid-template-columns:repeat(3,1fr);
@@ -200,7 +226,6 @@
       text-align:center;
     }
     .member:hover{ transform:translateY(-3px); box-shadow:0 22px 56px rgba(0,0,0,.16); border-color:rgba(0,0,0,.12) }
-
     .head{
       aspect-ratio:1/1; border-radius:12px; overflow:hidden;
       border:2px solid transparent;
@@ -210,7 +235,6 @@
       box-shadow:0 8px 20px rgba(0,0,0,.06);
     }
     .head img{ width:100%; height:100%; object-fit:cover; object-position:center; display:block }
-
     .member .meta{ padding:12px 10px 16px }
     .member .name{ margin:0 0 4px; font-weight:800; font-size:15px }
     .member .role{ margin:0; color:#777; font-size:13px }
@@ -219,16 +243,38 @@
     .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
     .reveal.in{opacity:1; transform:none}
 
-    /* ===== Footer (tighter) ===== */
+    /* ================== FOOTER (newsletter fixed for phone) ================== */
     .footer-wrap{background:#000;color:#eaeaea; position:relative; z-index:5}
     .news-signup{padding:24px var(--page-pad) 0}
-    .news-box{ max-width:var(--container);margin:0 auto;display:grid;align-items:center;gap:16px; grid-template-columns:1fr auto; background:linear-gradient(90deg,var(--gold),var(--gold-200)); border-radius:10px;padding:18px; box-shadow:0 16px 34px rgba(212,175,55,.22) }
-    .news-title{margin:0 0 4px;font-weight:900;font-size:20px;color:#1d1508}
+    .news-box{
+      max-width:var(--container); margin:0 auto;
+      display:grid; align-items:center; gap:16px;
+      grid-template-columns:1fr auto;
+      background:linear-gradient(90deg,var(--gold),var(--gold-200));
+      border-radius:10px; padding:18px; box-shadow:0 16px 34px rgba(212,175,55,.22);
+      overflow:hidden;
+    }
+    .news-title{margin:0 0 4px;font-weight:900;font-size:20px;color:#1d1508; font-family:var(--font-serif)}
     .news-sub{margin:0;color:#1d1508;opacity:.85;font-size:13px}
-    .news-form{display:flex;gap:0}
-    .news-form input{width:400px;max-width:42vw;height:44px;padding:0 12px;background:#fff;color:#1a1a1a;border:0;border-radius:10px 0 0 10px}
-    .news-form button{height:44px;padding:0 16px;border:0;border-radius:0 10px 10px 0;background:#111;color:#fff;font-weight:900;letter-spacing:.06em;text-transform:uppercase}
-    @media (max-width:820px){ .news-box{grid-template-columns:1fr} .news-form{gap:10px} .news-form input{flex:1;max-width:none;border-radius:10px} .news-form button{border-radius:10px} }
+    .news-form{ display:flex; align-items:stretch; gap:0; width:100% }
+    .news-form input{
+      flex:1 1 auto; min-width:0; width:100%; height:48px; padding:0 12px;
+      background:#fff; color:#1a1a1a; border:0; border-radius:10px 0 0 10px; font-size:16px;
+    }
+    .news-form button{
+      flex:0 0 auto; height:48px; padding:0 16px; border:0; border-radius:0 10px 10px 0;
+      background:#111; color:#fff; font-weight:900; letter-spacing:.06em; text-transform:uppercase; cursor:pointer;
+    }
+    @media (max-width:820px){
+      .news-box{ grid-template-columns:1fr; padding:16px }
+      .news-form{ flex-direction:column; gap:10px }
+      .news-form input, .news-form button{ width:100%; border-radius:10px }
+    }
+    @media (max-width:420px){
+      .news-box{ padding:12px }
+      .news-title{ font-size:16px }
+      .news-sub{ font-size:12px }
+    }
     .footer-main{padding:26px var(--page-pad)}
     .footer-grid{max-width:var(--container);margin:0 auto;display:grid;gap:22px;grid-template-columns:1.15fr 1fr 1fr 1.15fr}
     @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr}}
@@ -251,11 +297,17 @@
 </head>
 <body class="team">
 
-  <!-- NAV -->
+  <!-- NAV (same as previous page) -->
   <nav class="topnav" role="navigation" aria-label="Primary">
     <div class="brand">
-      <img src="assets/logo.png" alt="Private Office Logo" />
+      <button class="menu-toggle" aria-label="Open menu" aria-controls="mobile-panel" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="index.html" aria-label="Home">
+        <img src="assets/logo.png" alt="Private Office Logo" />
+      </a>
     </div>
+
     <div class="navlinks" aria-label="Main menu">
       <div class="nav-item">
         <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">About</button>
@@ -269,7 +321,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <button class="nav-parent caret">What We Do</button>
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">What We Do</button>
         <div class="dropdown" role="menu">
           <a href="what-we-do.html">WHAT WE DO</a>
           <a href="growth.html">HELPING YOUR COMPANY GROW</a>
@@ -279,7 +331,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <button class="nav-parent caret">Portfolio</button>
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Portfolio</button>
         <div class="dropdown" role="menu">
           <a href="partners.html">OUR PARTNERS</a>
           <a href="investments.html">OUR INVESTMENTS</a>
@@ -287,7 +339,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <button class="nav-parent caret">Media</button>
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Media</button>
         <div class="dropdown" role="menu">
           <a href="news.html">NEWS &amp; ANNOUNCEMENTS</a>
           <a href="blog.html">BLOG</a>
@@ -296,18 +348,60 @@
         </div>
       </div>
       <div class="nav-item">
-        <button class="nav-parent caret">Contact &amp; Applications</button>
+        <button class="nav-parent caret" aria-haspopup="true" aria-expanded="false">Contact &amp; Applications</button>
         <div class="dropdown" role="menu">
           <a href="contact.html">CONTACT US</a>
         </div>
       </div>
     </div>
-    <div class="nav-aux"><a class="search" href="#search" aria-label="Search"></a></div>
+
+    <div class="nav-aux">
+      <!-- Gold search icon (opens overlay) -->
+      <button class="icon search" type="button" aria-label="Search" id="openSearch"></button>
+    </div>
   </nav>
 
-  <!-- FULL-SCREEN STATIC HERO (set your banner via --banner) -->
+  <!-- MOBILE PANEL -->
+  <div id="mobile-panel" class="mobile-panel" hidden>
+    <nav class="mobile-list" aria-label="Mobile menu">
+      <div class="mobile-item">
+        <div class="mobile-head"><span>About</span><button type="button" aria-label="Toggle About" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="about.html">ABOUT US</a><a href="team.html" aria-current="page">OUR TEAM</a><a href="why-ghana.html">WHY GHANA</a>
+          <a href="structure.html">STRUCTURE</a><a href="local-partner.html">NEED FOR A LOCAL PARTNER</a><a href="ceo-letter.html">LETTER FROM CEO</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>What We Do</span><button type="button" aria-label="Toggle What We Do" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="what-we-do.html">WHAT WE DO</a><a href="growth.html">HELPING YOUR COMPANY GROW</a><a href="setup.html">SETTING UP &amp; GETTING ADVICE</a>
+          <a href="investment-programme.html">INVESTMENT PROGRAMME</a><a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>Portfolio</span><button type="button" aria-label="Toggle Portfolio" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="partners.html">OUR PARTNERS</a><a href="investments.html">OUR INVESTMENTS</a><a href="projects.html">OUR PROJECTS</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>Media</span><button type="button" aria-label="Toggle Media" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="news.html">NEWS &amp; ANNOUNCEMENTS</a><a href="blog.html">BLOG</a><a href="videos.html">VIDEOS</a><a href="podcasts.html">PODCASTS</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>Contact</span><button type="button" aria-label="Toggle Contact" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="contact.html">CONTACT US</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- HERO -->
   <header class="team-hero" style="--banner:url('assets/team.jpg')" role="banner" aria-label="Our Team">
-    <div class="banner"><span>Full-screen Banner Placeholder — replace <code>assets/team.jpg</code></span></div>
+    <div class="banner" aria-hidden="true"></div>
     <h1>OUR TEAM</h1>
     <a href="#start" class="scroll-cue" aria-label="Scroll to content"></a>
   </header>
@@ -322,7 +416,7 @@
             <p>The Private Office’s senior leadership blends operational excellence with sovereign-level relationships across government, finance and global industry.</p>
             <p>We structure partnerships, programme vehicles and advisory mandates that align capital with national development priorities while delivering durable, risk-adjusted returns.</p>
           </div>
-          <figure class="media-rect" aria-label="Replace with leadership image">
+          <figure class="media-rect" aria-label="Leadership image">
             <img class="cover-img" src="assets/Office.jpg" alt="Leadership image" width="1200" height="900" loading="lazy" decoding="async" />
           </figure>
         </div>
@@ -369,7 +463,7 @@
     <section class="slab">
       <div class="section-card reveal">
         <div class="intro-grid">
-          <figure class="media-rect" aria-label="Replace with industry image">
+          <figure class="media-rect" aria-label="Industry and sectors">
             <img class="cover-img" src="assets/sector.jpg" alt="Industry and sectors" width="1200" height="900" loading="lazy" decoding="async" />
           </figure>
           <div class="intro-copy">
@@ -434,7 +528,7 @@
           <p class="news-sub">Join our network for the latest news, announcements and more.</p>
         </div>
         <form class="news-form" action="#" method="post">
-          <input type="email" name="email" placeholder="Enter your email address" required>
+          <input type="email" name="email" placeholder="Enter your email address" required autocomplete="email" inputmode="email">
           <button type="submit">Subscribe Now</button>
         </form>
       </div>
@@ -470,7 +564,7 @@
             <a href="mailto:info@privateofficeofdon.com">info@privateofficeofdon.com</a>
           </div>
           <div class="contact-item">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1 1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1  1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1  1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
             <a href="tel:+233302955470">030 2955 470</a>
           </div>
           <div class="socials" aria-label="Social links">
@@ -485,38 +579,155 @@
     <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
-  <script>
-    // year
-    document.getElementById('yr').textContent = new Date().getFullYear();
+  <!-- 🔎 SEARCH OVERLAY (opens only by icon, closes only by Close button) -->
+  <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title" hidden
+       style="position:fixed;inset:0;background:#0b0a09f2;backdrop-filter:blur(8px);z-index:999;display:grid;align-content:start;padding:18px">
+    <div class="container" style="max-width:820px">
+      <h2 id="search-title" style="position:absolute;left:-9999px">Search</h2>
+      <div style="display:flex;gap:10px;align-items:center;margin:10px 0 12px">
+        <input id="search-input" placeholder="Search the site…" aria-label="Search"
+               style="flex:1;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#141110;color:#fff">
+        <button id="closeSearch" class="btn-gold" type="button" aria-label="Close search">Close</button>
+      </div>
+      <ul id="search-results" style="list-style:none;padding:0;margin:0;display:grid;gap:10px"></ul>
+    </div>
+  </div>
 
-    // nav fade-in
+  <script>
+    const $ = (q,sc)=> (sc||document).querySelector(q);
+    const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
+
+    // Footer year
+    $('#yr').textContent = new Date().getFullYear();
+
+    // Nav appear + autohide (desktop only)
     const nav = document.querySelector('.topnav');
     window.addEventListener('load', ()=> nav.classList.add('ready'));
+    let lastY = window.scrollY; const HIDE_AFTER = 120;
+    function onScrollNav(){
+      const y = window.scrollY;
+      const canHide = matchMedia('(min-width:1021px)').matches;
+      if (canHide && y > lastY && y > HIDE_AFTER) nav.classList.add('nav-hide');
+      else nav.classList.remove('nav-hide');
+      lastY = y;
+    }
+    onScrollNav(); addEventListener('scroll', onScrollNav, { passive:true });
 
-    // hide nav on scroll down
-    let lastY = window.scrollY; const hideAfter = 120;
-    const onScrollNav = ()=>{ const y = window.scrollY; if(y>lastY && y>hideAfter) nav.classList.add('nav-hide'); else nav.classList.remove('nav-hide'); lastY=y; };
-    onScrollNav(); window.addEventListener('scroll', onScrollNav, {passive:true});
-
-    // dropdowns
-    const items=document.querySelectorAll('.nav-item');
-    function closeAll(){ items.forEach(i=>{i.classList.remove('open'); i.querySelector('.nav-parent')?.setAttribute('aria-expanded','false');}); }
-    items.forEach(i=>{
-      const b=i.querySelector('.nav-parent'), m=i.querySelector('.dropdown'); if(!b||!m) return;
-      b.addEventListener('click',e=>{e.preventDefault(); const open=!i.classList.contains('open'); closeAll(); i.classList.toggle('open',open); b.setAttribute('aria-expanded',String(open));});
-      b.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){i.classList.add('open'); b.setAttribute('aria-expanded','true'); m.querySelector('a')?.focus();}});
+    // Desktop dropdowns
+    const navItems = $$('.nav-item');
+    function closeAllMenus(){ navItems.forEach(it=>{ it.classList.remove('open'); it.querySelector('.nav-parent')?.setAttribute('aria-expanded','false'); }); }
+    navItems.forEach(item=>{
+      const btn=item.querySelector('.nav-parent'); const menu=item.querySelector('.dropdown'); if(!btn||!menu) return;
+      item.addEventListener('mouseenter', ()=>{ if (matchMedia('(min-width:1021px)').matches){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }});
+      item.addEventListener('mouseleave', ()=>{ item.classList.remove('open'); btn.setAttribute('aria-expanded','false'); });
+      btn.addEventListener('click', (e)=>{ if (matchMedia('(min-width:1021px)').matches){ e.preventDefault(); const willOpen=!item.classList.contains('open'); closeAllMenus(); item.classList.toggle('open', willOpen); btn.setAttribute('aria-expanded', String(willOpen)); }});
+      btn.addEventListener('keydown', (e)=>{ if(e.key==='ArrowDown'){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); const first=menu.querySelector('a'); first&&first.focus(); }});
     });
-    document.addEventListener('click',e=>{ if(!e.target.closest('.navlinks')) closeAll(); });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeAll(); });
+    addEventListener('click', (e)=>{ if(!e.target.closest('.navlinks')) closeAllMenus(); });
 
-    // reveal on scroll
-    const io=new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-    },{threshold:.12, rootMargin:"0px 0px -10% 0px"});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    // Mobile drawer
+    const body = document.body;
+    const menuToggle = $('.menu-toggle');
+    const mobilePanel = $('#mobile-panel');
+    function setMenu(open){
+      body.classList.toggle('menu-open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      mobilePanel.hidden = !open;
+      if (open) trapFocus(mobilePanel); else releaseFocus(mobilePanel);
+    }
+    menuToggle?.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
+    addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
+    $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const item = btn.closest('.mobile-item');
+        const open = !item.classList.contains('open');
+        item.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
+    });
+    addEventListener('click', (e)=>{ if (body.classList.contains('menu-open') && !e.target.closest('#mobile-panel') && !e.target.closest('.menu-toggle')){ setMenu(false); }});
 
-    // mark hero ready for title fade-in
+    // Focus trap helpers (used by mobile drawer & search)
+    let lastFocus=null, focusables=[], trapHandler=null, trapRoot=null;
+    function trapFocus(root){
+      lastFocus=document.activeElement; trapRoot=root;
+      focusables=Array.from(root.querySelectorAll('a,button,input,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
+      if (focusables[0]) focusables[0].focus();
+      trapHandler=(e)=>{
+        if (e.key!=='Tab') return;
+        const first=focusables[0], last=focusables[focusables.length-1];
+        if (e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      };
+      root.addEventListener('keydown', trapHandler);
+    }
+    function releaseFocus(root){
+      const target = root || trapRoot;
+      if (trapHandler && target) target.removeEventListener('keydown', trapHandler);
+      trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); trapRoot=null;
+    }
+
+    // Reveal on scroll
+    const io=new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); }, {threshold:.12, rootMargin:"0px 0px -10% 0px"});
+    $$('.reveal').forEach(el=>io.observe(el));
+
+    // Hero title fade
     document.querySelector('.team-hero')?.classList.add('ready');
+
+    /* ======= SEARCH (open only by icon, close only by Close button) ======= */
+    const openSearchBtn = document.getElementById('openSearch');
+    const searchModal = document.getElementById('search-modal');
+    const closeSearchBtn = document.getElementById('closeSearch');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    // Ensure hidden on load (no auto-open)
+    document.addEventListener('DOMContentLoaded', () => {
+      if (searchModal) searchModal.hidden = true;
+    });
+
+    function showSearch(open = true){
+      if (!searchModal) return;
+      searchModal.hidden = !open;
+      if (open){
+        // close mobile menu if open
+        if (body.classList.contains('menu-open')) setMenu(false);
+        trapFocus(searchModal);
+        if (searchInput){
+          searchInput.value = '';
+          searchResults && (searchResults.innerHTML = '');
+          setTimeout(()=> searchInput.focus(), 0);
+        }
+      }else{
+        releaseFocus(searchModal);
+      }
+    }
+
+    // Open ONLY via the gold icon
+    openSearchBtn?.addEventListener('click', () => showSearch(true));
+
+    // Close ONLY via the Close button
+    closeSearchBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSearch(false);
+    });
+
+    // Simple page list (title match, like previous page)
+    const PAGES = [
+      {t:'Home',u:'index.html'}, {t:'About Us',u:'about.html'}, {t:'Our Team',u:'team.html'}, {t:'Why Ghana',u:'why-ghana.html'},
+      {t:'Structure',u:'structure.html'}, {t:'Local Partner',u:'local-partner.html'}, {t:'CEO Letter',u:'ceo-letter.html'},
+      {t:'What We Do',u:'what-we-do.html'}, {t:'Helping Your Company Grow',u:'growth.html'}, {t:'Setting Up & Getting Advice',u:'setup.html'},
+      {t:'Investment Programme',u:'investment-programme.html'}, {t:'FAQ',u:'faq.html'}, {t:'Partners',u:'partners.html'},
+      {t:'Investments',u:'investments.html'}, {t:'Projects',u:'projects.html'}, {t:'News',u:'news.html'},
+      {t:'Blog',u:'blog.html'}, {t:'Videos',u:'videos.html'}, {t:'Podcasts',u:'podcasts.html'},
+      {t:'Contact Us',u:'contact.html'}
+    ];
+
+    searchInput?.addEventListener('input', ()=>{
+      const q = searchInput.value.trim().toLowerCase();
+      const hits = !q ? [] : PAGES.filter(p=>p.t.toLowerCase().includes(q));
+      searchResults.innerHTML = hits.map(h=>`<li><a href="${h.u}" style="display:block;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:#141110;color:#fff">${h.t}</a></li>`).join('');
+    });
   </script>
 </body>
 </html>

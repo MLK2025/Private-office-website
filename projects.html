@@ -45,6 +45,7 @@
     a:focus-visible{outline:none; box-shadow:var(--focus); border-radius:8px}
     img{max-width:100%; height:auto; display:block}
     button{font-family:inherit}
+    [hidden]{display:none!important}
 
     /* ================= NAV (same as other pages) ================= */
     .topnav{
@@ -80,15 +81,19 @@
       transition:opacity .18s ease, transform .18s ease;
     }
     .nav-item:hover .dropdown,.nav-item:focus-within .dropdown,.nav-item.open .dropdown{ opacity:1; transform:translateY(0); pointer-events:auto; }
+    .nav-item:last-child .dropdown{ right:0; left:auto }
     .dropdown a{display:block; padding:11px 12px; border-radius:10px; font-size:14px; color:#e9e5dc}
     .dropdown a:hover,.dropdown a:focus-visible{ background:rgba(212,175,55,.16); color:#fff; outline:none }
 
     .nav-aux{display:flex; align-items:center; gap:18px}
     .icon{ inline-size:18px; block-size:18px; display:inline-block; background: currentColor; opacity:.95; border:0; cursor:pointer }
     .icon.search{
+      color:var(--gold);
       -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
               mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
+      transition:transform .15s ease, color .15s ease;
     }
+    .icon.search:hover,.icon.search:focus-visible{ color:var(--gold-200); transform:translateY(-1px); outline:none }
 
     /* Mobile drawer */
     .menu-toggle{ display:none; background:none; border:0; color:var(--gold-200); width:44px; height:44px; border-radius:12px; cursor:pointer }
@@ -127,10 +132,12 @@
       position:absolute; left:50%; transform:translateX(-50%);
       top:calc(var(--nav-h) + 12px);
       margin:0; color:#000; font-family:var(--font-serif);
-      font-weight:900; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap;
-      text-align:center; font-size:clamp(14px, 3.8vw, 28px);
+      font-weight:900; letter-spacing:.06em; text-transform:uppercase;
+      text-align:center; text-wrap:balance; white-space:normal;
+      font-size:clamp(14px, 3.8vw, 28px);
       opacity:0; transition:opacity .6s ease .15s;
     }
+    @media (max-width:400px){ .page-hero h1{ font-size:13.5px } }
     .page-hero.ready h1{ opacity:1 }
     .scroll-cue{
       position:absolute; left:50%; bottom:18px; transform:translateX(-50%);
@@ -349,7 +356,7 @@
     </div>
 
     <div class="nav-aux">
-      <button class="icon search" type="button" aria-label="Search"></button>
+      <button class="icon search" id="openSearch" type="button" aria-label="Open search"></button>
     </div>
   </nav>
 
@@ -357,33 +364,33 @@
   <div id="mobile-panel" class="mobile-panel" hidden>
     <nav class="mobile-list" aria-label="Mobile menu">
       <div class="mobile-item">
-        <div class="mobile-head"><span>About</span><button type="button" aria-label="Toggle About">▾</button></div>
-        <div class="mobile-drop">
+        <div class="mobile-head"><span>About</span><button type="button" aria-label="Toggle About" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop>
           <a href="about.html">ABOUT US</a><a href="team.html">OUR TEAM</a><a href="why-ghana.html">WHY GHANA</a>
           <a href="structure.html">STRUCTURE</a><a href="local-partner.html">NEED FOR A LOCAL PARTNER</a><a href="ceo-letter.html">LETTER FROM CEO</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>What We Do</span><button type="button" aria-label="Toggle What We Do">▾</button></div>
+        <div class="mobile-head"><span>What We Do</span><button type="button" aria-label="Toggle What We Do" aria-expanded="false">▾</button></div>
         <div class="mobile-drop">
           <a href="what-we-do.html">WHAT WE DO</a><a href="growth.html">HELPING YOUR COMPANY GROW</a><a href="setup.html">SETTING UP & GETTING ADVICE</a>
           <a href="investment-programme.html">INVESTMENT PROGRAMME</a><a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>Portfolio</span><button type="button" aria-label="Toggle Portfolio">▾</button></div>
+        <div class="mobile-head"><span>Portfolio</span><button type="button" aria-label="Toggle Portfolio" aria-expanded="false">▾</button></div>
         <div class="mobile-drop">
           <a href="partners.html">OUR PARTNERS</a><a href="investments.html">OUR INVESTMENTS</a><a href="projects.html" aria-current="page">OUR PROJECTS</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>Media</span><button type="button" aria-label="Toggle Media">▾</button></div>
+        <div class="mobile-head"><span>Media</span><button type="button" aria-label="Toggle Media" aria-expanded="false">▾</button></div>
         <div class="mobile-drop">
           <a href="news.html">NEWS & ANNOUNCEMENTS</a><a href="blog.html">BLOG</a><a href="videos.html">VIDEOS</a><a href="podcasts.html">PODCASTS</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>Contact</span><button type="button" aria-label="Toggle Contact">▾</button></div>
+        <div class="mobile-head"><span>Contact</span><button type="button" aria-label="Toggle Contact" aria-expanded="false">▾</button></div>
         <div class="mobile-drop">
           <a href="contact.html">CONTACT US</a>
         </div>
@@ -482,7 +489,7 @@
               <div class="t-dot" aria-hidden="true"></div>
               <div class="t-body">
                 <b>Phase 0 — Now</b>
-                <p>Land assembly, baseline E&S studies, stakeholder engagement.</p>
+                <p>Land assembly, baseline E&amp;S studies, stakeholder engagement.</p>
                 <small>2025</small>
               </div>
             </div>
@@ -498,7 +505,7 @@
               <div class="t-dot" aria-hidden="true"></div>
               <div class="t-body">
                 <b>Phase 2 — Scale Up</b>
-                <p>Conference pavilion, experiential learning center, expanded lodging & programming.</p>
+                <p>Conference pavilion, experiential learning center, expanded lodging &amp; programming.</p>
                 <small>2027–2028</small>
               </div>
             </div>
@@ -515,7 +522,7 @@
           <div class="big"><img src="assets/project1.jpeg" alt="Eco-tourism site hero concept"></div>
           <div class="stack">
             <div class="ph"><img src="assets/hostel.jpeg" alt="Hospitality concept building"></div>
-            <div class="ph"><img src="assets/pharmacy.jpeg" alt="Green energy & sustainability concept"></div>
+            <div class="ph"><img src="assets/pharmacy.jpeg" alt="Green energy &amp; sustainability concept"></div>
           </div>
         </div>
       </div>
@@ -608,6 +615,24 @@
     <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
+  <!-- 🔎 SEARCH OVERLAY -->
+  <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title" hidden
+       style="position:fixed;inset:0;background:#0b0a09f2;backdrop-filter:blur(8px);z-index:220;display:grid;align-content:start;padding:max(24px, env(safe-area-inset-top)) var(--page-pad) 24px;">
+    <div class="search-card" role="document" style="width:min(920px,100%);margin:calc(var(--nav-h) + 20px) auto 0;background:#111;color:#f3EFE6;border:1px solid rgba(255,255,255,.12);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.4);overflow:hidden;">
+      <div class="search-head" style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08)">
+        <h3 id="search-title" style="margin:0;font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#ffe9a6">Search the site</h3>
+        <button id="closeSearch" class="btn gold" type="button" aria-label="Close search">✕</button>
+      </div>
+      <div class="search-field" style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08)">
+        <input type="search" id="search-input" placeholder="Type to search pages…" autocomplete="off"
+               style="width:100%;height:46px;border-radius:10px;border:1px solid rgba(255,255,255,.10);background:#0f0e0c;color:#fff;padding:0 12px;font-size:16px" />
+      </div>
+      <ul id="search-results" class="search-results" role="listbox" aria-label="Search results"
+          style="max-height:min(50vh,520px);overflow:auto;list-style:none;margin:0;padding:6px;display:grid;gap:6px"></ul>
+      <p class="search-hint" style="margin:0;padding:10px 16px 14px;color:#bdb6a8;font-size:12px">Use the field to search. Click ✕ to close.</p>
+    </div>
+  </div>
+
   <script>
     const $ = (q,sc)=> (sc||document).querySelector(q);
     const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
@@ -641,28 +666,12 @@
     addEventListener('click', (e)=>{ if(!e.target.closest('.navlinks')) closeAllMenus(); });
     addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeAllMenus(); });
 
-    // Mobile drawer
+    // ===== Shared focus trap (drawer + search) =====
     const body = document.body;
-    const menuToggle = $('.menu-toggle');
-    const mobilePanel = $('#mobile-panel');
-    function setMenu(open){
-      body.classList.toggle('menu-open', open);
-      menuToggle.setAttribute('aria-expanded', String(open));
-      mobilePanel.hidden = !open;
-      if (open) trapFocus(mobilePanel); else releaseFocus();
-    }
-    menuToggle.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
-    addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
-    $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
-      btn.addEventListener('click', ()=> btn.closest('.mobile-item').classList.toggle('open'));
-    });
-    addEventListener('click', (e)=>{ if (body.classList.contains('menu-open') && !e.target.closest('#mobile-panel') && !e.target.closest('.menu-toggle')){ setMenu(false); }});
-
-    // Focus trap for drawer
-    let lastFocus=null, focusables=[], trapHandler=null;
+    let lastFocus=null, focusables=[], trapHandler=null, trapRoot=null;
     function trapFocus(root){
-      lastFocus=document.activeElement;
-      focusables=Array.from(root.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
+      lastFocus=document.activeElement; trapRoot=root;
+      focusables=Array.from(root.querySelectorAll('a,button,input,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
       if (focusables[0]) focusables[0].focus();
       trapHandler=(e)=>{
         if (e.key!=='Tab') return;
@@ -672,7 +681,32 @@
       };
       root.addEventListener('keydown', trapHandler);
     }
-    function releaseFocus(){ if (trapHandler) mobilePanel.removeEventListener('keydown', trapHandler); trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); }
+    function releaseFocus(root){
+      const target = root || trapRoot;
+      if (trapHandler && target) target.removeEventListener('keydown', trapHandler);
+      trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); trapRoot=null;
+    }
+
+    // Mobile drawer
+    const menuToggle = $('.menu-toggle');
+    const mobilePanel = $('#mobile-panel');
+    function setMenu(open){
+      body.classList.toggle('menu-open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      mobilePanel.hidden = !open;
+      if (open) trapFocus(mobilePanel); else releaseFocus(mobilePanel);
+    }
+    menuToggle.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
+    addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
+    $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const item = btn.closest('.mobile-item');
+        const isOpen = !item.classList.contains('open');
+        item.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+    addEventListener('click', (e)=>{ if (body.classList.contains('menu-open') && !e.target.closest('#mobile-panel') && !e.target.closest('.menu-toggle')){ setMenu(false); }});
 
     // Reveal on scroll
     const io='IntersectionObserver' in window
@@ -682,6 +716,52 @@
 
     // Hero title fade-in
     document.querySelector('.page-hero')?.classList.add('ready');
+
+    // ===== SEARCH OVERLAY =====
+    const openSearchBtn = document.getElementById('openSearch');
+    const searchModal = document.getElementById('search-modal');
+    const closeSearchBtn = document.getElementById('closeSearch');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    document.addEventListener('DOMContentLoaded', () => { if (searchModal) searchModal.hidden = true; });
+
+    function openSearch(){
+      if (body.classList.contains('menu-open')) setMenu(false);
+      searchModal.hidden = false;
+      trapFocus(searchModal);
+      searchInput.value = '';
+      searchResults.innerHTML = '';
+      setTimeout(()=> searchInput.focus(), 0);
+    }
+    function closeSearch(){
+      searchModal.hidden = true;
+      releaseFocus(searchModal);
+      openSearchBtn.focus();
+    }
+
+    openSearchBtn.addEventListener('click', () => { if (searchModal.hidden) openSearch(); });
+    closeSearchBtn.addEventListener('click', (e) => { e.preventDefault(); closeSearch(); });
+    addEventListener('keydown', (e)=>{ if(!searchModal.hidden && e.key==='Escape'){ closeSearch(); } });
+
+    const PAGES = [
+      {t:'Home',u:'index.html'},{t:'About Us',u:'about.html'},{t:'Our Team',u:'team.html'},{t:'Why Ghana',u:'why-ghana.html'},
+      {t:'Structure',u:'structure.html'},{t:'Need For A Local Partner',u:'local-partner.html'},{t:'Letter From CEO',u:'ceo-letter.html'},
+      {t:'What We Do',u:'what-we-do.html'},{t:'Helping Your Company Grow',u:'growth.html'},{t:'Setting Up & Getting Advice',u:'setup.html'},
+      {t:'Investment Programme',u:'investment-programme.html'},{t:'Frequently Asked Questions',u:'faq.html'},
+      {t:'Our Partners',u:'partners.html'},{t:'Our Investments',u:'investments.html'},{t:'Our Projects',u:'projects.html'},
+      {t:'Project — Eye of Africa Green Project',u:'project-eye-of-africa.html'},
+      {t:'News & Announcements',u:'news.html'},{t:'Blog',u:'blog.html'},{t:'Videos',u:'videos.html'},{t:'Podcasts',u:'podcasts.html'},
+      {t:'Contact Us',u:'contact.html'}
+    ];
+
+    searchInput?.addEventListener('input', ()=>{
+      const q = searchInput.value.trim().toLowerCase();
+      const hits = !q ? [] : PAGES.filter(p=>p.t.toLowerCase().includes(q)).slice(0,12);
+      searchResults.innerHTML = hits.length
+        ? hits.map(h=>`<li><a href="${h.u}" style="display:block;padding:12px;border-radius:10px;color:#e9e5dc;background:transparent;border:1px solid rgba(255,255,255,.12)">${h.t}</a></li>`).join('')
+        : `<li><a href="#" onclick="return false" style="display:block;padding:12px;border-radius:10px;color:#aaa;border:1px dashed rgba(255,255,255,.12)">No results</a></li>`;
+    });
   </script>
 </body>
 </html>

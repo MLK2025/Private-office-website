@@ -43,6 +43,9 @@
     a{color:inherit;text-decoration:none}
     img{max-width:100%;height:auto;display:block}
 
+    /* Make the hidden attribute bulletproof for modals/drawers */
+    [hidden]{ display:none !important; }
+
     /* ================= NAV (same behavior & feel as Home) ================= */
     .topnav{
       position:fixed; inset:0 0 auto 0; height:var(--nav-h); z-index:100;
@@ -80,7 +83,10 @@
     .nav-item:hover .dropdown,.nav-item:focus-within .dropdown,.nav-item.open .dropdown{ opacity:1; transform:translateY(0); pointer-events:auto; }
 
     .nav-aux{display:flex; align-items:center; gap:18px}
-    .icon{ inline-size:18px; block-size:18px; display:inline-block; background: currentColor; opacity:.95; border:0; cursor:pointer }
+    .icon{ inline-size:18px; block-size:18px; display:inline-block; background: currentColor; opacity:1; border:0; cursor:pointer; transition:transform .15s ease, color .15s ease }
+    .nav-aux .icon.search{ color:var(--gold); }
+    .nav-aux .icon.search:hover,
+    .nav-aux .icon.search:focus-visible{ color:var(--gold-200); transform:translateY(-1px); outline:none }
     .icon.search{
       -webkit-mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
               mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
@@ -122,22 +128,14 @@
       background-image: var(--banner);
       background-size: cover; background-position:center; background-repeat:no-repeat;
     }
-
-    /* ➜ Centered title with black color (desktop + phone) */
     .about-hero h1{
       position:absolute;
       left:50%; transform:translateX(-50%);
       top:calc(var(--nav-h) + 12px);
       margin:0;
-      padding:0; border:none; background:none;
-      color:#000;           /* black on all devices */
-      text-shadow:none;     /* remove glow */
-      font-family:var(--font-serif);
-      font-weight:900;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      white-space:nowrap;
-      text-align:center;
+      color:#000; text-shadow:none;
+      font-family:var(--font-serif); font-weight:900;
+      letter-spacing:.06em; text-transform:uppercase; white-space:nowrap; text-align:center;
       font-size:clamp(14px, 3.8vw, 28px);
       opacity:0; transition:opacity .6s ease .15s;
     }
@@ -183,7 +181,6 @@
     }
     .card-grid.reverse{ grid-template-columns:minmax(0,1fr) minmax(0,1.1fr) }
 
-    /* ➜ PHONE-ONLY FIXES: stack, keep media first when reverse, and center media */
     @media (max-width: 900px){
       .card-grid, .card-grid.reverse{ grid-template-columns: 1fr }
       .card-grid.reverse .media{ order:-1 }
@@ -203,7 +200,6 @@
     .text p{ color:var(--muted); line-height:1.85; margin:0 0 14px; font-size:17px }
     .kicker{display:inline-block; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#8a7c63; margin-bottom:6px}
 
-    /* Media */
     .media{
       width:100%;
       border-radius:16px;
@@ -212,11 +208,7 @@
       background:#fff;
       box-shadow:0 10px 24px rgba(0,0,0,.06);
     }
-    .media img{
-      width:100%;
-      height:auto;
-      display:block;
-    }
+    .media img{ width:100%; height:auto; display:block }
 
     /* Team */
     .team-card .title{ text-align:center; margin:0 0 16px; font-family:var(--font-serif); font-weight:900; font-size: clamp(22px,3vw,34px) }
@@ -231,11 +223,19 @@
     .person .name{ font-weight:800; margin:0 0 4px }
     .person .role{ color:#777; font-size:14px; margin:0 }
 
+    /* Download CTA */
+    .btn-gold{
+      display:inline-block; background:linear-gradient(135deg, var(--gold), var(--gold-200));
+      color:#1a140a; font-weight:900; text-transform:uppercase; letter-spacing:.08em;
+      padding:12px 18px; border-radius:12px; border:1px solid rgba(0,0,0,.15);
+      box-shadow:0 14px 30px rgba(212,175,55,.28)
+    }
+    .download-card{ text-align:center; background:#fff; border:1px solid var(--hairline); border-radius:18px; padding: var(--card-pad); box-shadow:var(--shadow) }
+    .download-title{ margin-top:0 }
+
     /* ================== FOOTER ================== */
     .footer-wrap{background:#000;color:#eaeaea}
     .news-signup{padding:24px var(--page-pad) 0}
-
-    /* Newsletter box */
     .news-box{
       max-width:var(--container);
       margin:0 auto;
@@ -247,68 +247,31 @@
       border-radius:10px;
       padding:18px;
       box-shadow:0 16px 34px rgba(212,175,55,.22);
-      overflow:hidden; /* prevent tiny-screen bleed */
+      overflow:hidden;
     }
     .news-title{margin:0 0 4px;font-weight:900;font-size:20px;color:#1d1508}
     .news-sub{margin:0;color:#1d1508;opacity:.85;font-size:13px}
-
-    /* Newsletter form — desktop row, mobile column */
-    .news-form{
-      display:flex;
-      align-items:stretch;
-      gap:0;
-      width:100%;
-    }
+    .news-form{ display:flex; align-items:stretch; gap:0; width:100% }
     .news-form input{
-      flex:1 1 auto;
-      min-width:0;          /* allow shrink on small screens */
-      width:100%;
-      height:48px;
-      padding:0 12px;
-      background:#fff;
-      color:#1a1a1a;
-      border:0;
-      border-radius:10px 0 0 10px;
-      font-size:16px;       /* avoids iOS zoom */
+      flex:1 1 auto; min-width:0; width:100%; height:48px; padding:0 12px;
+      background:#fff; color:#1a1a1a; border:0; border-radius:10px 0 0 10px; font-size:16px;
     }
     .news-form button{
-      flex:0 0 auto;
-      height:48px;
-      padding:0 16px;
-      border:0;
-      border-radius:0 10px 10px 0;
-      background:#111;
-      color:#fff;
-      font-weight:900;
-      letter-spacing:.06em;
-      text-transform:uppercase;
-      cursor:pointer;
+      flex:0 0 auto; height:48px; padding:0 16px; border:0; border-radius:0 10px 10px 0;
+      background:#111; color:#fff; font-weight:900; letter-spacing:.06em; text-transform:uppercase; cursor:pointer;
     }
-
-    /* Stack nicely on phones */
     @media (max-width:820px){
-      .news-box{ grid-template-columns:1fr; padding:16px; }
-      .news-title{ font-size:18px; }
-      .news-sub{ font-size:13px; }
-
-      .news-form{
-        flex-direction:column;
-        gap:10px;
-      }
-      .news-form input,
-      .news-form button{
-        width:100%;
-        border-radius:10px;  /* unified corners when stacked */
-      }
+      .news-box{ grid-template-columns:1fr; padding:16px }
+      .news-title{ font-size:18px }
+      .news-sub{ font-size:13px }
+      .news-form{ flex-direction:column; gap:10px }
+      .news-form input, .news-form button{ width:100%; border-radius:10px }
     }
-
-    /* Extra-small tweaks */
     @media (max-width:420px){
-      .news-box{ padding:12px; }
-      .news-title{ font-size:16px; }
-      .news-sub{ font-size:12px; }
+      .news-box{ padding:12px }
+      .news-title{ font-size:16px }
+      .news-sub{ font-size:12px }
     }
-
     .footer-main{padding:26px var(--page-pad)}
     .footer-grid{max-width:var(--container);margin:0 auto;display:grid;gap:22px;grid-template-columns:1.15fr 1fr 1fr 1.15fr}
     @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr}}
@@ -393,7 +356,8 @@
     </div>
 
     <div class="nav-aux">
-      <button class="icon search" type="button" aria-label="Search"></button>
+      <!-- Match Home page: gold icon button -->
+      <button class="icon search" type="button" aria-label="Search" id="openSearch"></button>
     </div>
   </nav>
 
@@ -401,33 +365,43 @@
   <div id="mobile-panel" class="mobile-panel" hidden>
     <nav class="mobile-list" aria-label="Mobile menu">
       <div class="mobile-item">
-        <div class="mobile-head"><span>About</span><button type="button" aria-label="Toggle About">▾</button></div>
+        <div class="mobile-head">
+          <span>About</span><button type="button" aria-label="Toggle About" aria-expanded="false">▾</button>
+        </div>
         <div class="mobile-drop">
           <a href="about.html" aria-current="page">ABOUT US</a><a href="team.html">OUR TEAM</a><a href="why-ghana.html">WHY GHANA</a>
           <a href="structure.html">STRUCTURE</a><a href="local-partner.html">NEED FOR A LOCAL PARTNER</a><a href="ceo-letter.html">LETTER FROM CEO</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>What We Do</span><button type="button" aria-label="Toggle What We Do">▾</button></div>
+        <div class="mobile-head">
+          <span>What We Do</span><button type="button" aria-label="Toggle What We Do" aria-expanded="false">▾</button>
+        </div>
         <div class="mobile-drop">
           <a href="what-we-do.html">WHAT WE DO</a><a href="growth.html">HELPING YOUR COMPANY GROW</a><a href="setup.html">SETTING UP & GETTING ADVICE</a>
           <a href="investment-programme.html">INVESTMENT PROGRAMME</a><a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>Portfolio</span><button type="button" aria-label="Toggle Portfolio">▾</button></div>
+        <div class="mobile-head">
+          <span>Portfolio</span><button type="button" aria-label="Toggle Portfolio" aria-expanded="false">▾</button>
+        </div>
         <div class="mobile-drop">
           <a href="partners.html">OUR PARTNERS</a><a href="investments.html">OUR INVESTMENTS</a><a href="projects.html">OUR PROJECTS</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>Media</span><button type="button" aria-label="Toggle Media">▾</button></div>
+        <div class="mobile-head">
+          <span>Media</span><button type="button" aria-label="Toggle Media" aria-expanded="false">▾</button>
+        </div>
         <div class="mobile-drop">
           <a href="news.html">NEWS & ANNOUNCEMENTS</a><a href="blog.html">BLOG</a><a href="videos.html">VIDEOS</a><a href="podcasts.html">PODCASTS</a>
         </div>
       </div>
       <div class="mobile-item">
-        <div class="mobile-head"><span>Contact</span><button type="button" aria-label="Toggle Contact">▾</button></div>
+        <div class="mobile-head">
+          <span>Contact</span><button type="button" aria-label="Toggle Contact" aria-expanded="false">▾</button>
+        </div>
         <div class="mobile-drop">
           <a href="contact.html">CONTACT US</a>
         </div>
@@ -456,7 +430,7 @@
               <p>After identifying potential partners, we present them to an Executive Committee for approval. If successful, our International Ventures managers analyse the product or service to determine how we can best accelerate success across Africa and the Middle East.</p>
             </div>
             <figure class="media">
-              <img src="assets/photo 1.jpg" alt="Executive networking" width="1080" height="720" loading="lazy">
+              <img src="assets/photo-1.jpg" alt="Executive networking" width="1080" height="720" loading="lazy">
             </figure>
           </div>
         </div>
@@ -595,6 +569,20 @@
     <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
+  <!-- 🔎 SEARCH OVERLAY (initially hidden; opens only by icon, closes only by button) -->
+  <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title" hidden
+       style="position:fixed;inset:0;background:#0b0a09f2;backdrop-filter:blur(8px);z-index:999;display:grid;align-content:start;padding:18px">
+    <div class="container" style="max-width:820px">
+      <h2 id="search-title" style="position:absolute;left:-9999px">Search</h2>
+      <div style="display:flex;gap:10px;align-items:center;margin:10px 0 12px">
+        <input id="search-input" placeholder="Search the site…" aria-label="Search"
+               style="flex:1;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#141110;color:#fff">
+        <button id="closeSearch" class="btn-gold" type="button" aria-label="Close search">Close</button>
+      </div>
+      <ul id="search-results" style="list-style:none;padding:0;margin:0;display:grid;gap:10px"></ul>
+    </div>
+  </div>
+
   <script>
     const $ = (q,sc)=> (sc||document).querySelector(q);
     const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
@@ -626,7 +614,6 @@
       btn.addEventListener('keydown', (e)=>{ if(e.key==='ArrowDown'){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); const first=menu.querySelector('a'); first&&first.focus(); }});
     });
     addEventListener('click', (e)=>{ if(!e.target.closest('.navlinks')) closeAllMenus(); });
-    addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeAllMenus(); });
 
     // Mobile drawer
     const body = document.body;
@@ -636,20 +623,25 @@
       body.classList.toggle('menu-open', open);
       menuToggle.setAttribute('aria-expanded', String(open));
       mobilePanel.hidden = !open;
-      if (open) trapFocus(mobilePanel); else releaseFocus();
+      if (open) trapFocus(mobilePanel); else releaseFocus(mobilePanel);
     }
-    menuToggle.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
+    menuToggle?.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
     addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
     $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
-      btn.addEventListener('click', ()=> btn.closest('.mobile-item').classList.toggle('open'));
+      btn.addEventListener('click', ()=>{
+        const item = btn.closest('.mobile-item');
+        const open = !item.classList.contains('open');
+        item.classList.toggle('open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      });
     });
     addEventListener('click', (e)=>{ if (body.classList.contains('menu-open') && !e.target.closest('#mobile-panel') && !e.target.closest('.menu-toggle')){ setMenu(false); }});
 
-    // Focus trap for drawer
-    let lastFocus=null, focusables=[], trapHandler=null;
+    // Focus trap helpers (used by mobile drawer & search)
+    let lastFocus=null, focusables=[], trapHandler=null, trapRoot=null;
     function trapFocus(root){
-      lastFocus=document.activeElement;
-      focusables=Array.from(root.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
+      lastFocus=document.activeElement; trapRoot=root;
+      focusables=Array.from(root.querySelectorAll('a,button,input,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
       if (focusables[0]) focusables[0].focus();
       trapHandler=(e)=>{
         if (e.key!=='Tab') return;
@@ -659,7 +651,11 @@
       };
       root.addEventListener('keydown', trapHandler);
     }
-    function releaseFocus(){ if (trapHandler) mobilePanel.removeEventListener('keydown', trapHandler); trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); }
+    function releaseFocus(root){
+      const target = root || trapRoot;
+      if (trapHandler && target) target.removeEventListener('keydown', trapHandler);
+      trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); trapRoot=null;
+    }
 
     // Reveal on scroll
     const io=new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }); }, {threshold:.12, rootMargin:"0px 0px -10% 0px"});
@@ -667,6 +663,63 @@
 
     // Hero title fade
     document.querySelector('.about-hero')?.classList.add('ready');
+
+    /* ======= SEARCH (open only by icon, close only by Close button) ======= */
+    const openSearch = document.getElementById('openSearch');
+    const searchModal = document.getElementById('search-modal');
+    const closeSearchBtn = document.getElementById('closeSearch');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    // Ensure hidden on load (no auto-open)
+    document.addEventListener('DOMContentLoaded', () => {
+      if (searchModal) searchModal.hidden = true;
+    });
+
+    function showSearch(open = true){
+      if (!searchModal) return;
+      searchModal.hidden = !open;
+      if (open){
+        // close mobile menu if open
+        if (body.classList.contains('menu-open')) setMenu(false);
+        trapFocus(searchModal);
+        if (searchInput){
+          searchInput.value = '';
+          searchResults && (searchResults.innerHTML = '');
+          setTimeout(()=> searchInput.focus(), 0);
+        }
+      }else{
+        releaseFocus(searchModal);
+      }
+    }
+
+    // Open ONLY via the gold icon
+    openSearch?.addEventListener('click', () => showSearch(true));
+
+    // Close ONLY via the Close button
+    closeSearchBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      showSearch(false);
+    });
+
+    // NOTE: No backdrop click or Escape-to-close handlers.
+
+    // Simple page list (title match, like Home)
+    const PAGES = [
+      {t:'Home',u:'index.html'}, {t:'About Us',u:'about.html'}, {t:'Our Team',u:'team.html'}, {t:'Why Ghana',u:'why-ghana.html'},
+      {t:'Structure',u:'structure.html'}, {t:'Local Partner',u:'local-partner.html'}, {t:'CEO Letter',u:'ceo-letter.html'},
+      {t:'What We Do',u:'what-we-do.html'}, {t:'Helping Your Company Grow',u:'growth.html'}, {t:'Setting Up & Getting Advice',u:'setup.html'},
+      {t:'Investment Programme',u:'investment-programme.html'}, {t:'FAQ',u:'faq.html'}, {t:'Partners',u:'partners.html'},
+      {t:'Investments',u:'investments.html'}, {t:'Projects',u:'projects.html'}, {t:'News',u:'news.html'},
+      {t:'Blog',u:'blog.html'}, {t:'Videos',u:'videos.html'}, {t:'Podcasts',u:'podcasts.html'},
+      {t:'Contact Us',u:'contact.html'}
+    ];
+
+    searchInput?.addEventListener('input', ()=>{
+      const q = searchInput.value.trim().toLowerCase();
+      const hits = !q ? [] : PAGES.filter(p=>p.t.toLowerCase().includes(q));
+      searchResults.innerHTML = hits.map(h=>`<li><a href="${h.u}" style="display:block;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:12px;background:#141110;color:#fff">${h.t}</a></li>`).join('');
+    });
   </script>
 </body>
 </html>

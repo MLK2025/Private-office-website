@@ -23,7 +23,7 @@
       --shadow:0 16px 40px rgba(0,0,0,.08);
       --hairline:rgba(0,0,0,.10);
 
-      /* Fonts (use Manrope for both to match previous page) */
+      /* Fonts (Manrope for both to match previous pages) */
       --font-sans:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       --font-serif:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
@@ -91,8 +91,13 @@
     }
     .icon.search:hover,.icon.search:focus-visible{ color:var(--gold-200); transform:translateY(-1px); outline:none }
 
-    /* Gold button (used in search overlay) */
-    .btn-gold{ display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; background:linear-gradient(180deg,var(--gold),var(--gold-200)); color:#0b0908; font-weight:900; letter-spacing:.06em; text-transform:uppercase; border:1px solid rgba(0,0,0,.18); cursor:pointer; box-shadow:0 8px 20px rgba(212,175,55,.25); }
+    /* Gold button (shared + used for CTA) */
+    .btn-gold{
+      display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:999px;
+      background:linear-gradient(180deg,var(--gold),var(--gold-200)); color:#0b0908;
+      font-weight:900; letter-spacing:.06em; text-transform:uppercase; border:1px solid rgba(0,0,0,.18); cursor:pointer;
+      box-shadow:0 8px 20px rgba(212,175,55,.25);
+    }
     .btn-gold:hover,.btn-gold:focus-visible{ filter:brightness(1.03); transform:translateY(-1px); outline:none }
 
     /* === Mobile menu (drawer) === */
@@ -139,12 +144,10 @@
       top:calc(var(--nav-h) + 12px);
       margin:0;
       padding:0; border:none; background:none;
-      color:#000;
-      text-shadow:none;
+      color:#000; text-shadow:none;
       font-family:var(--font-serif); font-weight:900;
       letter-spacing:.06em; text-transform:uppercase;
-      white-space:nowrap;
-      text-align:center;
+      white-space:nowrap; text-align:center;
       font-size:clamp(14px, 3.8vw, 28px);
       opacity:0; transition:opacity .6s ease .15s;
     }
@@ -223,6 +226,15 @@
       box-shadow:0 10px 24px rgba(0,0,0,.06);
     }
     .media img{ width:100%; height:auto; display:block }
+
+    /* ====== Intro CTA row ====== */
+    .cta-row{
+      display:flex; justify-content:center; margin-top:16px;
+    }
+    .cta-row .btn-gold{
+      font-size:12px; letter-spacing:.1em;
+      padding:12px 20px;
+    }
 
     /* ================== FOOTER (newsletter fixed for phone) ================== */
     .footer-wrap{background:#000;color:#eaeaea}
@@ -401,6 +413,13 @@
             English-speaking talent, and thriving innovation hubs. The Private Office connects partners to
             transformative growth through strategic alliances, tailored incentives, capital, and trusted networks.
           </p>
+
+          <!-- Download Profile CTA -->
+          <div class="cta-row" aria-label="Download our profile">
+            <a class="btn-gold" href="assets/profile.pdf" download>
+              <span aria-hidden="true">⬇</span> Download Our Profile
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -555,7 +574,7 @@
             <a href="mailto:info@privateofficeofdon.com">info@privateofficeofdon.com</a>
           </div>
           <div class="contact-item">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1  1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1  1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.25 11 11 0 0 0 3.4.55 1 1 0 0 1 1 1v3.6a1 1 0 0 1-1 1A18.9 18.9 0 0 1 3 5a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11 11 0 0 0 .55 3.4 1  1 0 0 1-.25 1.1L6.6 10.8Z"/></svg>
             <a href="tel:+233302955470">030 2955 470</a>
           </div>
           <div class="socials" aria-label="Social links">
@@ -570,7 +589,7 @@
     <div class="footer-copy">© <span id="yr"></span> Privateoffice. All rights reserved.</div>
   </footer>
 
-  <!-- 🔎 SEARCH OVERLAY (same open/close behavior as fixed pages) -->
+  <!-- 🔎 SEARCH OVERLAY (open by icon, close only by ✕) -->
   <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title" hidden
        style="position:fixed;inset:0;background:#0b0a09f2;backdrop-filter:blur(8px);z-index:220;display:grid;align-content:start;padding:max(24px, env(safe-area-inset-top)) var(--page-pad) 24px;">
     <div class="search-card" role="document" style="width:min(920px,100%);margin:calc(var(--nav-h) + 20px) auto 0;background:#111;color:#f3EFE6;border:1px solid rgba(255,255,255,.12);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.4);overflow:hidden;">
@@ -670,7 +689,7 @@
     // hero title fade
     document.querySelector('.page-hero')?.classList.add('ready');
 
-    /* ======= SEARCH (open only by icon, close only by ✕) ======= */
+    /* ======= SEARCH (open by icon, close only by ✕) ======= */
     const openSearchBtn = document.getElementById('openSearch');
     const searchModal = document.getElementById('search-modal');
     const closeSearchBtn = document.getElementById('closeSearch');

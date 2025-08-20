@@ -5,15 +5,16 @@
   <title>Explore a Partnership — Private Office</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#ffffff" />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- Manrope only (match previous page) -->
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* ============== THEME (Light, clean) ============== */
     :root{
-      --ink:#1b1b1b;        /* main text */
-      --muted:#6b7280;      /* secondary text */
-      --bg:#f7f7f5;         /* page background */
-      --paper:#ffffff;      /* cards */
-      --line:#e7e7e3;       /* borders */
+      --ink:#1b1b1b;
+      --muted:#6b7280;
+      --bg:#f7f7f5;
+      --paper:#ffffff;
+      --line:#e7e7e3;
       --line-strong:#dddcd7;
       --gold:#d4af37;
       --gold-200:#ead27a;
@@ -23,7 +24,7 @@
       --font-sans:"Manrope",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
 
-    /* make the 'hidden' attribute bulletproof so modals never get stuck open */
+    /* make the 'hidden' attribute bulletproof so modals/drawers never get stuck open */
     [hidden]{ display:none !important; }
 
     /* ============== BASE ============== */
@@ -56,12 +57,14 @@
     }
     .brand{display:flex; align-items:center; gap:12px}
     .brand img{height:40px; width:auto}
+
     .navlinks{display:flex; align-items:center; gap:24px; font-weight:800; letter-spacing:.04em}
     .nav-item{ position:relative }
     .nav-parent{
       background:none; border:0; color:#4b5563;
       font:800 12px/1 var(--font-sans); text-transform:uppercase;
       padding:12px 4px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
+      min-height:44px;
     }
     .nav-parent:hover{ color:#111 }
     .nav-parent.caret::after{content:"▾"; font-size:.82em; opacity:.85}
@@ -79,7 +82,7 @@
       padding:10px 12px; border-radius:10px; font-size:14px; color:#1f2937;
       border:1px solid transparent;
     }
-    .dropdown a:hover{ background:#fafafa; border-color:#f0f0ec }
+    .dropdown a:hover,.dropdown a:focus-visible{ background:#fafafa; border-color:#f0f0ec; outline:none }
 
     .nav-item:hover .dropdown,
     .nav-item:focus-within .dropdown,
@@ -92,13 +95,36 @@
               mask:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23000" d="M10 18a7.95 7.95 0 0 0 4.9-1.7l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 1 0 10 18Zm0-14a6 6 0 1 1 0 12 6 6 0 0 1 0-12Z"/></svg>') center/contain no-repeat;
     }
 
+    /* ===== Mobile drawer (same structure/behaviour as previous page) ===== */
+    .menu-toggle{ display:none; background:none; border:0; color:#374151; width:44px; height:44px; border-radius:12px; cursor:pointer }
+    .menu-toggle span{ display:block; width:22px; height:2px; background:currentColor; margin:5px auto; border-radius:2px }
+
+    @media (max-width: 1020px){
+      .menu-toggle{display:inline-grid; place-items:center}
+      .navlinks{ display:none }
+      body.menu-open{ overflow:hidden }
+      .mobile-panel{
+        position:fixed; inset:var(--nav-h) 0 0 0; background:#0b0a09f2; backdrop-filter:blur(8px);
+        z-index:95; transform:translateY(-8px); opacity:0; pointer-events:none;
+        transition:opacity .2s ease, transform .2s ease;
+        display:grid; align-content:start; padding:18px;
+      }
+      body.menu-open .mobile-panel{ opacity:1; transform:none; pointer-events:auto }
+      .mobile-list{ display:grid; gap:10px }
+      .mobile-item{ border:1px solid rgba(255,255,255,.10); border-radius:14px; overflow:hidden; background:#141110 }
+      .mobile-head{ display:flex; justify-content:space-between; align-items:center; padding:14px 16px; color:#ffe9a6; text-transform:uppercase; letter-spacing:.08em; font-weight:900; font-size:12px }
+      .mobile-head button{ all:unset; cursor:pointer; padding:10px; border-radius:8px; color:#ffe9a6 }
+      .mobile-drop{ display:none; padding:4px 10px 12px }
+      .mobile-drop a{ display:block; padding:10px 10px; border-radius:10px; color:#e9e5dc; font-size:14px }
+      .mobile-drop a:hover{ background:rgba(212,175,55,.14); color:#fff }
+      .mobile-item.open .mobile-drop{ display:block }
+    }
+
     /* ============== PAGE HEADER (compact, not full-bleed) ============== */
     header.page-head{
       padding: clamp(18px, 5vw, 36px) clamp(18px, 5vw, 28px) 0;
     }
-    .head-inner{
-      max-width: 840px; margin: 0 auto;
-    }
+    .head-inner{ max-width: 840px; margin: 0 auto; }
     .kicker{
       display:inline-block; font-weight:900; font-size:12px; letter-spacing:.16em;
       text-transform:uppercase; color:#6b7280; margin-bottom:8px;
@@ -110,9 +136,7 @@
     .lede{ margin:0; color:#6b7280; }
 
     /* ============== FORM CARD (light) ============== */
-    .panel-wrap{
-      padding: clamp(16px, 4vw, 28px);
-    }
+    .panel-wrap{ padding: clamp(16px, 4vw, 28px); }
     .panel{
       max-width: 840px; margin: 0 auto;
       background: var(--paper);
@@ -174,6 +198,9 @@
   <!-- NAV -->
   <nav class="topnav" role="navigation" aria-label="Primary">
     <div class="brand">
+      <button class="menu-toggle" aria-label="Open menu" aria-controls="mobile-panel" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
       <!-- logo → home -->
       <a href="index.html" aria-label="Home">
         <img src="assets/logo.png" alt="Private Office Logo" />
@@ -233,6 +260,44 @@
       <button class="icon search" type="button" aria-label="Search" id="openSearch"></button>
     </div>
   </nav>
+
+  <!-- MOBILE PANEL -->
+  <div id="mobile-panel" class="mobile-panel" hidden>
+    <nav class="mobile-list" aria-label="Mobile menu">
+      <div class="mobile-item">
+        <div class="mobile-head"><span>About</span><button type="button" aria-label="Toggle About" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="about.html">ABOUT US</a><a href="team.html">OUR TEAM</a><a href="why-ghana.html">WHY GHANA</a>
+          <a href="structure.html">STRUCTURE</a><a href="local-partner.html">NEED FOR A LOCAL PARTNER</a><a href="ceo-letter.html">LETTER FROM CEO</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>What We Do</span><button type="button" aria-label="Toggle What We Do" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="what-we-do.html">WHAT WE DO</a><a href="growth.html">HELPING YOUR COMPANY GROW</a><a href="setup.html">SETTING UP & GETTING ADVICE</a>
+          <a href="investment-programme.html">INVESTMENT PROGRAMME</a><a href="faq.html">FREQUENTLY ASKED QUESTIONS</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>Portfolio</span><button type="button" aria-label="Toggle Portfolio" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="partners.html">OUR PARTNERS</a><a href="investments.html">OUR INVESTMENTS</a><a href="projects.html">OUR PROJECTS</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>Media</span><button type="button" aria-label="Toggle Media" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="news.html">NEWS & ANNOUNCEMENTS</a><a href="blog.html">BLOG</a><a href="videos.html">VIDEOS</a><a href="podcasts.html">PODCASTS</a>
+        </div>
+      </div>
+      <div class="mobile-item">
+        <div class="mobile-head"><span>Contact & Applications</span><button type="button" aria-label="Toggle Contact & Applications" aria-expanded="false">▾</button></div>
+        <div class="mobile-drop">
+          <a href="contact.html">CONTACT US</a><a href="partnership.html" aria-current="page">EXPLORE A PARTNERSHIP</a>
+        </div>
+      </div>
+    </nav>
+  </div>
 
   <!-- PAGE HEADER (compact, airy) -->
   <header class="page-head" role="banner">
@@ -318,7 +383,7 @@
 
   <footer class="page-foot">© <span id="yr"></span> Privateoffice. All rights reserved.</footer>
 
-  <!-- 🔎 SEARCH OVERLAY (same logic as home; hidden by default) -->
+  <!-- 🔎 SEARCH OVERLAY (with focus trap; hidden by default) -->
   <div id="search-modal" role="dialog" aria-modal="true" aria-labelledby="search-title" hidden
        style="position:fixed;inset:0;background:rgba(255,255,255,.75);backdrop-filter:blur(8px);z-index:999;display:grid;align-content:start;padding:18px">
     <div class="container" style="max-width:820px">
@@ -332,23 +397,71 @@
   </div>
 
   <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
+    const $ = (q,sc)=> (sc||document).querySelector(q);
+    const $$ = (q,sc)=> Array.from((sc||document).querySelectorAll(q));
 
-    // hover-to-open menus (desktop)
+    // year
+    $('#yr').textContent = new Date().getFullYear();
+
+    // Desktop dropdown keyboard helper (ArrowDown to open)
     const desktopMQ = matchMedia('(min-width:1021px)');
-    document.querySelectorAll('.nav-item').forEach(item => {
+    $$('.nav-item').forEach(item => {
       const btn = item.querySelector('.nav-parent');
       item.addEventListener('mouseenter', () => desktopMQ.matches && (item.classList.add('open'), btn?.setAttribute('aria-expanded','true')));
       item.addEventListener('mouseleave', () => (item.classList.remove('open'), btn?.setAttribute('aria-expanded','false')));
       btn?.addEventListener('keydown', (e)=>{ if(e.key==='ArrowDown'){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); item.querySelector('.dropdown a')?.focus(); }});
     });
+    addEventListener('click', (e)=>{ if(!e.target.closest('.navlinks')) $$('.nav-item').forEach(i=>i.classList.remove('open')); });
 
-    // ---------- SEARCH OVERLAY ----------
-    const openSearch = document.getElementById('openSearch');
-    const searchModal = document.getElementById('search-modal');
-    const closeSearch = document.getElementById('closeSearch');
-    const searchInput = document.getElementById('search-input');
-    const searchResults = document.getElementById('search-results');
+    // ===== Shared focus trap (for drawer + search) =====
+    let lastFocus=null, focusables=[], trapHandler=null, trapRoot=null;
+    function trapFocus(root){
+      lastFocus=document.activeElement; trapRoot=root;
+      focusables=Array.from(root.querySelectorAll('a,button,input,select,textarea,[tabindex]:not([tabindex="-1"])')).filter(el=>!el.hasAttribute('disabled'));
+      if (focusables[0]) focusables[0].focus();
+      trapHandler=(e)=>{
+        if (e.key!=='Tab') return;
+        const first=focusables[0], last=focusables[focusables.length-1];
+        if (e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+      };
+      root.addEventListener('keydown', trapHandler);
+    }
+    function releaseFocus(root){
+      const target=root||trapRoot;
+      if(trapHandler && target) target.removeEventListener('keydown', trapHandler);
+      trapHandler=null; focusables=[]; if (lastFocus) lastFocus.focus(); trapRoot=null;
+    }
+
+    // ===== Mobile drawer =====
+    const body=document.body;
+    const menuToggle=$('.menu-toggle');
+    const mobilePanel=$('#mobile-panel');
+
+    function setMenu(open){
+      body.classList.toggle('menu-open', open);
+      menuToggle.setAttribute('aria-expanded', String(open));
+      mobilePanel.hidden = !open;
+      if (open) trapFocus(mobilePanel); else releaseFocus(mobilePanel);
+    }
+    menuToggle.addEventListener('click', ()=> setMenu(!body.classList.contains('menu-open')));
+    addEventListener('keydown', (e)=>{ if(e.key==='Escape') setMenu(false); });
+    $$('.mobile-item .mobile-head button', mobilePanel).forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const item = btn.closest('.mobile-item');
+        const isOpen = !item.classList.contains('open');
+        item.classList.toggle('open', isOpen);
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+    });
+    addEventListener('click', (e)=>{ if (body.classList.contains('menu-open') && !e.target.closest('#mobile-panel') && !e.target.closest('.menu-toggle')){ setMenu(false); }});
+
+    // ===== SEARCH OVERLAY =====
+    const openSearch = $('#openSearch');
+    const searchModal = $('#search-modal');
+    const closeSearch = $('#closeSearch');
+    const searchInput = $('#search-input');
+    const searchResults = $('#search-results');
 
     document.addEventListener('DOMContentLoaded', () => { if (searchModal) searchModal.hidden = true; });
 
@@ -356,14 +469,19 @@
       if(!searchModal) return;
       searchModal.hidden = !open;
       if(open){
+        if (body.classList.contains('menu-open')) setMenu(false);
+        trapFocus(searchModal);
         if(searchInput){ searchInput.value=''; searchInput.focus(); }
         if(searchResults) searchResults.innerHTML='';
+      }else{
+        releaseFocus(searchModal);
+        openSearch?.focus();
       }
     }
     openSearch?.addEventListener('click', ()=> showSearch(true));
     closeSearch?.addEventListener('click', ()=> showSearch(false));
     searchModal?.addEventListener('click', (e)=>{ if(e.target === searchModal) showSearch(false); });
-    window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') showSearch(false); });
+    addEventListener('keydown', (e)=>{ if(e.key==='Escape') showSearch(false); });
 
     const PAGES = [
       {t:'Home',u:'index.html'}, {t:'About Us',u:'about.html'}, {t:'Our Team',u:'team.html'}, {t:'Why Ghana',u:'why-ghana.html'},
@@ -376,7 +494,7 @@
     ];
     searchInput?.addEventListener('input', ()=>{
       const q = searchInput.value.trim().toLowerCase();
-      const hits = !q ? [] : PAGES.filter(p=>p.t.toLowerCase().includes(q));
+      const hits = !q ? [] : PAGES.filter(p=>p.t.toLowerCase().includes(q)).slice(0,12);
       searchResults.innerHTML = hits
         .map(h=>`<li><a href="${h.u}" style="display:block;padding:12px;border:1px solid #eaeae5;border-radius:12px;background:#fff">${h.t}</a></li>`)
         .join('');

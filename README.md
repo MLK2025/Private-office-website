@@ -15,7 +15,7 @@ Every later update pushed to `main` will publish automatically.
 
 ## Enquiry form note
 
-GitHub Pages only hosts static files and cannot securely process the existing server-side enquiry form. The form is displayed with a clear pending notice and its submit button is disabled. Connect an approved form service or official enquiry address before enabling submissions.
+GitHub Pages hosts static files, so the enquiry form prepares a complete email addressed to `info@privateofficeofdon.com` in the visitor's email application. The visitor reviews the message and presses Send. The same address is displayed on the Contact page and in the footer.
 
 ## Package structure
 
